@@ -124,6 +124,7 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
                 color = Color.Black,
             )
         },
+        singleLine = true,
         modifier = Modifier
             .padding(vertical = 4.dp),
         shape = RoundedCornerShape(8.dp),
@@ -161,7 +162,6 @@ fun Prueba01(contra: String, onInputChanged: (String) -> Unit) {
             )
         },
         singleLine = true,
-        placeholder = { Text("Password") },
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         modifier = Modifier
@@ -171,7 +171,6 @@ fun Prueba01(contra: String, onInputChanged: (String) -> Unit) {
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             cursorColor = MaterialTheme.colors.onSecondary,
-
             ),
         trailingIcon = {
             val image = if (passwordVisible)
