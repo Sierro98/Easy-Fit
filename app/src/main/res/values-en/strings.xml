@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">easy_fit_01</string>
+    <string name="login">Login</string>
+    <string name="user">User</string>
+    <string name="password">Password</string>
+    <string name="showPasswordDescription">Show password</string>
+    <string name="hidePasswordDescription">Hide password</string>
+    <string name="logoDescription">Running racoon logo</string>
+</resources>
