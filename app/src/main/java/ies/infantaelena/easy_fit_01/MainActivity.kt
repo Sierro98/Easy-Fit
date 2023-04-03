@@ -1,5 +1,6 @@
 package ies.infantaelena.easy_fit_01
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -33,9 +35,10 @@ import ies.infantaelena.easy_fit_01.ui.theme.Easy_fit_01Theme
 
 class MainActivity : ComponentActivity() {
     // Lo que se ejecuta nada mas crear la actividad
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         // Funcion para forzar portrait mode
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         setContent {
             Easy_fit_01Theme {
@@ -97,9 +100,9 @@ fun LoginForm() {
                 .height(50.dp)
                 .width(130.dp),
             shape = RoundedCornerShape(20),
-            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
+            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
         ) {
-            Text(text = R.string.login.toString())
+            Text(text = stringResource(id = R.string.login))
         }
     }
 }
@@ -116,7 +119,7 @@ fun LoginName(usuario: String, onInputChanged: (String) -> Unit) {
             onValueChange = onInputChanged,
             label = {
                 Text(
-                    text = R.string.user.toString(),
+                    text = stringResource(id = R.string.user),
                     color = MaterialTheme.colors.onPrimary
                 )
             },
@@ -147,7 +150,7 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
             onValueChange = onInputChanged,
             label = {
                 Text(
-                    text = R.string.password.toString(),
+                    text = stringResource(id = R.string.password),
                     color = MaterialTheme.colors.onPrimary,
                 )
             },
@@ -169,8 +172,8 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
 
                 // Localizacion para accesivilidad
                 val description =
-                    if (passwordVisible) R.string.hidePasswordDescription.toString()
-                    else R.string.showPasswordDescription.toString()
+                    if (passwordVisible) stringResource(id = R.string.hidePasswordDescription)
+                    else stringResource(id = R.string.showPasswordDescription)
 
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(imageVector = image, description)
