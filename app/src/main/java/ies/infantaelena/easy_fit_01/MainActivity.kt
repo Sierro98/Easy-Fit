@@ -1,6 +1,7 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -33,6 +34,8 @@ import ies.infantaelena.easy_fit_01.ui.theme.Easy_fit_01Theme
 class MainActivity : ComponentActivity() {
     // Lo que se ejecuta nada mas crear la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Funcion para forzar portrait mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
         setContent {
             Easy_fit_01Theme {
