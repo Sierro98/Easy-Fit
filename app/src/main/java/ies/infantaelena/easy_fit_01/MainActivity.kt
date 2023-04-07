@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,6 +31,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
+import ies.infantaelena.easy_fit_01.Entidades.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.ui.theme.Easy_fit_01Theme
 
@@ -184,14 +188,41 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
 }
 
 fun checkLogin(usuario: String, contra: String, context: Context) {
+    // Declaracion de la referencia a la base de datos
+    lateinit var database: DatabaseReference
     if (usuario.isBlank() || contra.isBlank()) {
         Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
     } else {
-        if (usuario == "pruba" && contra == "pruba") {
-            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "Login Fallido", Toast.LENGTH_SHORT).show()
+        val user = hashMapOf(
+            "nombre" to usuario,
+            "password" to contra
+        )
+
+        database =
+            FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference()
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var a= 0
+                for (snapshot in dataSnapshot.children) {
+                    var usu = snapshot.getValue<Usuario>()
+                    if (usu != null) {
+                        if (usu.username.equals(usuario) and usu.password.equals(contra)) {
+                            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
+                            a = 1;
+                        }
+                    }
+                }
+                if (a==0){
+                    Toast.makeText(context, "Login fallido", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
         }
+        database.child("users").addValueEventListener(postListener)
     }
 }
 
