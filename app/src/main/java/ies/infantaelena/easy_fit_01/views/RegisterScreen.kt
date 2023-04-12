@@ -32,14 +32,14 @@ import ies.infantaelena.easy_fit_01.LoginPassword
 import ies.infantaelena.easy_fit_01.checkLogin
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SeePreview() {
-    RegisterScreen()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun SeePreview() {
+//    RegisterScreen()
+//}
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavController) {
     var emailValue: String by rememberSaveable { mutableStateOf("") }
     var userValue: String by rememberSaveable { mutableStateOf("") }
     var passwordValue: String by rememberSaveable { mutableStateOf("") }
@@ -260,7 +260,7 @@ fun makeRegister(
         Toast.makeText(context, "Fomato user incorrecto", Toast.LENGTH_SHORT).show()
     } else if (password.equals(reppassword)) {
         Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-    }else{
+    } else {
         Toast.makeText(context, "Registro Correcto", Toast.LENGTH_SHORT).show()
     }
 }
