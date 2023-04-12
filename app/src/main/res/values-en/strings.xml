@@ -7,4 +7,5 @@
     <string name="showPasswordDescription">Show password</string>
     <string name="hidePasswordDescription">Hide password</string>
     <string name="logoDescription">Running racoon logo</string>
+    <string name="register">Create user</string>
 </resources>

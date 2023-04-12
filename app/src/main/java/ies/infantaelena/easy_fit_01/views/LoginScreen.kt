@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,6 +38,7 @@ import kotlinx.coroutines.delay
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
+
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -93,6 +95,14 @@ fun LoginScreen(navController: NavController) {
                 style = MaterialTheme.typography.button
             )
         }
+        Spacer(modifier = Modifier.padding(top = 40.dp))
+        Text(text = stringResource(R.string.register),
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(end = 80.dp)
+                .clickable {
+                    navController.navigate(Screen.RegisterScreen.route)
+                })
     }
 }
 

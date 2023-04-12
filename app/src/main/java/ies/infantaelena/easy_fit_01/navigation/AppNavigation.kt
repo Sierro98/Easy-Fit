@@ -21,5 +21,8 @@ fun AppNavigation() {
         composable(route = Screen.MainScreen.route) {
             MainScreen(navController = navController)
         }
+        composable(route = Screen.RegisterScreen.route) {
+            // TODO: una vez creada la pagina de registro, meter el metodo
+        }
     }
 }
