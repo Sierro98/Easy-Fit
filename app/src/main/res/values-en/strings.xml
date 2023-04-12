@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">easy_fit_01</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Create user</string>
     <string name="email">Email</string>
     <string name="user">User</string>
     <string name="reppassword">Repeat password</string>

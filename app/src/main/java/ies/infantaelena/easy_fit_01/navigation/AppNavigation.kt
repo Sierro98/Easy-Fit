@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import ies.infantaelena.easy_fit_01.LoginScreen
 import ies.infantaelena.easy_fit_01.MainScreen
 import ies.infantaelena.easy_fit_01.SplashScreen
+import ies.infantaelena.easy_fit_01.views.RegisterScreen
 
 @Composable
 fun AppNavigation() {
@@ -20,6 +21,9 @@ fun AppNavigation() {
         }
         composable(route = Screen.MainScreen.route) {
             MainScreen(navController = navController)
+        }
+        composable(route = Screen.RegisterScreen.route) {
+            RegisterScreen(navController = navController)
         }
     }
 }

@@ -1,7 +1,6 @@
 package ies.infantaelena.easy_fit_01.views
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -32,14 +31,13 @@ import ies.infantaelena.easy_fit_01.LoginPassword
 import ies.infantaelena.easy_fit_01.checkLogin
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SeePreview() {
-    RegisterScreen()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun SeePreview() {
+//    RegisterScreen()
+//}
 
-@Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavController){
     var emailValue: String by rememberSaveable { mutableStateOf("") }
     var userValue: String by rememberSaveable { mutableStateOf("") }
     var passwordValue: String by rememberSaveable { mutableStateOf("") }
@@ -199,7 +197,6 @@ fun RegisterPassword(password: String, onInputChanged: (String) -> Unit) {
         )
     }
 }
-
 @Composable
 fun RegisterRepPassword(reppassword: String, onInputChanged: (String) -> Unit) {
     //Variable para saber si queremos mostrar o no la contrasenia
