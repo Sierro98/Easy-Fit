@@ -1,6 +1,7 @@
 package ies.infantaelena.easy_fit_01.views
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -31,14 +32,14 @@ import ies.infantaelena.easy_fit_01.LoginPassword
 import ies.infantaelena.easy_fit_01.checkLogin
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun SeePreview() {
-//    RegisterScreen()
-//}
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun SeePreview() {
+    RegisterScreen()
+}
 
 @Composable
-fun RegisterScreen(navController: NavController){
+fun RegisterScreen() {
     var emailValue: String by rememberSaveable { mutableStateOf("") }
     var userValue: String by rememberSaveable { mutableStateOf("") }
     var passwordValue: String by rememberSaveable { mutableStateOf("") }
@@ -53,6 +54,13 @@ fun RegisterScreen(navController: NavController){
         verticalArrangement = Arrangement.Top,
     ) {
         Spacer(modifier = Modifier.padding(top = 60.dp))
+        Image(
+            painter = painterResource(id = R.drawable.easy_fit_logo),
+            contentDescription = R.string.logoDescription.toString(),
+            modifier = Modifier
+                .height(300.dp)
+                .width(300.dp)
+        )
         // Llamada al metodo que contiene el Textfield del Email de usuario
         RegisterEmail(email = emailValue, onInputChanged = { emailValue = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
@@ -63,7 +71,9 @@ fun RegisterScreen(navController: NavController){
         RegisterPassword(password = passwordValue, onInputChanged = { passwordValue = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia repetida
-        RegisterRepPassword(reppassword = reppasswordValue, onInputChanged = { reppasswordValue = it })
+        RegisterRepPassword(
+            reppassword = reppasswordValue,
+            onInputChanged = { reppasswordValue = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         /*
         Componente Button que maneja el intento de entrada a la aplicacion llamando a la funcion
@@ -71,14 +81,14 @@ fun RegisterScreen(navController: NavController){
          */
         Button(
             onClick = {
-//                makeRegister(
-//                    email = emailValue,
-//                    user = userValue,
-//                    password = passwordValue,
-//                    reppassword = reppasswordValue,
-//                    context = context,
-//                    nav = navController
-//                )
+                makeRegister(
+                    email = emailValue,
+                    user = userValue,
+                    password = passwordValue,
+                    reppassword = reppasswordValue,
+                    context = context,
+                    nav = navController
+                )
             },
             modifier = Modifier
                 .height(50.dp)
@@ -120,6 +130,7 @@ fun RegisterEmail(email: String, onInputChanged: (String) -> Unit) {
     }
 
 }
+
 @Composable
 fun RegisterName(user: String, onInputChanged: (String) -> Unit) {
     // funcion usada para envolver al textfield y darle el color que queramos al los text selectors
@@ -145,6 +156,7 @@ fun RegisterName(user: String, onInputChanged: (String) -> Unit) {
         )
     }
 }
+
 @Composable
 fun RegisterPassword(password: String, onInputChanged: (String) -> Unit) {
     //Variable para saber si queremos mostrar o no la contrasenia
@@ -187,6 +199,7 @@ fun RegisterPassword(password: String, onInputChanged: (String) -> Unit) {
         )
     }
 }
+
 @Composable
 fun RegisterRepPassword(reppassword: String, onInputChanged: (String) -> Unit) {
     //Variable para saber si queremos mostrar o no la contrasenia
@@ -227,5 +240,27 @@ fun RegisterRepPassword(reppassword: String, onInputChanged: (String) -> Unit) {
                 }
             }
         )
+    }
+}
+
+fun makeRegister(
+    email: String,
+    user: String,
+    password: String,
+    reppassword: String,
+    context: Context,
+    nav: Any
+) {
+    if (email.isBlank() || user.isBlank() || password.isBlank() || reppassword.isBlank()) {
+        Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
+        //TODO: Hay que hcaer los string de los toast
+    } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        Toast.makeText(context, "Fomato email incorrecto", Toast.LENGTH_SHORT).show()
+    } else if (user.toRegex().containsMatchIn("[a-zA-Z0-9]")) {
+        Toast.makeText(context, "Fomato user incorrecto", Toast.LENGTH_SHORT).show()
+    } else if (password.equals(reppassword)) {
+        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+    }else{
+        Toast.makeText(context, "Registro Correcto", Toast.LENGTH_SHORT).show()
     }
 }
