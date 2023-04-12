@@ -1,6 +1,7 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,6 +31,7 @@ import com.google.firebase.database.ktx.getValue
 import ies.infantaelena.easy_fit_01.Entidades.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import kotlinx.coroutines.delay
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
@@ -73,14 +75,12 @@ fun LoginScreen(navController: NavController) {
          */
         Button(
             onClick = {
-                if (checkLogin(
-                        usuario = userValue,
-                        contra = passwordValue,
-                        context = context
-                    )
-                ) {
-                    navController.navigate(route = Screen.MainScreen.route)
-                }
+                checkLogin(
+                    usuario = userValue,
+                    contra = passwordValue,
+                    context = context,
+                    nav = navController
+                )
             },
             modifier = Modifier
                 .height(50.dp)
@@ -172,8 +172,8 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
     }
 }
 
-fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
-    var isCorrect: Boolean =false
+var isCorrect: Boolean = false
+fun checkLogin(usuario: String, contra: String, context: Context, nav: NavController) {
     // Declaracion de la referencia a la base de datos
     lateinit var database: DatabaseReference
     if (usuario.isBlank() || contra.isBlank()) {
@@ -183,7 +183,6 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
             "nombre" to usuario,
             "password" to contra
         )
-
         database =
             FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference()
@@ -193,10 +192,11 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
                 for (snapshot in dataSnapshot.children) {
                     var usu = snapshot.getValue<Usuario>()
                     if (usu != null) {
+                        isCorrect = true
                         if (usu.username.equals(usuario) and usu.password.equals(contra)) {
                             Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
                             a = 1;
-                            isCorrect = true
+                            nav.navigate(route = Screen.MainScreen.route)
                         }
                     }
                 }
@@ -206,11 +206,9 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-
             }
         }
         database.child("users").addValueEventListener(postListener)
     }
-    return isCorrect
 }
 
