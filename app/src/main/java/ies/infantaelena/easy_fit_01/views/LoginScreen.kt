@@ -186,6 +186,7 @@ var isCorrect: Boolean = false
 fun checkLogin(usuario: String, contra: String, context: Context, nav: NavController) {
     // Declaracion de la referencia a la base de datos
     lateinit var database: DatabaseReference
+
     if (usuario.isBlank() || contra.isBlank()) {
         Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
     } else {

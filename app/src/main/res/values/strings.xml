@@ -2,8 +2,11 @@
 <resources>
     <string name="app_name">easy_fit_01</string>
     <string name="login">Iniciar Sesión</string>
+    <string name="register">Registrarse</string>
+    <string name="email">Email</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
+    <string name="reppassword">Repita contraseña</string>
     <string name="showPasswordDescription">Mostrar Contraseña</string>
     <string name="hidePasswordDescription">Ocultar Contraseña</string>
     <string name="logoDescription">Logo, mapache corriendo</string>
