@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+
+import ies.infantaelena.easy_fit_01.navigation.AppNavigation
 import ies.infantaelena.easy_fit_01.ui.theme.Easy_fit_01Theme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +21,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Easy_fit_01Theme {
-                LoginForm() // Llamada a la funcion raiz de la actividad
+                // Llamada al componente que se encarga de gestionar la navegacion
+                AppNavigation()
             }
         }
     }

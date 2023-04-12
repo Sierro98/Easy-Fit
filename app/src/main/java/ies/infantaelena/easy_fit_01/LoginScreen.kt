@@ -23,17 +23,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
+import ies.infantaelena.easy_fit_01.navigation.Screen
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
-@Preview
+
 @Composable
-fun LoginForm() {
+fun LoginScreen(navController: NavController) {
 
     var userValue: String by rememberSaveable { mutableStateOf("") }
     var passwordValue: String by rememberSaveable { mutableStateOf("") }
@@ -51,7 +52,7 @@ fun LoginForm() {
     ) {
         Spacer(modifier = Modifier.padding(top = 60.dp))
         Image(
-            painter = painterResource(id = R.drawable.login_img),
+            painter = painterResource(id = R.drawable.easy_fit_logo),
             contentDescription = R.string.logoDescription.toString(),
             modifier = Modifier
                 .height(300.dp)
@@ -69,19 +70,25 @@ fun LoginForm() {
          */
         Button(
             onClick = {
-                checkLogin(
-                    usuario = userValue,
-                    contra = passwordValue,
-                    context = context
-                )
+                if (checkLogin(
+                        usuario = userValue,
+                        contra = passwordValue,
+                        context = context
+                    )
+                ) {
+                    navController.navigate(route = Screen.MainScreen.route)
+                }
             },
             modifier = Modifier
-                .height(50.dp),
+                .height(50.dp)
+                .width(140.dp),
             shape = RoundedCornerShape(20),
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
         ) {
-            Text(text = stringResource(id = R.string.login),
-                style = MaterialTheme.typography.button)
+            Text(
+                text = stringResource(id = R.string.login),
+                style = MaterialTheme.typography.button
+            )
         }
     }
 }
@@ -162,14 +169,17 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
     }
 }
 
-fun checkLogin(usuario: String, contra: String, context: Context) {
+fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
     if (usuario.isBlank() || contra.isBlank()) {
         Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
+        return false
     } else {
         if (usuario == "pruba" && contra == "pruba") {
             Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
+            return true
         } else {
             Toast.makeText(context, "Login Fallido", Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 }
