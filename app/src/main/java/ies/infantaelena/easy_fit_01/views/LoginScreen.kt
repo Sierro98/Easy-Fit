@@ -1,6 +1,7 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
-import ies.infantaelena.easy_fit_01.Entidades.Usuario
+import ies.infantaelena.easy_fit_01.data.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
 
@@ -173,7 +174,8 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
 }
 
 fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
-    var isCorrect: Boolean =false
+    var isCorrect = false
+    Log.d("ISCONECTADO", isCorrect.toString())
     // Declaracion de la referencia a la base de datos
     lateinit var database: DatabaseReference
     if (usuario.isBlank() || contra.isBlank()) {
@@ -191,17 +193,12 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var a = 0
                 for (snapshot in dataSnapshot.children) {
-                    var usu = snapshot.getValue<Usuario>()
+                    val usu = snapshot.getValue<Usuario>()
                     if (usu != null) {
                         if (usu.username.equals(usuario) and usu.password.equals(contra)) {
-                            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
                             a = 1;
-                            isCorrect = true
                         }
                     }
-                }
-                if (a == 0) {
-                    Toast.makeText(context, "Login fallido", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -210,7 +207,9 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
             }
         }
         database.child("users").addValueEventListener(postListener)
+
     }
+    Log.d("ISCONECTADO", "final -> " + isCorrect.toString())
     return isCorrect
 }
 

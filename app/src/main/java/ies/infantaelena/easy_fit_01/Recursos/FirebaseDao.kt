@@ -1,11 +1,9 @@
 package ies.infantaelena.easy_fit_01.Recursos
 
-import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import ies.infantaelena.easy_fit_01.Entidades.Usuario
+import ies.infantaelena.easy_fit_01.data.Usuario
 
 abstract class FirebaseDao {
     private lateinit var database: DatabaseReference
