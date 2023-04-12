@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 import ies.infantaelena.easy_fit_01.navigation.AppNavigation
 import ies.infantaelena.easy_fit_01.ui.theme.Easy_fit_01Theme
@@ -22,6 +23,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Easy_fit_01Theme {
+                val systemUiController = rememberSystemUiController()
+                systemUiController.setSystemBarsColor(
+                    color = MaterialTheme.colors.primary,
+                    darkIcons = false
+                )
                 // Llamada al componente que se encarga de gestionar la navegacion
                 AppNavigation()
             }
