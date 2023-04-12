@@ -173,6 +173,7 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
 }
 
 fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
+    var isCorrect: Boolean =false
     // Declaracion de la referencia a la base de datos
     lateinit var database: DatabaseReference
     if (usuario.isBlank() || contra.isBlank()) {
@@ -188,17 +189,18 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
                 .getReference()
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var a= 0
+                var a = 0
                 for (snapshot in dataSnapshot.children) {
                     var usu = snapshot.getValue<Usuario>()
                     if (usu != null) {
                         if (usu.username.equals(usuario) and usu.password.equals(contra)) {
                             Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
                             a = 1;
+                            isCorrect = true
                         }
                     }
                 }
-                if (a==0){
+                if (a == 0) {
                     Toast.makeText(context, "Login fallido", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -209,4 +211,6 @@ fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
         }
         database.child("users").addValueEventListener(postListener)
     }
+    return isCorrect
 }
+
