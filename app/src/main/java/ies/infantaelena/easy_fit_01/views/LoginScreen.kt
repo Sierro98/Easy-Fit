@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
-import ies.infantaelena.easy_fit_01.Entidades.Usuario
+import ies.infantaelena.easy_fit_01.data.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import kotlinx.coroutines.delay
@@ -209,7 +209,6 @@ fun checkLogin(usuario: String, contra: String, context: Context, nav: NavContro
             }
         }
         database.child("users").addValueEventListener(postListener)
-        //
     }
 }
 
