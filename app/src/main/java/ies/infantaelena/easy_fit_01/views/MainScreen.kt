@@ -73,9 +73,3 @@ fun MainScreen(navController: NavController) {
     ) { paddingValues -> paddingValues.calculateTopPadding()
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SeePreview() {
-
-}
