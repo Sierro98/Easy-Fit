@@ -201,12 +201,13 @@ fun checkLogin(usuario: String, contra: String, context: Context, nav: NavContro
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var a = 0
                 for (snapshot in dataSnapshot.children) {
-                    var usu = snapshot.getValue<Usuario>()
+                    val usu = snapshot.getValue<Usuario>()
                     if (usu != null) {
                         isCorrect = true
                         if (usu.username.equals(usuario) and usu.password.equals(contra)) {
                             Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
                             a = 1;
+                            nav.popBackStack()
                             nav.navigate(route = Screen.MainScreen.route)
                         }
                     }

@@ -1,15 +1,16 @@
 package ies.infantaelena.easy_fit_01.views
 
 import android.widget.Space
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Sports
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,13 +24,18 @@ fun AppBar(
 ) {
     TopAppBar(
         title = {
-            Icon(
-                imageVector = Icons.Default.Sports,
-                contentDescription = "level img",
-                modifier = Modifier.size(30.dp)
-            )
-            Spacer(modifier = Modifier.padding(start = 20.dp))
-            Text(text = "Nivel de usuario")
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                //TODO: añadir tanto en el texto como en la barra de progreso los valores reales del usuario
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .height(8.dp),
+                    progress = 0.6f,
+                    backgroundColor = Color.White,
+                    color = MaterialTheme.colors.primaryVariant,
+                    strokeCap = StrokeCap.Round,
+                )
+                Text(text = "Nivel de usuario")
+            }
         },
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.onPrimary,
