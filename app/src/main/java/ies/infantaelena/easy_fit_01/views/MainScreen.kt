@@ -97,7 +97,7 @@ fun MainScreen(navController: NavController) {
                             Icon(
                                 imageVector = activity.activityIcon,
                                 contentDescription = "icono de actividad",
-                                Modifier.size(40.dp)
+                                Modifier.size(50.dp)
                             )
                             Spacer(modifier = Modifier.padding(20.dp))
                             Text(text = activity.activityType.toString())
