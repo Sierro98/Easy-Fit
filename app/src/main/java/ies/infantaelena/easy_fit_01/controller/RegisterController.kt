@@ -13,21 +13,17 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 import ies.infantaelena.easy_fit_01.data.Usuario
-import ies.infantaelena.easy_fit_01.isCorrect
-import ies.infantaelena.easy_fit_01.navigation.Screen
 
 
 fun makeRegister(
-        email: String,
-        user: String,
-        password: String,
-        reppassword: String,
-        context: Context,
-        nav: Any
-    ) {
+    email: String,
+    user: String,
+    password: String,
+    reppassword: String,
+    context: Context,
+    nav: Any
+) {
     fun showAlertFail() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Error")
@@ -51,7 +47,6 @@ fun makeRegister(
     val regex = "^[a-zA-Z0-9]*\$".toRegex()
 
     if (email.isBlank() || user.isBlank() || password.isBlank() || reppassword.isBlank()) {
-
         Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
         //TODO: Hay que hcaer los string de los toast
     } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -73,38 +68,75 @@ fun makeRegister(
                     database =
                         FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
                             .getReference().child("users")
-
-                var id = 0
-                   object : ValueEventListener {
-                       override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            Log.d("JOSE", dataSnapshot.children.toString())
-                           for (snapshot in dataSnapshot.children) {
-                                Log.d("JOSE", snapshot.getValue() as String)
-                               if (snapshot.getValue() == null) {
-                                   id = 0;
-                               } else {
-                                   id = id + 1;
-                               }
-
-                           }
-                       }
-
-                       override fun onCancelled(error: DatabaseError) {
-                           TODO("Not yet implemented")
-                       }
-                   }
-                    database.child(id.toString()).setValue(
-                        Usuario(
-                            email = email,
-                            username = user,
-                            password = password,
-                            //level = 0f
-                        )
-                    )
+                    saveNewUser(email,user,password,database)
                     showAlertCorrect()
                 } else {
                     showAlertFail()
                 }
             }
     }
+}
+fun saveNewUser (email:String,user:String,password: String, database:DatabaseReference){
+    var id = 0
+    val check = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            for (snapshot in dataSnapshot.children) {
+                if (snapshot.key == null) {
+                    id =  1;
+                } else {
+                    id = id + 1;
+
+                }
+
+            }
+            Log.d(
+                "JOSE",
+                id.toString()
+            )
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
+
+    }
+
+    database.addValueEventListener(check)
+    Log.d(
+        "JOSE",
+        check.toString()
+    )
+    database.child(id.toString()).setValue(
+        Usuario(
+            email = email,
+            username = user,
+            password = password,
+            //level = 0f
+        )
+    )
+
+}
+abstract fun incrementCounter(database: DatabaseReference) {
+    database.runTransaction(object : Transaction.Handler {
+        override fun doTransaction(currentData: MutableData): Transaction.Result {
+            if (currentData.value == null) {
+                currentData.value = 1
+            } else {
+                currentData.value = (currentData.value as Long?)!! + 1
+            }
+            return Transaction.success(currentData)
+        }
+
+        fun onComplete(
+            firebaseError: FirebaseError?,
+            committed: Boolean,
+            currentData: DataSnapshot?
+        ) {
+            if (firebaseError != null) {
+                Log.d("Firebase counter increment failed.")
+            } else {
+                Log.d("Firebase counter increment succeeded.")
+            }
+        }
+    })
 }
