@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import ies.infantaelena.easy_fit_01.R
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
@@ -27,13 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
-import ies.infantaelena.easy_fit_01.LoginName
-import ies.infantaelena.easy_fit_01.LoginPassword
-import ies.infantaelena.easy_fit_01.checkLogin
+import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 
 //@Preview(showBackground = true, showSystemUi = true)
