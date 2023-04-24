@@ -1,7 +1,7 @@
 package ies.infantaelena.easy_fit_01.views
 
 import android.content.Context
-import ies.infantaelena.easy_fit_01.controller.makeRegister
+import ies.infantaelena.easy_fit_01.viewmodel.makeRegister
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
