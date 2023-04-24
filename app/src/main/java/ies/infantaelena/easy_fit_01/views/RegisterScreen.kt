@@ -1,9 +1,7 @@
 package ies.infantaelena.easy_fit_01.views
 
-import android.app.AlertDialog
 import android.content.Context
 import ies.infantaelena.easy_fit_01.controller.makeRegister
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,18 +26,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycling
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import ies.infantaelena.easy_fit_01.R
-import ies.infantaelena.easy_fit_01.data.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 //@Preview(showBackground = true, showSystemUi = true)
 //@Composable

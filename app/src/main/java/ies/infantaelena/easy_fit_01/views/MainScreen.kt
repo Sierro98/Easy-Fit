@@ -1,11 +1,7 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -36,10 +32,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import ies.infantaelena.easy_fit_01.data.Activity
-import ies.infantaelena.easy_fit_01.data.ActivityType
-import ies.infantaelena.easy_fit_01.data.MenuDrawerItems
-import ies.infantaelena.easy_fit_01.data.MiniFloatingActionItem
+import ies.infantaelena.easy_fit_01.model.Activity
+import ies.infantaelena.easy_fit_01.model.ActivityType
+import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
+import ies.infantaelena.easy_fit_01.model.MiniFloatingActionItem
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.state.FloatingButtonState
 import ies.infantaelena.easy_fit_01.views.AppBar
@@ -47,7 +43,6 @@ import ies.infantaelena.easy_fit_01.views.DrawerBody
 import ies.infantaelena.easy_fit_01.views.DrawerHeader
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import ies.infantaelena.easy_fit_01.R
 
 
 @Composable

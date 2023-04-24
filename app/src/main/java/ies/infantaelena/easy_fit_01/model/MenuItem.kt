@@ -1,4 +1,4 @@
-package ies.infantaelena.easy_fit_01.data
+package ies.infantaelena.easy_fit_01.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*

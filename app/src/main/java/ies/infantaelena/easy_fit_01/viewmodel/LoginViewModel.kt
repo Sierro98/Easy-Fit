@@ -1,4 +1,4 @@
-package ies.infantaelena.easy_fit_01.controller
+package ies.infantaelena.easy_fit_01.viewmodel
 
 import android.content.Context
 import android.widget.Toast

@@ -1,34 +1,16 @@
-package ies.infantaelena.easy_fit_01.controller
+package ies.infantaelena.easy_fit_01.viewmodel
 
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Build
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.RunCircle
-import androidx.compose.material.icons.filled.SportsBasketball
-import androidx.compose.material.icons.filled.SportsGymnastics
-import androidx.compose.material.icons.filled.SportsMotorsports
 import androidx.navigation.NavController
-import com.google.firebase.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
-import com.google.firebase.database.ValueEventListener
-import ies.infantaelena.easy_fit_01.data.Activity
-import ies.infantaelena.easy_fit_01.data.ActivityBBDD
-import ies.infantaelena.easy_fit_01.data.ActivityType
-import ies.infantaelena.easy_fit_01.data.Usuario
+import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
-import java.time.LocalDate
 
 
 fun makeRegister(

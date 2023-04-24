@@ -1,8 +1,6 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,13 +25,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import ies.infantaelena.easy_fit_01.controller.checkLogin
-import ies.infantaelena.easy_fit_01.data.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
-import kotlinx.coroutines.delay
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.

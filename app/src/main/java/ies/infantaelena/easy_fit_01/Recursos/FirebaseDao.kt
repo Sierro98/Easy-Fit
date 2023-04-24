@@ -3,7 +3,7 @@ package ies.infantaelena.easy_fit_01.Recursos
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import ies.infantaelena.easy_fit_01.data.Usuario
+import ies.infantaelena.easy_fit_01.model.Usuario
 
 abstract class FirebaseDao {
     private lateinit var database: DatabaseReference

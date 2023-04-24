@@ -1,4 +1,4 @@
-package ies.infantaelena.easy_fit_01.data
+package ies.infantaelena.easy_fit_01.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 
