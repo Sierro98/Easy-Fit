@@ -12,3 +12,11 @@ data class Activity(
     val date: LocalDate,
     val experience: Number
 )
+data class ActivityBBDD(
+    val id: Int,
+    val activityType: ActivityType,
+    val time: Number,
+    val distance: Number? = 0,
+    val date: LocalDate,
+    val experience: Number
+)

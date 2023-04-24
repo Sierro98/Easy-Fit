@@ -1,0 +1,39 @@
+ database =
+            FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference()
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var a = 0
+                for (snapshot in dataSnapshot.children) {
+                    val usu = snapshot.getValue<Usuario>()
+                    if (usu != null) {
+                        isCorrect = true
+                        if (usu.username.equals(usuario) and usu.password.equals(contra)) {
+                            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
+                            a = 1;
+                            nav.popBackStack()
+                            nav.navigate(route = Screen.MainScreen.route)
+                        }
+                    }
+                }
+                if (a == 0) {
+                    Toast.makeText(context, "Login fallido", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+        database.child("users").addValueEventListener(postListener)
+
+         database = database.child(useruid?.uid.toString()).child("Actividades")
+                            database.setValue(
+                                ActivityBBDD(
+                                    id = 0,
+                                    activityType = ActivityType.RUN,
+                                    time = 3600,
+                                    distance = 4000,
+                                    date = LocalDate.now(),
+                                    experience = 5
+                                )
+                            )

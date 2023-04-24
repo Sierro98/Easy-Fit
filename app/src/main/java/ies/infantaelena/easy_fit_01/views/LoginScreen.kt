@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import ies.infantaelena.easy_fit_01.controller.checkLogin
 import ies.infantaelena.easy_fit_01.data.Usuario
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
@@ -43,7 +44,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun LoginScreen(navController: NavController) {
 
-    var userValue: String by rememberSaveable { mutableStateOf("") }
+    var emailValue: String by rememberSaveable { mutableStateOf("") }
     var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
     /*
@@ -66,7 +67,7 @@ fun LoginScreen(navController: NavController) {
                 .width(300.dp)
         )
         // Llamada al metodo que contiene el Textfield del nombre de usuario
-        LoginName(usuario = userValue, onInputChanged = { userValue = it })
+        LoginName(usuario = emailValue, onInputChanged = { emailValue = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
         LoginPassword(contra = passwordValue, onInputChanged = { passwordValue = it })
@@ -78,7 +79,7 @@ fun LoginScreen(navController: NavController) {
         Button(
             onClick = {
                 checkLogin(
-                    usuario = userValue,
+                    email = emailValue,
                     contra = passwordValue,
                     context = context,
                     nav = navController
@@ -179,48 +180,6 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
                 }
             }
         )
-    }
-}
-
-var isCorrect: Boolean = false
-fun checkLogin(usuario: String, contra: String, context: Context, nav: NavController) {
-    // Declaracion de la referencia a la base de datos
-    lateinit var database: DatabaseReference
-
-    if (usuario.isBlank() || contra.isBlank()) {
-        Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
-    } else {
-        val user = hashMapOf(
-            "nombre" to usuario,
-            "password" to contra
-        )
-        database =
-            FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference()
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var a = 0
-                for (snapshot in dataSnapshot.children) {
-                    val usu = snapshot.getValue<Usuario>()
-                    if (usu != null) {
-                        isCorrect = true
-                        if (usu.username.equals(usuario) and usu.password.equals(contra)) {
-                            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
-                            a = 1;
-                            nav.popBackStack()
-                            nav.navigate(route = Screen.MainScreen.route)
-                        }
-                    }
-                }
-                if (a == 0) {
-                    Toast.makeText(context, "Login fallido", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-            }
-        }
-        database.child("users").addValueEventListener(postListener)
     }
 }
 
