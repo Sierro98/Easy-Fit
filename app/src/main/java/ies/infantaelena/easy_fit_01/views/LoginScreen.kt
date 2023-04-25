@@ -25,21 +25,23 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ies.infantaelena.easy_fit_01.viewmodel.checkLogin
+
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import ies.infantaelena.easy_fit_01.viewmodel.LoginViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
-
-
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
 
-    var emailValue: String by rememberSaveable { mutableStateOf("") }
-    var passwordValue: String by rememberSaveable { mutableStateOf("") }
+//    var emailValue: String by rememberSaveable { mutableStateOf("") }
+//    var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
     /*
     Componente column que ocupa toda la pantalla del dispositivo, en este elemento iran
@@ -61,10 +63,10 @@ fun LoginScreen(navController: NavController) {
                 .width(300.dp)
         )
         // Llamada al metodo que contiene el Textfield del nombre de usuario
-        LoginName(usuario = emailValue, onInputChanged = { emailValue = it })
+        LoginName(usuario = loginViewModel.user, onInputChanged = { loginViewModel.user = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
-        LoginPassword(contra = passwordValue, onInputChanged = { passwordValue = it })
+        LoginPassword(contra = loginViewModel.password, onInputChanged = { loginViewModel.password = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         /*
         Componente Button que maneja el intento de entrada a la aplicacion llamando a la funcion
@@ -72,9 +74,9 @@ fun LoginScreen(navController: NavController) {
          */
         Button(
             onClick = {
-                checkLogin(
-                    email = emailValue,
-                    contra = passwordValue,
+                loginViewModel.checkLogin(
+                    email = loginViewModel.user,
+                    contra = loginViewModel.password,
                     context = context,
                     nav = navController
                 )
