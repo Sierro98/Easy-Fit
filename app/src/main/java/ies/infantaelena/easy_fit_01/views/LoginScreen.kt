@@ -40,8 +40,6 @@ import ies.infantaelena.easy_fit_01.viewmodel.LoginViewModel
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel(), activity: MainActivity) {
 
-//    var emailValue: String by rememberSaveable { mutableStateOf("") }
-//    var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
     loginViewModel.setupAuth(context)
 

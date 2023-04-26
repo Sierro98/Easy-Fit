@@ -81,13 +81,10 @@ dependencies {
     implementation "com.google.accompanist:accompanist-swiperefresh:0.27.0"
     // ViewModel implementation
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
-    //Biometric dependencies
-    // Java language implementation
-    implementation("androidx.biometric:biometric:1.1.0")
-    // Kotlin
-    implementation("androidx.biometric:biometric:1.2.0-alpha05")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-
+    // Google maps implementation
+    implementation 'com.google.maps.android:maps-compose:2.11.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    // Testing implementations
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

@@ -81,7 +81,7 @@ fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenView
         },
         //TODO: probando el multipleactionbutton
         floatingActionButton = {
-            AddActionMultipleButton(context = context)
+            AddActionMultipleButton(context = context, navController = navController)
         }
     ) { _ ->
         // TODO: Fragmentar las funciones para poder reutilizar y facilidad de lectura y mejorar codigo
@@ -146,7 +146,7 @@ fun AddActivityButton(context: Context) {
 }
 
 @Composable
-fun AddActionMultipleButton(context: Context) {
+fun AddActionMultipleButton(context: Context, navController: NavController) {
     var floatingState by remember {
         mutableStateOf(FloatingButtonState.COLLAPSED)
     }
@@ -156,7 +156,8 @@ fun AddActionMultipleButton(context: Context) {
         onFloatingStateChange = { state ->
             floatingState = state
         },
-        items = almacenActividades()
+        items = almacenActividades(),
+        navController = navController
     )
 }
 
@@ -165,7 +166,8 @@ fun MultiFloatingButton(
     context: Context,
     floatingState: FloatingButtonState,
     onFloatingStateChange: (FloatingButtonState) -> Unit,
-    items: List<MiniFloatingActionItem>
+    items: List<MiniFloatingActionItem>,
+    navController: NavController
 ) {
     // TODO: ver si se puede mover esta funcionalidad al viewModel
     val transition = updateTransition(targetState = floatingState, label = "transition")
@@ -197,8 +199,12 @@ fun MultiFloatingButton(
             items.forEach { item ->
                 MiniFloatingActionButtons(
                     item = item,
-                    onMinFloatingItemClick = {
-
+                    onMinFloatingItemClick = { miniFloatingActionItem ->
+                        when (miniFloatingActionItem.label) {
+                            "Correr" -> {
+                                navController.navigate(Screen.RunActivityScreen.route)
+                            }
+                        }
                     },
                     fadeFloating = fadeFloating,
                     floatingScale = floatingScale,
