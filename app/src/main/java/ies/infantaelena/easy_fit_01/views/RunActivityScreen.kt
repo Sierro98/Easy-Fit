@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -57,8 +58,11 @@ fun RunActivityScreen(navController: NavController) {
                 position = CameraPosition.fromLatLngZoom(singapore, 10f)
             }
             GoogleMap(
-                modifier = Modifier.fillMaxSize(),
-                cameraPositionState = cameraPositionState
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                cameraPositionState = cameraPositionState,
+                uiSettings = MapUiSettings(zoomControlsEnabled = false)
             ) {
                 Marker(
                     state = MarkerState(position = singapore),
