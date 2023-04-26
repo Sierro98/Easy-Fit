@@ -1,7 +1,6 @@
 package ies.infantaelena.easy_fit_01.views
 
 import android.content.Context
-import ies.infantaelena.easy_fit_01.viewmodel.makeRegister
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,9 +25,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
+import ies.infantaelena.easy_fit_01.viewmodel.RegisterViewModel
 
 //@Preview(showBackground = true, showSystemUi = true)
 //@Composable
@@ -36,11 +37,7 @@ import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 //    RegisterScreen()
 //}
 @Composable
-fun RegisterScreen(navController: NavController) {
-    var emailValue: String by rememberSaveable { mutableStateOf("") }
-    var userValue: String by rememberSaveable { mutableStateOf("") }
-    var passwordValue: String by rememberSaveable { mutableStateOf("") }
-    var reppasswordValue: String by rememberSaveable { mutableStateOf("") }
+fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewModel= viewModel()) {
     val context: Context = LocalContext.current
 
     Column(
@@ -60,18 +57,28 @@ fun RegisterScreen(navController: NavController) {
                 .width(300.dp)
         )
         // Llamada al metodo que contiene el Textfield del Email de usuario
-        RegisterEmail(email = emailValue, onInputChanged = { emailValue = it })
+        RegisterEmail(email = registerViewModel.emailValue, onInputChanged = { registerViewModel.emailValue = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield del nombre de usuario
-        RegisterName(user = userValue, onInputChanged = { userValue = it })
+        RegisterName(user = registerViewModel.userValue, onInputChanged = {if(it.matches(registerViewModel.regex)){
+                registerViewModel.userValue = it
+            }})
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
-        RegisterPassword(password = passwordValue, onInputChanged = { passwordValue = it })
+        RegisterPassword(password = registerViewModel.passwordValue, onInputChanged = {
+            if(!it.equals(" ")) {
+                registerViewModel.passwordValue = it
+            }
+        })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia repetida
         RegisterRepPassword(
-            reppassword = reppasswordValue,
-            onInputChanged = { reppasswordValue = it })
+            reppassword = registerViewModel.reppasswordValue,
+            onInputChanged = {
+                if(!it.equals(" ")) {
+                    registerViewModel.reppasswordValue = it
+                }
+            })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         /*
         Componente Button que maneja el intento de entrada a la aplicacion llamando a la funcion
@@ -79,11 +86,11 @@ fun RegisterScreen(navController: NavController) {
          */
         Button(
             onClick = {
-             makeRegister(
-                   email = emailValue,
-                   user = userValue,
-                   password = passwordValue,
-                   reppassword = reppasswordValue,
+                registerViewModel.makeRegister(
+                   email = registerViewModel.emailValue,
+                   user = registerViewModel.userValue,
+                   password = registerViewModel.passwordValue,
+                   reppassword = registerViewModel.reppasswordValue,
                    context = context,
                    nav = navController
              )

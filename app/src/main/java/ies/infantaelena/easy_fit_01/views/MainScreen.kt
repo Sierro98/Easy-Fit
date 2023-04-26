@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.ActivityType
@@ -38,6 +39,7 @@ import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
 import ies.infantaelena.easy_fit_01.model.MiniFloatingActionItem
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.state.FloatingButtonState
+import ies.infantaelena.easy_fit_01.viewmodel.MainScreenViewModel
 import ies.infantaelena.easy_fit_01.views.AppBar
 import ies.infantaelena.easy_fit_01.views.DrawerBody
 import ies.infantaelena.easy_fit_01.views.DrawerHeader
@@ -46,7 +48,7 @@ import java.time.LocalDate
 
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenViewModel= viewModel()) {
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -68,12 +70,10 @@ fun MainScreen(navController: NavController) {
                 items = MenuDrawerItems,
                 // TODO: hacer todas las redirecciones
                 onItemClick = {
-                    Toast.makeText(context, "Pulsado ${it.title}", Toast.LENGTH_SHORT).show()
                     when (it.id) {
                         "logout" -> {
-                            // TODO: en el caso del logout, hacer logout en la base de datos
-                            navController.popBackStack()
-                            navController.navigate(Screen.LoginScreen.route)
+                            mainScreenViewModel.LogOut(navController)
+
                         }
                     }
                 }
