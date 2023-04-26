@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import ies.infantaelena.easy_fit_01.navigation.Screen
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel(): ViewModel() {
     var user by mutableStateOf("")
     var password by mutableStateOf("")
     fun checkLogin(email: String, contra: String, context: Context, nav: NavController) {

@@ -40,8 +40,6 @@ import androidx.compose.runtime.getValue
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
 
-//    var emailValue: String by rememberSaveable { mutableStateOf("") }
-//    var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
     /*
     Componente column que ocupa toda la pantalla del dispositivo, en este elemento iran
