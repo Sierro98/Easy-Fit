@@ -6,23 +6,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import ies.infantaelena.easy_fit_01.navigation.Screen
 
-/**
- * Clase con la funcionalidad de MainScreen
- */
-class MainScreenViewModel(): ViewModel(){
-    /**
-     * Funcion que se encarga de deslogear el usuario de Firebase Authentication
-     */
-    fun LogOut(nav: NavController){
-        try {
-            FirebaseAuth.getInstance().signOut()
+class SplashScreenViewModel(): ViewModel() {
+    val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    fun checkIfLogin(nav:NavController){
+        Thread.sleep(1000)
+        if (user != null){
+            nav.popBackStack()
+            nav.navigate(route = Screen.MainScreen.route)
+        }else{
             nav.popBackStack()
             nav.navigate(route = Screen.LoginScreen.route)
-        }catch (ex:java.lang.Exception){
-            ex.printStackTrace()
         }
-
-
-
     }
 }
