@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -19,10 +22,15 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
     }
 
     buildTypes {
         release {
+            // Set to true on release for security reasons
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -61,6 +69,7 @@ dependencies {
     }
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
+
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
@@ -71,19 +80,36 @@ dependencies {
 
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+
+    //Material design implementation
     implementation 'androidx.compose.material:material:1.4.2'
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // Navigation implementation
     implementation "androidx.navigation:navigation-compose:2.5.3"
+
     // Coroutines implementation
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
     // Acompanist implementations
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
     implementation "com.google.accompanist:accompanist-swiperefresh:0.27.0"
+
     // ViewModel implementation
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+
     // Google maps implementation
     implementation 'com.google.maps.android:maps-compose:2.11.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // Glide implementations(screenshots)
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // Easy permissions
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
     // Testing implementations
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

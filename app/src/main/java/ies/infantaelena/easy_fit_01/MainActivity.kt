@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
         // Funcion para forzar portrait mode
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
+        handleNavigationBugOnXiaomiDevices()
         setContent {
             Easy_fit_01Theme {
                 val systemUiController = rememberSystemUiController()
@@ -29,8 +30,17 @@ class MainActivity : ComponentActivity() {
                     darkIcons = false
                 )
                 // Llamada al componente que se encarga de gestionar la navegacion
-                AppNavigation()
+                    AppNavigation()
             }
+        }
+    }
+
+    /**
+     * Metodo para solucionar un bug de inicio en los dispositivos de Xiaomi
+     */
+    private fun handleNavigationBugOnXiaomiDevices() {
+        window.decorView.post {
+            window.setBackgroundDrawableResource(android.R.color.background_light)
         }
     }
 }

@@ -181,13 +181,13 @@ fun MultiFloatingButton(
 
     val fadeFloating by transition.animateFloat(
         label = "Float fade",
-        transitionSpec = { tween(durationMillis = 50) }) {
+        transitionSpec = { tween(durationMillis = 70) }) {
         if (it == FloatingButtonState.EXPANDED) 1f else 0f
     }
 
     val fadeText by transition.animateDp(
         label = "Text fade",
-        transitionSpec = { tween(durationMillis = 50) }) {
+        transitionSpec = { tween(durationMillis = 70) }) {
         if (it == FloatingButtonState.EXPANDED) 2.dp else 0.dp
     }
 
@@ -213,7 +213,6 @@ fun MultiFloatingButton(
                 Spacer(modifier = Modifier.padding(5.dp))
             }
         }
-
         FloatingActionButton(backgroundColor = MaterialTheme.colors.primary,
             onClick = {
                 onFloatingStateChange(
