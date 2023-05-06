@@ -48,7 +48,7 @@ import java.time.LocalDate
 
 
 @Composable
-fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenViewModel= viewModel()) {
+fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenViewModel = viewModel()) {
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -73,7 +73,6 @@ fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenView
                     when (it.id) {
                         "logout" -> {
                             mainScreenViewModel.LogOut(navController)
-
                         }
                     }
                 }
@@ -129,19 +128,6 @@ fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenView
                 }
             }
         }
-    }
-}
-
-@Composable
-fun AddActivityButton(context: Context) {
-    // TODO: funcionalidad de llevar a la pagina de actividades
-    FloatingActionButton(onClick = {
-        Toast.makeText(context, "Añadiendo actividad", Toast.LENGTH_SHORT).show()
-    }) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Add Activity"
-        )
     }
 }
 
