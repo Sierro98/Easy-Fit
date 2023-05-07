@@ -12,8 +12,9 @@ val surface_light = Color(0xFF8dd5e9)
 val primary_light = Color(0xFF46abd7)
 val primaryVariant_ligt = Color(0xFF29637C)
 val secondary_light = Color(0xFF7dd9c7)
-val secondaryVariant_light = Color(0xFF467A70)
+val secondaryVariant_light = Color(0xFF8a68ed)
 val error_light = Color(0xFFff200c)
+val stop_button = Color(0xFFb04031)
 
 val dark_back = Color(0xFF275a81)
 

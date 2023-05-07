@@ -258,7 +258,6 @@ fun MiniFloatingActionButtons(
                         radius = 20.dp,
                         color = MaterialTheme.colors.onSurface
                     ),
-
                     ),
         ) {
             drawCircle(
