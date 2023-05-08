@@ -15,7 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ies.infantaelena.easy_fit_01.R
 
 
 @Composable
@@ -41,7 +43,7 @@ fun AppBar(
         contentColor = MaterialTheme.colors.onPrimary,
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu drawer ")
+                Icon(imageVector = Icons.Default.Menu, contentDescription = stringResource(R.string.appBarDrawerDescription))
             }
         }
     )

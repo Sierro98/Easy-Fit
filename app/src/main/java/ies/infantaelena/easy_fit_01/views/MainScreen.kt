@@ -1,7 +1,6 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -27,7 +26,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,6 +38,8 @@ import androidx.navigation.NavController
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.ActivityType
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
+import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
+import ies.infantaelena.easy_fit_01.model.MenuItem
 import ies.infantaelena.easy_fit_01.model.MiniFloatingActionItem
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.state.FloatingButtonState
@@ -45,13 +49,24 @@ import ies.infantaelena.easy_fit_01.views.DrawerBody
 import ies.infantaelena.easy_fit_01.views.DrawerHeader
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.Locale
 
 
 @Composable
-fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenViewModel = viewModel()) {
+fun MainScreen(
+    navController: NavController,
+    mainScreenViewModel: MainScreenViewModel = viewModel()
+) {
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    var iconoActividad: Int;
+    val language = Locale.getDefault().language
+    val drawerMenuItems: List<MenuItem> = if (language == "es") {
+        MenuDrawerItemsSpanish
+    } else {
+        MenuDrawerItems
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -63,11 +78,10 @@ fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenView
                 }
             )
         },
-        // TODO: internacionalizar los items del menu
         drawerContent = {
             DrawerHeader()
             DrawerBody(
-                items = MenuDrawerItems,
+                items = drawerMenuItems,
                 // TODO: hacer todas las redirecciones
                 onItemClick = {
                     when (it.id) {
@@ -78,7 +92,6 @@ fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenView
                 }
             )
         },
-        //TODO: probando el multipleactionbutton
         floatingActionButton = {
             AddActionMultipleButton(context = context, navController = navController)
         }
@@ -105,23 +118,60 @@ fun MainScreen(navController: NavController, mainScreenViewModel: MainScreenView
                         )
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
+                            iconoActividad = when (activity.activityType) {
+                                ActivityType.RUN -> R.drawable.running_man
+                                ActivityType.WALK -> R.drawable.walk_man
+                                ActivityType.HIKING -> R.drawable.hikin_man
+                                ActivityType.CICLING -> R.drawable.bicycle_man
+                                ActivityType.CALISTHENICS -> R.drawable.calisthenics
+                                ActivityType.TEAM_SPORTS -> R.drawable.team_sports
+                            }
                             Icon(
-                                imageVector = activity.activityIcon,
-                                contentDescription = "icono de actividad",
-                                Modifier.size(50.dp)
+                                painter = painterResource(id = iconoActividad),
+                                contentDescription = stringResource(R.string.activityIconDescription),
+                                Modifier.size(40.dp)
                             )
                             Spacer(modifier = Modifier.padding(20.dp))
-                            Text(text = activity.activityType.toString())
+                            when (activity.activityType) {
+                                ActivityType.RUN -> mainScreenViewModel.tipoActividad =
+                                    context.getString(R.string.activityRun)
+
+                                ActivityType.WALK -> mainScreenViewModel.tipoActividad =
+                                    context.getString(R.string.activityWalk)
+
+                                ActivityType.HIKING -> mainScreenViewModel.tipoActividad =
+                                    context.getString(R.string.activityHiking)
+
+                                ActivityType.CICLING -> mainScreenViewModel.tipoActividad =
+                                    context.getString(R.string.activityCiclism)
+
+                                ActivityType.CALISTHENICS -> mainScreenViewModel.tipoActividad =
+                                    context.getString(R.string.activityCalisthenics)
+
+                                ActivityType.TEAM_SPORTS -> mainScreenViewModel.tipoActividad =
+                                    context.getString(R.string.activityTeamSport)
+                            }
+                            Text(
+                                text = mainScreenViewModel.tipoActividad,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
-                        Spacer(modifier = Modifier.padding(5.dp))
-                        Text(text = "realizada en: ${activity.date.toString()}")
-                        Spacer(modifier = Modifier.padding(5.dp))
-                        Text(text = "tiempo: ${activity.time.toDouble().div(3600)} horas")
+                        //TODO: Aqui van la fecha el tiempo y la distancia de las actividades
+                        Spacer(modifier = Modifier.padding(3.dp))
+                        Divider(color = Color.Black, thickness = 1.dp)
+                        Spacer(modifier = Modifier.padding(3.dp))
+                        Text(text = "${stringResource(R.string.activityDate)} ${activity.date.toString()}")
                         Spacer(modifier = Modifier.padding(5.dp))
                         Text(
-                            text = "distancia: ${
+                            text = "${stringResource(R.string.activitytime)} ${
+                                activity.time.toDouble().div(3600)
+                            }h"
+                        )
+                        Spacer(modifier = Modifier.padding(5.dp))
+                        Text(
+                            text = "${stringResource(R.string.activityDistance)} ${
                                 activity.distance?.toDouble()?.div(1000)
-                            } kilometros"
+                            }km"
                         )
                         Spacer(modifier = Modifier.padding(5.dp))
                     }
@@ -177,7 +227,6 @@ fun MultiFloatingButton(
         if (it == FloatingButtonState.EXPANDED) 2.dp else 0.dp
     }
 
-
     Column(
         horizontalAlignment = Alignment.End
     ) {
@@ -185,9 +234,10 @@ fun MultiFloatingButton(
             items.forEach { item ->
                 MiniFloatingActionButtons(
                     item = item,
+                    // TODO: Acciones de los FAB
                     onMinFloatingItemClick = { miniFloatingActionItem ->
-                        when (miniFloatingActionItem.label) {
-                            "Correr" -> {
+                        when (miniFloatingActionItem.id) {
+                            1 -> {
                                 navController.navigate(Screen.RunActivityScreen.route)
                             }
                         }
@@ -212,7 +262,7 @@ fun MultiFloatingButton(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Añadir Actividad",
+                contentDescription = stringResource(id = R.string.addActivityDescription),
                 modifier = Modifier.rotate(rotate)
             )
         }
@@ -258,7 +308,7 @@ fun MiniFloatingActionButtons(
                         radius = 20.dp,
                         color = MaterialTheme.colors.onSurface
                     ),
-                    ),
+                ),
         ) {
             drawCircle(
                 color = shadow,
@@ -290,32 +340,32 @@ fun almacenActividades(): List<MiniFloatingActionItem> {
         MiniFloatingActionItem(
             id = 1,
             icon = ImageBitmap.imageResource(id = R.drawable.running_man),
-            label = "Correr"
+            label = stringResource(id = R.string.activityRun)
         ),
         MiniFloatingActionItem(
             id = 2,
             icon = ImageBitmap.imageResource(id = R.drawable.walk_man),
-            label = "Andar"
+            label = stringResource(id = R.string.activityWalk)
         ),
         MiniFloatingActionItem(
             id = 3,
             icon = ImageBitmap.imageResource(id = R.drawable.hikin_man),
-            label = "Senderismo"
+            label = stringResource(id = R.string.activityHiking)
         ),
         MiniFloatingActionItem(
             id = 4,
             icon = ImageBitmap.imageResource(id = R.drawable.bicycle_man),
-            label = "Ciclismo"
+            label = stringResource(id = R.string.activityCiclism)
         ),
         MiniFloatingActionItem(
             id = 5,
             icon = ImageBitmap.imageResource(id = R.drawable.calisthenics),
-            label = "Calistenia"
+            label = stringResource(id = R.string.activityCalisthenics)
         ),
         MiniFloatingActionItem(
             id = 6,
             icon = ImageBitmap.imageResource(id = R.drawable.team_sports),
-            label = "Varios"
+            label = stringResource(id = R.string.activityTeamSport)
         )
     )
     return ActivityItems

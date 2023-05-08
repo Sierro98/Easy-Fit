@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -81,10 +82,10 @@ fun RunActivityScreen(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.running_man),
-                contentDescription = "Icono de hombre corriendo",
+                contentDescription = stringResource(id = R.string.runningIconDescription),
                 modifier = Modifier.size(50.dp)
             )
-            Text(text = "Correr", fontSize = 30.sp)
+            Text(text = stringResource(id = R.string.activityRun), fontSize = 30.sp)
         }
         val singapore = LatLng(1.35, 103.87)
         val cameraPositionState = rememberCameraPositionState {
@@ -108,13 +109,13 @@ fun RunActivityScreen(
         // TODO: aqui deberan de ir los datos reales
         Text(text = "Tiempo: 1234")
         Text(text = "Pasos: 1234")
-        PlayButton2(runViewModel = runViewModel, context = context)
+        PlayButton(runViewModel = runViewModel, context = context)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PlayButton2(runViewModel: RunActivityScreenViewModel, context: Context) {
+fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
     var actionState by remember { mutableStateOf(ActivityState.PLAY) }
     val buttonColorPlay = MaterialTheme.colors.primary
     val buttonColorStop = MaterialTheme.colors.secondaryVariant
@@ -131,7 +132,7 @@ fun PlayButton2(runViewModel: RunActivityScreenViewModel, context: Context) {
                 interactionSource = MutableInteractionSource(),
                 onClick = {
                     Toast
-                        .makeText(context, "Debe mantener presionado", Toast.LENGTH_SHORT)
+                        .makeText(context, context.getString(R.string.longPressAction), Toast.LENGTH_SHORT)
                         .show()
                 },
                 onLongClick = {

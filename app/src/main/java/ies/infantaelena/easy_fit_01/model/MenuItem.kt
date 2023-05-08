@@ -43,3 +43,36 @@ val MenuDrawerItems = listOf(
         icon = Icons.Default.Logout
     )
 )
+
+val MenuDrawerItemsSpanish = listOf(
+    MenuItem(
+        id = "home",
+        title = "Pantalla principal",
+        contentDescription = "Ir a la pagina principal",
+        icon = Icons.Default.Home
+    ),
+    MenuItem(
+        id = "user",
+        title = "Perfil de usuario",
+        contentDescription = "Ir al perfil de usuario",
+        icon = Icons.Default.Person
+    ),
+    MenuItem(
+        id = "challenges",
+        title = "Retos",
+        contentDescription = "Ir a la pagina de retos",
+        icon = Icons.Default.Star
+    ),
+    MenuItem(
+        id = "info",
+        title = "Información",
+        contentDescription = "Ir a la pagina de información",
+        icon = Icons.Default.Info
+    ),
+    MenuItem(
+        id = "logout",
+        title = "Cerrar sesión",
+        contentDescription = "Cerrar sesión",
+        icon = Icons.Default.Logout
+    )
+)
