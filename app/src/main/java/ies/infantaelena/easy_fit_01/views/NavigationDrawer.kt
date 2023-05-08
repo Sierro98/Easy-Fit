@@ -11,11 +11,13 @@ import androidx.compose.material.icons.filled.Person2
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.MenuItem
 
 @Preview(showBackground = true)
@@ -30,10 +32,11 @@ fun DrawerHeader() {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
                 imageVector = Icons.Default.Person2,
-                contentDescription = "User image",
+                contentDescription = stringResource(id = R.string.userImageDescription),
                 Modifier.size(100.dp)
             )
             Spacer(modifier = Modifier.padding(20.dp))
+            //TODO: Aqui va el nombre de usuario
             Text(
                 text = "User Name", fontSize = 20.sp,
                 textAlign = TextAlign.Center

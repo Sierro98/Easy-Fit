@@ -52,7 +52,7 @@ fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewM
         Spacer(modifier = Modifier.padding(top = 50.dp))
         Image(
             painter = painterResource(id = R.drawable.easy_fit_logo),
-            contentDescription = R.string.logoDescription.toString(),
+            contentDescription = stringResource(id = R.string.logoDescription),
             modifier = Modifier
                 .height(300.dp)
                 .width(300.dp)

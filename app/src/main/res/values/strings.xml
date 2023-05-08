@@ -2,15 +2,46 @@
 <resources>
     <!--TODO: dividir los textos de internacionalizacion por pantallas -->
     <string name="app_name">easy_fit_01</string>
+
+    <!-- AppBar View -->
+    <string name="appBarDrawerDescription">Menu desplegable</string>
+
+    <!-- LoginScreen/RegisterScreen View -->
+    <string name="user">Nombre de usuario</string>
     <string name="login">Iniciar Sesión</string>
     <string name="register">Crear usuario</string>
-    <string name="send">Enviar</string>
-    <string name="recupass">Recuperar contraseña</string>
-    <string name="email">Email</string>
-    <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
-    <string name="reppassword">Repita contraseña</string>
     <string name="showPasswordDescription">Mostrar Contraseña</string>
     <string name="hidePasswordDescription">Ocultar Contraseña</string>
+    <string name="email">Correo</string>
+    <string name="reppassword">Repita contraseña</string>
     <string name="logoDescription">Logo, mapache corriendo</string>
+
+    <!-- MainScreen View -->
+    <string name="activityIconDescription">icono de actividad</string>
+    <string name="activityRun">Correr</string>
+    <string name="activityWalk">Andar</string>
+    <string name="activityHiking">Senderismo</string>
+    <string name="activityCiclism">Ciclismo</string>
+    <string name="activityCalisthenics">Calistenia</string>
+    <string name="activityTeamSport">Deportes en Equipo</string>
+    <string name="activityDate">Fecha:</string>
+    <string name="activitytime">Tiempo:</string>
+    <string name="activityDistance">Distancia:</string>
+    <string name="addActivityDescription">Añadir Actividad</string>
+
+    <!-- NavigationDrawer View -->
+    <string name="userImageDescription">Imagen de usuario</string>
+
+    <!-- RunActivityScreen View -->
+    <string name="runningIconDescription">Icono de hombre corriendo</string>
+    <string name="longPressAction">Manten presionado</string>
+
+    <!-- Drawer Items -->
+    <string name="homeButton">Pantalla principal</string>
+    <string name="userProfileButton">Perfil de usuario</string>
+    <string name="challengesButton">Retos</string>
+    <string name="informationButton">Información</string>
+    <string name="logoutButton">Cerrar sesión</string>
+
 </resources>

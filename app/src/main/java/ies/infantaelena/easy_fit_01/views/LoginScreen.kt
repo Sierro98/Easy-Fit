@@ -126,7 +126,7 @@ fun LoginName(usuario: String, onInputChanged: (String) -> Unit) {
             onValueChange = onInputChanged,
             label = {
                 Text(
-                    text = stringResource(id = R.string.user),
+                    text = stringResource(id = R.string.email),
                     color = MaterialTheme.colors.onPrimary
                 )
             },
