@@ -11,21 +11,20 @@ import ies.infantaelena.easy_fit_01.navigation.Screen
 /**
  * Clase con la funcionalidad de MainScreen
  */
-class MainScreenViewModel(): ViewModel(){
+class MainScreenViewModel() : ViewModel() {
     var tipoActividad: String by mutableStateOf("");
+
     /**
      * Funcion que se encarga de deslogear el usuario de Firebase Authentication
      */
-    fun LogOut(nav: NavController){
+    fun LogOut(nav: NavController) {
         try {
             FirebaseAuth.getInstance().signOut()
             nav.popBackStack()
             nav.navigate(route = Screen.LoginScreen.route)
-        }catch (ex:java.lang.Exception){
+        } catch (ex: java.lang.Exception) {
             ex.printStackTrace()
         }
-
-
-
     }
+
 }

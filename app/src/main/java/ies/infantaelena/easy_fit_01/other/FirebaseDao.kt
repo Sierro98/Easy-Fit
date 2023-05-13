@@ -1,4 +1,4 @@
-package ies.infantaelena.easy_fit_01.Recursos
+package ies.infantaelena.easy_fit_01.other
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database

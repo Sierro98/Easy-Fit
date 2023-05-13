@@ -1,5 +1,6 @@
 package ies.infantaelena.easy_fit_01
 
+import android.Manifest
 import android.content.Context
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -25,6 +26,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,8 +35,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.ActivityType
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
@@ -52,6 +58,7 @@ import java.time.LocalDate
 import java.util.Locale
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -67,6 +74,28 @@ fun MainScreen(
     } else {
         MenuDrawerItems
     }
+    // PERMISOS
+    val permissionsState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            //Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.FOREGROUND_SERVICE,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+        )
+    )
+    val lifeCycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(key1 = lifeCycleOwner, effect = {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                permissionsState.launchMultiplePermissionRequest()
+            }
+        }
+        lifeCycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifeCycleOwner.lifecycle.removeObserver(observer)
+        }
+    })
+    // END OF PERMISOS
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
