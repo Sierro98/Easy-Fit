@@ -44,6 +44,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,17 +59,19 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import ies.infantaelena.easy_fit_01.R
+import ies.infantaelena.easy_fit_01.other.Constants
+import ies.infantaelena.easy_fit_01.services.TrackingService
 import ies.infantaelena.easy_fit_01.state.ActivityState
 import ies.infantaelena.easy_fit_01.viewmodel.RunActivityScreenViewModel
 
-
+//TODO: Mirar funcionalidad del botón
 // TODO: internacionalizar textos
 @Composable
 fun RunActivityScreen(
     navController: NavController,
     runViewModel: RunActivityScreenViewModel = viewModel()
 ) {
-    val context = LocalContext.current
+    val context: Context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -96,7 +100,7 @@ fun RunActivityScreen(
                 .fillMaxWidth()
                 .height(400.dp)
                 .padding(10.dp)
-                .border(width = 5.dp, color = Color.DarkGray, shape = MaterialTheme.shapes.medium),
+                .border(width = 5.dp, color = MaterialTheme.colors.primaryVariant, shape = MaterialTheme.shapes.medium),
             cameraPositionState = cameraPositionState,
             uiSettings = MapUiSettings(zoomControlsEnabled = false),
         ) {
@@ -107,8 +111,14 @@ fun RunActivityScreen(
             )
         }
         // TODO: aqui deberan de ir los datos reales
-        Text(text = "Tiempo: 1234")
-        Text(text = "Pasos: 1234")
+        Text(
+            text = "00:00:00",
+            color = MaterialTheme.colors.onPrimary,
+            fontSize = 40.sp,
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
         PlayButton(runViewModel = runViewModel, context = context)
     }
 }
@@ -132,7 +142,11 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                 interactionSource = MutableInteractionSource(),
                 onClick = {
                     Toast
-                        .makeText(context, context.getString(R.string.longPressAction), Toast.LENGTH_SHORT)
+                        .makeText(
+                            context,
+                            context.getString(R.string.longPressAction),
+                            Toast.LENGTH_SHORT
+                        )
                         .show()
                 },
                 onLongClick = {
@@ -140,10 +154,12 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
                         actionState = ActivityState.STOP
+                        runViewModel.startStopActivity(context = context, Constants.ACTION_START_SERVICE)
                     } else {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
                         actionState = ActivityState.PLAY
+                        runViewModel.startStopActivity(context = context, Constants.ACTION_STOP_SERVICE)
                     }
                 },
                 indication = rememberRipple(
