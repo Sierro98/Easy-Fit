@@ -1,6 +1,9 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
+import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,17 +35,19 @@ import ies.infantaelena.easy_fit_01.viewmodel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.core.content.ContextCompat
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
-
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel(), ) {
+   val mainActivity = MainActivity()
 //    var emailValue: String by rememberSaveable { mutableStateOf("") }
 //    var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
+    var auth by remember {mutableStateOf(false)}
     /*
     Componente column que ocupa toda la pantalla del dispositivo, en este elemento iran
     anidados el resto de componentes.
@@ -74,12 +79,16 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
          */
         Button(
             onClick = {
+                mainActivity.authenticate(){
+                    auth = it
+                }
                 loginViewModel.checkLogin(
                     email = loginViewModel.user,
                     contra = loginViewModel.password,
                     context = context,
                     nav = navController
                 )
+
             },
             modifier = Modifier
                 .height(50.dp)
@@ -101,6 +110,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     navController.navigate(Screen.RegisterScreen.route)
                 })
     }
+
 }
 
 /**
@@ -178,4 +188,5 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
         )
     }
 }
+
 
