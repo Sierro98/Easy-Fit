@@ -4,6 +4,8 @@
     <string name="app_name">easy_fit_01</string>
     <string name="login">Iniciar Sesión</string>
     <string name="register">Crear usuario</string>
+    <string name="send">Enviar</string>
+    <string name="recupass">Recuperar contraseña</string>
     <string name="email">Email</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
