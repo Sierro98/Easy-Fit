@@ -31,22 +31,26 @@ import androidx.navigation.NavController
 
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ies.infantaelena.easy_fit_01.viewmodel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel(),activity: MainActivity) {
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel(), activity: MainActivity) {
 
 //    var emailValue: String by rememberSaveable { mutableStateOf("") }
 //    var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
-    var auth by remember {mutableStateOf(false)}
+    loginViewModel.setupAuth(context)
+
     /*
     Componente column que ocupa toda la pantalla del dispositivo, en este elemento iran
     anidados el resto de componentes.
@@ -78,13 +82,12 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
          */
         Button(
             onClick = {
-
                 loginViewModel.checkLogin(
                     email = loginViewModel.user,
                     contra = loginViewModel.password,
                     context = context,
                     nav = navController,
-                    mainActivity = activity
+                    activity = activity
                 )
 
             },
@@ -99,13 +102,21 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                 style = MaterialTheme.typography.button
             )
         }
-        Spacer(modifier = Modifier.padding(top = 40.dp))
+        Spacer(modifier = Modifier.padding(top = 30.dp))
         Text(text = stringResource(R.string.register),
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 80.dp)
                 .clickable {
                     navController.navigate(Screen.RegisterScreen.route)
+                })
+        Spacer(modifier = Modifier.padding(top = 10.dp))
+        Text(text = stringResource(R.string.recupass),
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(end = 80.dp)
+                .clickable {
+                    navController.navigate(Screen.RecoberScreen.route)
                 })
     }
 
@@ -186,4 +197,5 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
         )
     }
 }
+
 

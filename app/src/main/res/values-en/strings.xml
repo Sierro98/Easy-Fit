@@ -9,12 +9,15 @@
     <string name="user">Username</string>
     <string name="login">Login</string>
     <string name="register">Create user</string>
+    <string name="recupass">Recup password</string>
+
     <string name="password">Password</string>
     <string name="showPasswordDescription">Show password</string>
     <string name="hidePasswordDescription">Hide password</string>
     <string name="email">Email</string>
     <string name="reppassword">Repeat password</string>
     <string name="logoDescription">Running racoon logo</string>
+    <string name="send">Send</string>
 
     <!-- MainScreen View -->
     <string name="activityIconDescription">Activity Icon</string>

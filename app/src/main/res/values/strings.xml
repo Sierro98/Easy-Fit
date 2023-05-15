@@ -7,9 +7,10 @@
     <string name="appBarDrawerDescription">Menu desplegable</string>
 
     <!-- LoginScreen/RegisterScreen View -->
-    <string name="user">Nombre de usuario</string>
     <string name="login">Iniciar Sesión</string>
     <string name="register">Crear usuario</string>
+    <string name="send">Enviar</string>
+    <string name="recupass">Recuperar contraseña</string>
     <string name="password">Contraseña</string>
     <string name="showPasswordDescription">Mostrar Contraseña</string>
     <string name="hidePasswordDescription">Ocultar Contraseña</string>
