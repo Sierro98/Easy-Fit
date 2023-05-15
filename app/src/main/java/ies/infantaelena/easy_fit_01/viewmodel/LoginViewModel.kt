@@ -1,14 +1,19 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
+import android.app.Activity
 import android.content.Context
+import android.hardware.biometrics.BiometricPrompt
 import android.widget.Toast
+import androidx.biometric.BiometricManager
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.navigation.Screen
 
 class LoginViewModel(): ViewModel() {
@@ -33,5 +38,6 @@ class LoginViewModel(): ViewModel() {
                 }
         }
     }
+
 }
 
