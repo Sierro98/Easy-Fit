@@ -27,6 +27,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,17 +51,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.bumptech.glide.manager.Lifecycle
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.other.Constants
+import ies.infantaelena.easy_fit_01.services.Polyline
 import ies.infantaelena.easy_fit_01.services.TrackingService
 import ies.infantaelena.easy_fit_01.state.ActivityState
 import ies.infantaelena.easy_fit_01.viewmodel.RunActivityScreenViewModel
@@ -72,6 +83,14 @@ fun RunActivityScreen(
     runViewModel: RunActivityScreenViewModel = viewModel()
 ) {
     val context: Context = LocalContext.current
+    val lifecycle = LocalLifecycleOwner.current
+    val pathPoints: List<Polyline> = runViewModel.pathPoints
+
+    TrackingService.pathPoints.observe(lifecycle, Observer {
+        runViewModel.addPathPoint(it.last())
+    })
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,25 +110,9 @@ fun RunActivityScreen(
             )
             Text(text = stringResource(id = R.string.activityRun), fontSize = 30.sp)
         }
-        val singapore = LatLng(1.35, 103.87)
-        val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(singapore, 10f)
-        }
-        GoogleMap(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
-                .padding(10.dp)
-                .border(width = 5.dp, color = MaterialTheme.colors.primaryVariant, shape = MaterialTheme.shapes.medium),
-            cameraPositionState = cameraPositionState,
-            uiSettings = MapUiSettings(zoomControlsEnabled = false),
-        ) {
-            Marker(
-                state = MarkerState(position = singapore),
-                title = "Singapore",
-                snippet = "Marker in Singapore"
-            )
-        }
+
+        MyGoogleMap(pathPoints = pathPoints, runViewModel = runViewModel)
+
         // TODO: aqui deberan de ir los datos reales
         Text(
             text = "00:00:00",
@@ -122,6 +125,60 @@ fun RunActivityScreen(
         PlayButton(runViewModel = runViewModel, context = context)
     }
 }
+
+@Composable
+fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewModel) {
+    val cameraPositionState: CameraPositionState
+    if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
+        cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(
+                pathPoints.last().toList().last(),
+                Constants.MAP_ZOOM
+            )
+        }
+    } else {
+        cameraPositionState = rememberCameraPositionState()
+    }
+
+    GoogleMap(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(400.dp)
+            .padding(10.dp)
+            .border(
+                width = 5.dp,
+                color = MaterialTheme.colors.primaryVariant,
+                shape = MaterialTheme.shapes.medium
+            ),
+        cameraPositionState = cameraPositionState,
+        properties = MapProperties(isMyLocationEnabled = true),
+        uiSettings = MapUiSettings(
+            zoomControlsEnabled = false,
+            zoomGesturesEnabled = false,
+            mapToolbarEnabled = false,
+            myLocationButtonEnabled = false,
+            scrollGesturesEnabled = false,
+            compassEnabled = false,
+            rotationGesturesEnabled = false,
+            indoorLevelPickerEnabled = false,
+            scrollGesturesEnabledDuringRotateOrZoom = false,
+            tiltGesturesEnabled = false
+        ),
+    ) {
+        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
+            runViewModel.updatePosition(
+                cameraPositionState = cameraPositionState,
+                pathPoints = pathPoints
+            )
+            Polyline(
+                points = pathPoints.last().toList(),
+                color = MaterialTheme.colors.primaryVariant,
+                width = Constants.POLYLINE_WIDTH
+            )
+        }
+    }
+}
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -154,12 +211,19 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
                         actionState = ActivityState.STOP
-                        runViewModel.startStopActivity(context = context, Constants.ACTION_START_SERVICE)
+                        runViewModel.startStopActivity(
+                            context = context,
+                            Constants.ACTION_START_SERVICE
+                        )
+
                     } else {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
                         actionState = ActivityState.PLAY
-                        runViewModel.startStopActivity(context = context, Constants.ACTION_STOP_SERVICE)
+                        runViewModel.startStopActivity(
+                            context = context,
+                            Constants.ACTION_STOP_SERVICE
+                        )
                     }
                 },
                 indication = rememberRipple(

@@ -80,7 +80,7 @@ fun MainScreen(
             //Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.FOREGROUND_SERVICE,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            //Manifest.permission.ACCESS_BACKGROUND_LOCATION,
         )
     )
     val lifeCycleOwner = LocalLifecycleOwner.current
