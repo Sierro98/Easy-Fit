@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -31,8 +32,7 @@ import ies.infantaelena.easy_fit_01.R
 typealias Polyline = MutableList<LatLng>    // Tipo personalizado de una lista mutable de LatLng
 typealias Polylines = MutableList<Polyline> // Tipo personalizado de una lista mutable de Polylines(el tipo personalizado creado anteriormente)
 
-class TrackingService : Service() {
-    override fun onBind(intent: Intent?): IBinder? = null
+class TrackingService :  LifecycleService() {
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -50,6 +50,9 @@ class TrackingService : Service() {
         super.onCreate()
         postInitialValues()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        isTracking.observe(this, Observer {
+            updateLocationTracking(it)
+        })
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -57,13 +60,11 @@ class TrackingService : Service() {
             when (it.action) {
                 Constants.ACTION_START_SERVICE -> {
                     startForegroundService()
-                    isTracking.postValue(true)
                     updateLocationTracking(true)
                     Log.d("SERVICIOS", "STARTED SERVICE")
                 }
 
                 Constants.ACTION_STOP_SERVICE -> {
-                    isTracking.postValue(false)
                     updateLocationTracking(false)
                     Log.d("SERVICIOS", "STOPED SERVICE")
                 }
@@ -160,6 +161,5 @@ class TrackingService : Service() {
         )
         notificationManager.createNotificationChannel(channel)
     }
-
 
 }
