@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ies.infantaelena.easy_fit_01.model.Activity
-import ies.infantaelena.easy_fit_01.model.ActivityType
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import java.time.LocalDate
@@ -113,48 +112,48 @@ class RegisterViewModel() : ViewModel() {
                                 level = 0f,
                                 actividades = listOf(
                                     Activity(
-                                        activityType = ActivityType.RUN,
-                                        time = 3600,
-                                        distance = 4000,
+                                        activityType = "RUN",
+                                        time = "3600",
+                                        distance = "4000",
                                         date = LocalDate.now().toString(),
-                                        experience = 5
+                                        experience = "5"
                                     ),
                                     Activity(
-                                        activityType = ActivityType.HIKING,
-                                        time = 3600,
-                                        distance = 4000,
+                                        activityType = "HIKING",
+                                        time = "3600",
+                                        distance = "4000",
                                         date = LocalDate.now().toString(),
-                                        experience = 5
+                                        experience = "5"
                                     ),
                                     Activity(
-                                        activityType = ActivityType.CICLING,
-                                        time = 3600,
-                                        distance = 4000,
+                                        activityType = "CICLING",
+                                        time = "3600",
+                                        distance = "4000",
                                         date = LocalDate.now().toString(),
-                                        experience = 5
+                                        experience = "5"
                                     ),
                                     Activity(
-                                        activityType = ActivityType.CALISTHENICS,
-                                        time = 3600,
-                                        distance = 4000,
+                                        activityType = "CALISTHENICS",
+                                        time = "3600",
+                                        distance = "4000",
                                         date = LocalDate.now().toString(),
-                                        experience = 5
+                                        experience = "5"
                                     ),
                                     Activity(
-                                        activityType = ActivityType.TEAM_SPORTS,
-                                        time = 3600,
-                                        distance = 4000,
+                                        activityType = "TEAM_SPORTS",
+                                        time = "3600",
+                                        distance = "4000",
                                         date = LocalDate.now().toString(),
-                                        experience = 5
+                                        experience = "5"
                                     ),
                                     Activity(
-                                        activityType = ActivityType.HIKING,
-                                        time = 3600,
-                                        distance = 4000,
+                                        activityType = "HIKING",
+                                        time = "3600",
+                                        distance = "4000",
                                         date = LocalDate.now().toString(),
-                                        experience = 5
+                                        experience = "5"
                                     )
-                                )
+                               )
                             )
                         )
 

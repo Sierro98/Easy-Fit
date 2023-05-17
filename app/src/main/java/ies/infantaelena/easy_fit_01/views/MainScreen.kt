@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,8 +58,10 @@ import java.util.Locale
 @Composable
 fun MainScreen(
     navController: NavController,
-    mainScreenViewModel: MainScreenViewModel = viewModel()
+    mainScreenViewModel: MainScreenViewModel = viewModel(),
+    mainActivity: MainActivity
 ) {
+
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -69,7 +72,6 @@ fun MainScreen(
     } else {
         MenuDrawerItems
     }
-
     // PERMISOS
     val permissionsState = rememberMultiplePermissionsState(
         permissions = listOf(
@@ -104,7 +106,9 @@ fun MainScreen(
             )
         },
         drawerContent = {
-            DrawerHeader()
+            DrawerHeader(
+                mainActivity = mainActivity
+            )
             DrawerBody(
                 items = drawerMenuItems,
                 // TODO: hacer todas las redirecciones
@@ -127,7 +131,7 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            mainScreenViewModel.user?.actividades?.let {
+            mainActivity.user.actividades?.let {
                 items(it) { activity ->
                     Card(
                         elevation = 0.dp,
@@ -145,12 +149,13 @@ fun MainScreen(
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 iconoActividad = when (activity.activityType) {
-                                    ActivityType.RUN -> R.drawable.running_man
-                                    ActivityType.WALK -> R.drawable.walk_man
-                                    ActivityType.HIKING -> R.drawable.hikin_man
-                                    ActivityType.CICLING -> R.drawable.bicycle_man
-                                    ActivityType.CALISTHENICS -> R.drawable.calisthenics
-                                    ActivityType.TEAM_SPORTS -> R.drawable.team_sports
+                                    "RUN" -> R.drawable.running_man
+                                    "WALK" -> R.drawable.walk_man
+                                    "HIKING" -> R.drawable.hikin_man
+                                    "CICLING" -> R.drawable.bicycle_man
+                                    "CALISTHENICS" -> R.drawable.calisthenics
+                                    "TEAM_SPORTS" -> R.drawable.team_sports
+                                    else -> R.drawable.running_man
                                 }
                                 Icon(
                                     painter = painterResource(id = iconoActividad),
@@ -159,22 +164,22 @@ fun MainScreen(
                                 )
                                 Spacer(modifier = Modifier.padding(20.dp))
                                 when (activity.activityType) {
-                                    ActivityType.RUN -> mainScreenViewModel.tipoActividad =
+                                    "RUN" -> mainScreenViewModel.tipoActividad =
                                         context.getString(R.string.activityRun)
 
-                                    ActivityType.WALK -> mainScreenViewModel.tipoActividad =
+                                    "WALK" -> mainScreenViewModel.tipoActividad =
                                         context.getString(R.string.activityWalk)
 
-                                    ActivityType.HIKING -> mainScreenViewModel.tipoActividad =
+                                    "HIKING" -> mainScreenViewModel.tipoActividad =
                                         context.getString(R.string.activityHiking)
 
-                                    ActivityType.CICLING -> mainScreenViewModel.tipoActividad =
+                                    "CICLING" -> mainScreenViewModel.tipoActividad =
                                         context.getString(R.string.activityCiclism)
 
-                                    ActivityType.CALISTHENICS -> mainScreenViewModel.tipoActividad =
+                                    "CALISTHENICS" -> mainScreenViewModel.tipoActividad =
                                         context.getString(R.string.activityCalisthenics)
 
-                                    ActivityType.TEAM_SPORTS -> mainScreenViewModel.tipoActividad =
+                                    "TEAM_SPORTS" -> mainScreenViewModel.tipoActividad =
                                         context.getString(R.string.activityTeamSport)
                                 }
                                 Text(
@@ -204,11 +209,9 @@ fun MainScreen(
                     }
                 }
             }
-            }
         }
     }
-
-
+}
 
 
 @Composable

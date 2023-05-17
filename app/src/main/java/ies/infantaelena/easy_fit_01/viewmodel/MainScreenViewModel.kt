@@ -1,5 +1,6 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,7 +17,7 @@ import ies.infantaelena.easy_fit_01.navigation.Screen
  * Clase con la funcionalidad de MainScreen
  */
 class MainScreenViewModel() : ViewModel() {
-    val user:Usuario = getUsuario()
+
     var tipoActividad: String by mutableStateOf("");
 
     /**
@@ -32,27 +33,6 @@ class MainScreenViewModel() : ViewModel() {
         }
     }
 
-    fun getUsuario(): Usuario {
-        var db: DatabaseReference =
-            FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference().child("users")
-        var useraux = Usuario()
-        FirebaseAuth.getInstance().currentUser?.let {
-            db.child(it.uid).get().addOnSuccessListener {
-                val userContains: HashMap<String, Any> = it.value as HashMap<String, Any>
-              useraux = Usuario(
-                    email = userContains.get("email").toString(),
-                    username = userContains.get("username").toString(),
-                    level = Integer.parseInt(
-                        userContains.get(
-                            "level"
-                        ).toString()),
-                    actividades = userContains.get("actividades") as List<Activity>?
-                )
 
-            }
-        }
-        return useraux
-    }
 
 }

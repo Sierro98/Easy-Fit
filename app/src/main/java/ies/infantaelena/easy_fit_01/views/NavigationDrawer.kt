@@ -17,12 +17,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.MenuItem
 
-@Preview(showBackground = true)
+
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(mainActivity: MainActivity) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -38,7 +39,7 @@ fun DrawerHeader() {
             Spacer(modifier = Modifier.padding(20.dp))
             //TODO: Aqui va el nombre de usuario
             Text(
-                text = "User Name", fontSize = 20.sp,
+                text = mainActivity.user.username.toString(), fontSize = 20.sp,
                 textAlign = TextAlign.Center
             )
         }

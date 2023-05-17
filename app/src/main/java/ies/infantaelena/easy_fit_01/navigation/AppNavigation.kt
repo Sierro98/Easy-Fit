@@ -18,13 +18,13 @@ fun AppNavigation(activity: MainActivity) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
         composable(route = Screen.SplashScreen.route) {
-            SplashScreen(navController = navController)
+            SplashScreen(navController = navController, mainActivity = activity)
         }
         composable(route = Screen.LoginScreen.route) {
             LoginScreen(navController = navController, activity = activity)
         }
         composable(route = Screen.MainScreen.route) {
-            MainScreen(navController = navController)
+            MainScreen(navController = navController, mainActivity = activity)
         }
         composable(route = Screen.RegisterScreen.route) {
             RegisterScreen(navController = navController)
