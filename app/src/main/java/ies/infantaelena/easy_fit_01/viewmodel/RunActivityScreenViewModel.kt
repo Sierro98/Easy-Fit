@@ -27,6 +27,7 @@ class RunActivityScreenViewModel() : ViewModel() {
     var isTracking: Boolean by mutableStateOf(false)
     private val _pathPoints = mutableStateListOf<Polyline>()
     var pathPoints: List<Polyline> = _pathPoints
+    private var curTimeInMillis = 0L
 
     /**
      * Funcion que inicia o para el servicio de tracking, la constante String que reciba

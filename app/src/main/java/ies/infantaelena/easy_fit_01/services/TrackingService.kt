@@ -24,15 +24,22 @@ import com.google.android.gms.maps.model.LatLng
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 typealias Polyline = MutableList<LatLng>    // Tipo personalizado de una lista mutable de LatLng
 typealias Polylines = MutableList<Polyline> // Tipo personalizado de una lista mutable de Polylines(el tipo personalizado creado anteriormente)
 
-class TrackingService :  LifecycleService() {
+class TrackingService : LifecycleService() {
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private val timeRunInSeconds = MutableLiveData<Long>()
+
     companion object {
+        val timeRunInMillis = MutableLiveData<Long>()
         val isTracking = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
     }
@@ -62,6 +69,7 @@ class TrackingService :  LifecycleService() {
 
                 Constants.ACTION_STOP_SERVICE -> {
                     updateLocationTracking(false)
+                    isTimerEnabledSetting = false
                     Log.d("SERVICIOS", "STOPED SERVICE")
                 }
 
@@ -71,6 +79,33 @@ class TrackingService :  LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private var isTimerEnabledSetting: Boolean = false
+    private var lapTime: Long = 0L
+    private var timeRun: Long = 0L
+    private var timeStarted: Long = 0L
+    private var lastSecondTimeStamp: Long = 0L
+
+    private fun startTimer() {
+        addEmptyPolyline()
+        isTracking.postValue(true)
+        timeStarted = System.currentTimeMillis()
+        isTimerEnabledSetting = true
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isTracking.value!!) {
+                // Diferencia entre ahora y el tiempo comenzado
+                lapTime = System.currentTimeMillis() - timeStarted
+                // post the new laptime
+                timeRunInMillis.postValue(timeRun + lapTime)
+                if (timeRunInMillis.value!! >= lastSecondTimeStamp + 1000L) {
+                    timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
+                    lastSecondTimeStamp += 1000L
+                }
+                delay(Constants.TIMER_UPDATE_INTERVAL)
+            }
+            timeRun += lapTime
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -124,7 +159,7 @@ class TrackingService :  LifecycleService() {
     } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
 
     private fun startForegroundService() {
-        addEmptyPolyline()
+        startTimer()
         isTracking.postValue(true)
 
         val notificationManager =
