@@ -3,11 +3,9 @@ package ies.infantaelena.easy_fit_01.viewmodel
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -15,8 +13,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import ies.infantaelena.easy_fit_01.model.Activity
+import ies.infantaelena.easy_fit_01.model.ActivityType
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import java.time.LocalDate
 
 /**
  * Clase con la funcionalidad de RegisterScreen
@@ -109,8 +110,51 @@ class RegisterViewModel() : ViewModel() {
                             Usuario(
                                 email = email,
                                 username = user,
-                                password = password,
                                 level = 0f,
+                                actividades = listOf(
+                                    Activity(
+                                        activityType = ActivityType.RUN,
+                                        time = 3600,
+                                        distance = 4000,
+                                        date = LocalDate.now().toString(),
+                                        experience = 5
+                                    ),
+                                    Activity(
+                                        activityType = ActivityType.HIKING,
+                                        time = 3600,
+                                        distance = 4000,
+                                        date = LocalDate.now().toString(),
+                                        experience = 5
+                                    ),
+                                    Activity(
+                                        activityType = ActivityType.CICLING,
+                                        time = 3600,
+                                        distance = 4000,
+                                        date = LocalDate.now().toString(),
+                                        experience = 5
+                                    ),
+                                    Activity(
+                                        activityType = ActivityType.CALISTHENICS,
+                                        time = 3600,
+                                        distance = 4000,
+                                        date = LocalDate.now().toString(),
+                                        experience = 5
+                                    ),
+                                    Activity(
+                                        activityType = ActivityType.TEAM_SPORTS,
+                                        time = 3600,
+                                        distance = 4000,
+                                        date = LocalDate.now().toString(),
+                                        experience = 5
+                                    ),
+                                    Activity(
+                                        activityType = ActivityType.HIKING,
+                                        time = 3600,
+                                        distance = 4000,
+                                        date = LocalDate.now().toString(),
+                                        experience = 5
+                                    )
+                                )
                             )
                         )
 

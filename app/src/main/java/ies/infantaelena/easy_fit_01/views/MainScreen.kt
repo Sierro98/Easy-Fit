@@ -41,12 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import ies.infantaelena.easy_fit_01.model.Activity
-import ies.infantaelena.easy_fit_01.model.ActivityType
-import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
-import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
-import ies.infantaelena.easy_fit_01.model.MenuItem
-import ies.infantaelena.easy_fit_01.model.MiniFloatingActionItem
+import ies.infantaelena.easy_fit_01.model.*
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.state.FloatingButtonState
 import ies.infantaelena.easy_fit_01.viewmodel.MainScreenViewModel
@@ -74,6 +69,7 @@ fun MainScreen(
     } else {
         MenuDrawerItems
     }
+
     // PERMISOS
     val permissionsState = rememberMultiplePermissionsState(
         permissions = listOf(
@@ -131,84 +127,89 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(pruebaActividades) { activity ->
-                Card(
-                    elevation = 0.dp,
-                    modifier = Modifier.fillMaxWidth(),
-                    backgroundColor = MaterialTheme.colors.secondary.copy(alpha = 0.6f),
-                    shape = RoundedCornerShape(20.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(
-                            start = 40.dp,
-                            end = 40.dp,
-                            top = 20.dp,
-                            bottom = 20.dp
-                        )
+            mainScreenViewModel.user?.actividades?.let {
+                items(it) { activity ->
+                    Card(
+                        elevation = 0.dp,
+                        modifier = Modifier.fillMaxWidth(),
+                        backgroundColor = MaterialTheme.colors.secondary.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(20.dp)
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            iconoActividad = when (activity.activityType) {
-                                ActivityType.RUN -> R.drawable.running_man
-                                ActivityType.WALK -> R.drawable.walk_man
-                                ActivityType.HIKING -> R.drawable.hikin_man
-                                ActivityType.CICLING -> R.drawable.bicycle_man
-                                ActivityType.CALISTHENICS -> R.drawable.calisthenics
-                                ActivityType.TEAM_SPORTS -> R.drawable.team_sports
-                            }
-                            Icon(
-                                painter = painterResource(id = iconoActividad),
-                                contentDescription = stringResource(R.string.activityIconDescription),
-                                Modifier.size(40.dp)
+                        Column(
+                            modifier = Modifier.padding(
+                                start = 40.dp,
+                                end = 40.dp,
+                                top = 20.dp,
+                                bottom = 20.dp
                             )
-                            Spacer(modifier = Modifier.padding(20.dp))
-                            when (activity.activityType) {
-                                ActivityType.RUN -> mainScreenViewModel.tipoActividad =
-                                    context.getString(R.string.activityRun)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                iconoActividad = when (activity.activityType) {
+                                    ActivityType.RUN -> R.drawable.running_man
+                                    ActivityType.WALK -> R.drawable.walk_man
+                                    ActivityType.HIKING -> R.drawable.hikin_man
+                                    ActivityType.CICLING -> R.drawable.bicycle_man
+                                    ActivityType.CALISTHENICS -> R.drawable.calisthenics
+                                    ActivityType.TEAM_SPORTS -> R.drawable.team_sports
+                                }
+                                Icon(
+                                    painter = painterResource(id = iconoActividad),
+                                    contentDescription = stringResource(R.string.activityIconDescription),
+                                    Modifier.size(40.dp)
+                                )
+                                Spacer(modifier = Modifier.padding(20.dp))
+                                when (activity.activityType) {
+                                    ActivityType.RUN -> mainScreenViewModel.tipoActividad =
+                                        context.getString(R.string.activityRun)
 
-                                ActivityType.WALK -> mainScreenViewModel.tipoActividad =
-                                    context.getString(R.string.activityWalk)
+                                    ActivityType.WALK -> mainScreenViewModel.tipoActividad =
+                                        context.getString(R.string.activityWalk)
 
-                                ActivityType.HIKING -> mainScreenViewModel.tipoActividad =
-                                    context.getString(R.string.activityHiking)
+                                    ActivityType.HIKING -> mainScreenViewModel.tipoActividad =
+                                        context.getString(R.string.activityHiking)
 
-                                ActivityType.CICLING -> mainScreenViewModel.tipoActividad =
-                                    context.getString(R.string.activityCiclism)
+                                    ActivityType.CICLING -> mainScreenViewModel.tipoActividad =
+                                        context.getString(R.string.activityCiclism)
 
-                                ActivityType.CALISTHENICS -> mainScreenViewModel.tipoActividad =
-                                    context.getString(R.string.activityCalisthenics)
+                                    ActivityType.CALISTHENICS -> mainScreenViewModel.tipoActividad =
+                                        context.getString(R.string.activityCalisthenics)
 
-                                ActivityType.TEAM_SPORTS -> mainScreenViewModel.tipoActividad =
-                                    context.getString(R.string.activityTeamSport)
+                                    ActivityType.TEAM_SPORTS -> mainScreenViewModel.tipoActividad =
+                                        context.getString(R.string.activityTeamSport)
+                                }
+                                Text(
+                                    text = mainScreenViewModel.tipoActividad,
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
+                            //TODO: Aqui van la fecha el tiempo y la distancia de las actividades
+                            Spacer(modifier = Modifier.padding(3.dp))
+                            Divider(color = Color.Black, thickness = 1.dp)
+                            Spacer(modifier = Modifier.padding(3.dp))
+                            Text(text = "${stringResource(R.string.activityDate)} ${activity.date.toString()}")
+                            Spacer(modifier = Modifier.padding(5.dp))
                             Text(
-                                text = mainScreenViewModel.tipoActividad,
-                                fontWeight = FontWeight.Bold
+                                text = "${stringResource(R.string.activitytime)} ${
+                                    activity.time.toDouble().div(3600)
+                                }h"
                             )
+                            Spacer(modifier = Modifier.padding(5.dp))
+                            Text(
+                                text = "${stringResource(R.string.activityDistance)} ${
+                                    activity.distance?.toDouble()?.div(1000)
+                                }km"
+                            )
+                            Spacer(modifier = Modifier.padding(5.dp))
                         }
-                        //TODO: Aqui van la fecha el tiempo y la distancia de las actividades
-                        Spacer(modifier = Modifier.padding(3.dp))
-                        Divider(color = Color.Black, thickness = 1.dp)
-                        Spacer(modifier = Modifier.padding(3.dp))
-                        Text(text = "${stringResource(R.string.activityDate)} ${activity.date.toString()}")
-                        Spacer(modifier = Modifier.padding(5.dp))
-                        Text(
-                            text = "${stringResource(R.string.activitytime)} ${
-                                activity.time.toDouble().div(3600)
-                            }h"
-                        )
-                        Spacer(modifier = Modifier.padding(5.dp))
-                        Text(
-                            text = "${stringResource(R.string.activityDistance)} ${
-                                activity.distance?.toDouble()?.div(1000)
-                            }km"
-                        )
-                        Spacer(modifier = Modifier.padding(5.dp))
                     }
                 }
             }
+            }
         }
     }
-}
+
+
+
 
 @Composable
 fun AddActionMultipleButton(context: Context, navController: NavController) {
@@ -400,124 +401,5 @@ fun almacenActividades(): List<MiniFloatingActionItem> {
     return ActivityItems
 }
 
-var pruebaActividades: List<Activity> = listOf(
-    Activity(
-        id = 0,
-        activityType = ActivityType.RUN,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 1,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.Hiking,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 2,
-        activityType = ActivityType.CICLING,
-        activityIcon = Icons.Default.SportsMotorsports,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 3,
-        activityType = ActivityType.CALISTHENICS,
-        activityIcon = Icons.Default.SportsGymnastics,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 4,
-        activityType = ActivityType.TEAM_SPORTS,
-        activityIcon = Icons.Default.SportsBasketball,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 5,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 6,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 7,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 8,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 9,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 10,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 11,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    ),
-    Activity(
-        id = 12,
-        activityType = ActivityType.HIKING,
-        activityIcon = Icons.Default.RunCircle,
-        time = 3600,
-        distance = 4000,
-        date = LocalDate.now(),
-        experience = 5
-    )
-)
 
 

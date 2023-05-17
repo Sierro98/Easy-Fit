@@ -1,9 +1,6 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
-import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
