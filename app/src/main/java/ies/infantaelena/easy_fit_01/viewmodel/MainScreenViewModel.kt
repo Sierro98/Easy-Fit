@@ -29,10 +29,12 @@ class MainScreenViewModel() : ViewModel() {
             nav.popBackStack()
             nav.navigate(route = Screen.LoginScreen.route)
         } catch (ex: java.lang.Exception) {
-            ex.printStackTrace()
         }
     }
 
-
+    fun GoToUserPage(nav: NavController){
+        nav.popBackStack()
+        nav.navigate(route = Screen.UserSreen.route)
+    }
 
 }

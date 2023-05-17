@@ -117,6 +117,9 @@ fun MainScreen(
                         "logout" -> {
                             mainScreenViewModel.LogOut(navController)
                         }
+                        "user" -> {
+                            mainScreenViewModel.GoToUserPage(navController)
+                        }
                     }
                 }
             )

@@ -12,6 +12,7 @@ import ies.infantaelena.easy_fit_01.SplashScreen
 import ies.infantaelena.easy_fit_01.views.RecoberSreen
 import ies.infantaelena.easy_fit_01.views.RegisterScreen
 import ies.infantaelena.easy_fit_01.views.RunActivityScreen
+import ies.infantaelena.easy_fit_01.views.UserScreen
 
 @Composable
 fun AppNavigation(activity: MainActivity) {
@@ -34,6 +35,9 @@ fun AppNavigation(activity: MainActivity) {
         }
         composable(route = Screen.RunActivityScreen.route) {
             RunActivityScreen(navController = navController)
+        }
+        composable(route = Screen.UserSreen.route) {
+            UserScreen(navController = navController,mainActivity = activity)
         }
     }
 }

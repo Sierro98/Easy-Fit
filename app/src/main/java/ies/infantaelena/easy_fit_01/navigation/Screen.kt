@@ -7,4 +7,5 @@ sealed class Screen(val route: String) {
     object RegisterScreen: Screen("register_screen")
     object  RunActivityScreen: Screen("run_screen")
     object  RecoberScreen: Screen("recober_screen")
+    object  UserSreen: Screen("user_screen")
 }

@@ -37,7 +37,7 @@ fun DrawerHeader(mainActivity: MainActivity) {
                 Modifier.size(100.dp)
             )
             Spacer(modifier = Modifier.padding(20.dp))
-            //TODO: Aqui va el nombre de usuario
+            //Aqui va el nombre de usuario
             Text(
                 text = mainActivity.user.username.toString(), fontSize = 20.sp,
                 textAlign = TextAlign.Center
