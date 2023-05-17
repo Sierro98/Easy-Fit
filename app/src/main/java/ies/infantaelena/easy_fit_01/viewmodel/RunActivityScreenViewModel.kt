@@ -2,17 +2,21 @@ package ies.infantaelena.easy_fit_01.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.maps.android.compose.CameraPositionState
 import ies.infantaelena.easy_fit_01.other.Constants
+import ies.infantaelena.easy_fit_01.other.TrackingUtility
 
 import ies.infantaelena.easy_fit_01.services.Polyline
 import ies.infantaelena.easy_fit_01.services.TrackingService
@@ -23,11 +27,17 @@ import kotlinx.coroutines.launch
  * Clase con la funcionalidad de RunActivityScreen
  */
 class RunActivityScreenViewModel() : ViewModel() {
-    var contadorPlay: Int by mutableStateOf(0)
-    var isTracking: Boolean by mutableStateOf(false)
+    var _formattedTime: String by mutableStateOf("00:00:00")
+    var formattedTime: String = _formattedTime
+
+    var _isTracking: Boolean by mutableStateOf(false)
+    var isTracking: Boolean = _isTracking
+
     private val _pathPoints = mutableStateListOf<Polyline>()
     var pathPoints: List<Polyline> = _pathPoints
-    private var curTimeInMillis = 0L
+
+    var curTimeInMillis = 0L
+
 
     /**
      * Funcion que inicia o para el servicio de tracking, la constante String que reciba
@@ -39,7 +49,7 @@ class RunActivityScreenViewModel() : ViewModel() {
         }
     }
 
-    fun addPathPoint(point: Polyline) {
+    private fun addPathPoint(point: Polyline) {
         _pathPoints.add(point)
     }
 
@@ -48,11 +58,30 @@ class RunActivityScreenViewModel() : ViewModel() {
         viewModelScope.launch {
             cameraPositionState.animate(
                 update = CameraUpdateFactory.newLatLngZoom(
-                    pathPoints.last().last(),
+                    pathPoints.last().toList().last(),
                     Constants.MAP_ZOOM
                 ),
-                durationMs = 200
+                durationMs = 100
             )
         }
+    }
+
+
+    fun subscribe2Observers(lifecycle: LifecycleOwner) {
+        TrackingService.pathPoints.observe(lifecycle, Observer {
+            if (!it.isNullOrEmpty()) {
+                addPathPoint(it.last())
+            }
+        })
+
+        TrackingService.isTracking.observe(lifecycle, Observer {
+            _isTracking = it
+        })
+
+        TrackingService.timeRunInMillis.observe(lifecycle, Observer {
+            curTimeInMillis = it
+            _formattedTime = TrackingUtility.getFormattedStopWatchTimer(curTimeInMillis, true)
+        })
+
     }
 }

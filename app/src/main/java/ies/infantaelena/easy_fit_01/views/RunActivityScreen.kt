@@ -55,6 +55,7 @@ import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.other.Constants
+import ies.infantaelena.easy_fit_01.other.TrackingUtility
 import ies.infantaelena.easy_fit_01.services.Polyline
 import ies.infantaelena.easy_fit_01.services.TrackingService
 import ies.infantaelena.easy_fit_01.state.ActivityState
@@ -71,10 +72,7 @@ fun RunActivityScreen(
     val lifecycle = LocalLifecycleOwner.current
     val pathPoints: List<Polyline> = runViewModel.pathPoints
 
-    TrackingService.pathPoints.observe(lifecycle, Observer {
-        runViewModel.addPathPoint(it.last())
-    })
-
+    runViewModel.subscribe2Observers(lifecycle)
 
     Column(
         modifier = Modifier
@@ -99,16 +97,30 @@ fun RunActivityScreen(
         MyGoogleMap(pathPoints = pathPoints, runViewModel = runViewModel)
 
         // TODO: aqui deberan de ir los datos reales
-        Text(
-            text = "00:00:00",
-            color = MaterialTheme.colors.onPrimary,
-            fontSize = 40.sp,
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Bold,
+        TimerActivity(
+            runViewModel = runViewModel,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         PlayButton(runViewModel = runViewModel, context = context)
     }
+}
+
+@Composable
+fun TimerActivity(runViewModel: RunActivityScreenViewModel, modifier: Modifier) {
+    var timerText: String = "00:00:00"
+    if (runViewModel._isTracking) {
+        timerText = runViewModel._formattedTime
+    } else {
+        timerText = "00:00:00"
+    }
+    Text(
+        text = timerText,
+        color = MaterialTheme.colors.onPrimary,
+        fontSize = 40.sp,
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -168,7 +180,7 @@ fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewM
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
-    var actionState by remember { mutableStateOf(ActivityState.PLAY) }
+    //var actionState by remember { mutableStateOf(ActivityState.PLAY) }
     val buttonColorPlay = MaterialTheme.colors.primary
     val buttonColorStop = MaterialTheme.colors.secondaryVariant
     val shadow = Color.Black.copy(.5f)
@@ -192,10 +204,10 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                         .show()
                 },
                 onLongClick = {
-                    if (actionState == ActivityState.PLAY) {
+                    if (!runViewModel._isTracking) {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
-                        actionState = ActivityState.STOP
+                        //actionState = ActivityState.STOP
                         runViewModel.startStopActivity(
                             context = context,
                             Constants.ACTION_START_SERVICE
@@ -204,7 +216,7 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                     } else {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
-                        actionState = ActivityState.PLAY
+                        //actionState = ActivityState.PLAY
                         runViewModel.startStopActivity(
                             context = context,
                             Constants.ACTION_STOP_SERVICE
@@ -226,7 +238,7 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                 center.y + 2f
             )
         )
-        if (actionState == ActivityState.STOP) {
+        if (runViewModel._isTracking) {
             drawCircle(
                 color = buttonColorStop,
                 radius = 100f
@@ -237,7 +249,7 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                 radius = 100f
             )
         }
-        if (actionState == ActivityState.STOP) {
+        if (runViewModel._isTracking) {
             scale(scale = 2.5f) {
                 drawImage(
                     image = stopIcon,

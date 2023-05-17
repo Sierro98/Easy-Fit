@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.R
+import ies.infantaelena.easy_fit_01.other.TrackingUtility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -35,8 +36,8 @@ typealias Polylines = MutableList<Polyline> // Tipo personalizado de una lista m
 class TrackingService : LifecycleService() {
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
     private val timeRunInSeconds = MutableLiveData<Long>()
+    private var serviceKilled = false
 
     companion object {
         val timeRunInMillis = MutableLiveData<Long>()
@@ -47,6 +48,8 @@ class TrackingService : LifecycleService() {
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMillis.postValue(0L)
     }
 
     override fun onCreate() {
@@ -70,6 +73,8 @@ class TrackingService : LifecycleService() {
                 Constants.ACTION_STOP_SERVICE -> {
                     updateLocationTracking(false)
                     isTimerEnabledSetting = false
+                    isTracking.postValue(false)
+                    killService()
                     Log.d("SERVICIOS", "STOPED SERVICE")
                 }
 
@@ -79,6 +84,13 @@ class TrackingService : LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun killService() {
+        serviceKilled = true
+        postInitialValues()
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 
     private var isTimerEnabledSetting: Boolean = false
@@ -93,7 +105,7 @@ class TrackingService : LifecycleService() {
         timeStarted = System.currentTimeMillis()
         isTimerEnabledSetting = true
         CoroutineScope(Dispatchers.Main).launch {
-            while (isTracking.value!!) {
+            while (isTracking.value == true) {
                 // Diferencia entre ahora y el tiempo comenzado
                 lapTime = System.currentTimeMillis() - timeStarted
                 // post the new laptime
@@ -133,10 +145,6 @@ class TrackingService : LifecycleService() {
                 result?.locations?.let { locations ->
                     for (location in locations) {
                         addPathPoint(location)
-                        Log.d(
-                            "LOCALIZACION",
-                            "NUEVA LOCALIZACION -> ${location.latitude} ${location.longitude}"
-                        )
                     }
                 }
             }
@@ -158,6 +166,9 @@ class TrackingService : LifecycleService() {
         pathPoints.postValue(this)
     } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
 
+
+    private lateinit var curNotificationBuilder: NotificationCompat.Builder
+
     private fun startForegroundService() {
         startTimer()
         isTracking.postValue(true)
@@ -174,7 +185,17 @@ class TrackingService : LifecycleService() {
                 .setContentText("00:00:00")
                 .setContentIntent(getMainActivityPendingIntent())
 
+        curNotificationBuilder = notificationBuilder
+
         startForeground(Constants.NOTIFICATION_ID, notificationBuilder.build())
+
+        timeRunInSeconds.observe(this, Observer {
+            if (!serviceKilled) {
+                val notification = curNotificationBuilder
+                    .setContentText("Time: ${TrackingUtility.getFormattedStopWatchTimer(it * 1000L)}")
+                notificationManager.notify(Constants.NOTIFICATION_ID, notification.build())
+            }
+        })
     }
 
     private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
