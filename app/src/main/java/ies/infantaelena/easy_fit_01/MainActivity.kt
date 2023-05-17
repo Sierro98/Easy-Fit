@@ -1,5 +1,6 @@
 package ies.infantaelena.easy_fit_01
 
+import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -49,22 +50,22 @@ class MainActivity : AppCompatActivity() {
         setupAuth()
     }
     var canAuthenticate = false
-    lateinit var promptInfo: androidx.biometric.BiometricPrompt.PromptInfo
+    lateinit var promptInfo: BiometricPrompt.PromptInfo
     fun setupAuth() {
         if (BiometricManager.from(this)
                 .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
         ) {
             canAuthenticate = true
-            promptInfo = androidx.biometric.BiometricPrompt.PromptInfo.Builder().setTitle("Autenticacion Biométrica")
+            promptInfo = BiometricPrompt.PromptInfo.Builder().setTitle("Autenticacion Biométrica")
                 .setSubtitle("Autgennticacion con sensor biometrico")
                 .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL).build()
         }
     }
     fun authenticate (auth: (auth: Boolean)-> Unit){
         if (canAuthenticate){
-            androidx.biometric.BiometricPrompt(this, ContextCompat.getMainExecutor(this),
-                object : androidx.biometric.BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationSucceeded(result: androidx.biometric.BiometricPrompt.AuthenticationResult) {
+            BiometricPrompt(this, ContextCompat.getMainExecutor(this),
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                         super.onAuthenticationSucceeded(result)
                         auth(true)
                     }
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun handleNavigationBugOnXiaomiDevices() {
         window.decorView.post {
-            window.setBackgroundDrawableResource(android.R.color.background_light)
+            window.setBackgroundDrawableResource(R.color.background_light)
         }
     }
 }

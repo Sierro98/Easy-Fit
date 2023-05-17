@@ -60,6 +60,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-auth-ktx:21.2.0'
+    implementation 'androidx.biometric:biometric-ktx:1.2.0-alpha04'
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
             because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
