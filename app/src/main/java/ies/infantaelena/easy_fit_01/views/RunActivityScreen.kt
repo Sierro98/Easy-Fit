@@ -18,9 +18,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.imageResource
@@ -41,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Observer
@@ -96,29 +100,77 @@ fun RunActivityScreen(
 
         MyGoogleMap(pathPoints = pathPoints, runViewModel = runViewModel)
 
-        // TODO: aqui deberan de ir los datos reales
-        TimerActivity(
-            runViewModel = runViewModel,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.timer_icon),
+                contentDescription = "Timer Icon",
+                modifier = Modifier
+                    .weight(1f)
+                    .size(30.dp)
+            )
+            TimerActivity(
+                runViewModel = runViewModel,
+                modifier = Modifier.weight(3f)
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.step_icon),
+                contentDescription = "Step counter icon",
+                modifier = Modifier
+                    .weight(1f)
+                    .size(30.dp)
+            )
+            StepCounter(
+                runViewModel = runViewModel,
+                modifier = Modifier.weight(3f)
+            )
+        }
         PlayButton(runViewModel = runViewModel, context = context)
     }
 }
 
 @Composable
 fun TimerActivity(runViewModel: RunActivityScreenViewModel, modifier: Modifier) {
-    var timerText: String = "00:00:00"
-    if (runViewModel._isTracking) {
-        timerText = runViewModel._formattedTime
+    val timerText: String = if (runViewModel._isTracking) {
+        runViewModel._formattedTime
     } else {
-        timerText = "00:00:00"
+        "00:00:00"
     }
     Text(
         text = timerText,
+        textAlign = TextAlign.Center,
         color = MaterialTheme.colors.onPrimary,
         fontSize = 40.sp,
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun StepCounter(runViewModel: RunActivityScreenViewModel, modifier: Modifier) {
+    val stepsText: String = if (runViewModel._isTracking) {
+        "${runViewModel.currentSteps}"
+    } else {
+        "0"
+    }
+    Text(
+        text = stepsText,
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colors.onPrimary,
+        fontSize = 40.sp,
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
         modifier = modifier
     )
 }
@@ -140,12 +192,11 @@ fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewM
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .height(400.dp)
-            .padding(10.dp)
+            .height(550.dp)
             .border(
-                width = 5.dp,
+                width = 1.dp,
                 color = MaterialTheme.colors.primaryVariant,
-                shape = MaterialTheme.shapes.medium
+                shape = MaterialTheme.shapes.small
             ),
         cameraPositionState = cameraPositionState,
         properties = MapProperties(isMyLocationEnabled = true),

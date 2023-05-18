@@ -6,6 +6,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Location
 import android.os.Looper
 import android.util.Log
@@ -33,16 +37,18 @@ import kotlinx.coroutines.launch
 typealias Polyline = MutableList<LatLng>    // Tipo personalizado de una lista mutable de LatLng
 typealias Polylines = MutableList<Polyline> // Tipo personalizado de una lista mutable de Polylines(el tipo personalizado creado anteriormente)
 
-class TrackingService : LifecycleService() {
+class TrackingService : LifecycleService(), SensorEventListener {
 
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val timeRunInSeconds = MutableLiveData<Long>()
     private var serviceKilled = false
+    private var sensorManager: SensorManager? = null
 
     companion object {
         val timeRunInMillis = MutableLiveData<Long>()
         val isTracking = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
+        val curSteps = MutableLiveData<Int>()
     }
 
     private fun postInitialValues() {
@@ -50,12 +56,14 @@ class TrackingService : LifecycleService() {
         pathPoints.postValue(mutableListOf())
         timeRunInSeconds.postValue(0L)
         timeRunInMillis.postValue(0L)
+        curSteps.postValue(0)
     }
 
     override fun onCreate() {
         super.onCreate()
         postInitialValues()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         isTracking.observe(this, Observer {
             updateLocationTracking(it)
         })
@@ -138,7 +146,7 @@ class TrackingService : LifecycleService() {
         }
     }
 
-    val locationCallBack = object : LocationCallback() {
+    private val locationCallBack = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
             if (isTracking.value!!) {
@@ -170,8 +178,9 @@ class TrackingService : LifecycleService() {
     private lateinit var curNotificationBuilder: NotificationCompat.Builder
 
     private fun startForegroundService() {
-        startTimer()
         isTracking.postValue(true)
+        startTimer()
+        startStepCounter()
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -198,6 +207,14 @@ class TrackingService : LifecycleService() {
         })
     }
 
+    private fun startStepCounter() {
+        isTracking.postValue(true)
+        val stepSensor: Sensor? = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+        if (stepSensor != null) {
+            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+        }
+    }
+
     private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
         this,
         0,
@@ -212,6 +229,16 @@ class TrackingService : LifecycleService() {
             NotificationManager.IMPORTANCE_LOW
         )
         notificationManager.createNotificationChannel(channel)
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (isTracking.value == true) {
+            curSteps.postValue(curSteps.value!! + 1)
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
     }
 
 }

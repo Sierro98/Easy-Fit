@@ -38,6 +38,8 @@ class RunActivityScreenViewModel() : ViewModel() {
 
     var curTimeInMillis = 0L
 
+    var currentSteps: Int by mutableStateOf(0)
+
 
     /**
      * Funcion que inicia o para el servicio de tracking, la constante String que reciba
@@ -81,6 +83,10 @@ class RunActivityScreenViewModel() : ViewModel() {
         TrackingService.timeRunInMillis.observe(lifecycle, Observer {
             curTimeInMillis = it
             _formattedTime = TrackingUtility.getFormattedStopWatchTimer(curTimeInMillis, true)
+        })
+
+        TrackingService.curSteps.observe(lifecycle, Observer {
+            currentSteps = it
         })
 
     }
