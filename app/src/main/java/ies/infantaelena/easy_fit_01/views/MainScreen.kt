@@ -118,6 +118,7 @@ fun MainScreen(
                         "logout" -> {
                             mainScreenViewModel.LogOut(navController)
                         }
+
                         "user" -> {
                             mainScreenViewModel.GoToUserPage(navController)
                         }
@@ -277,18 +278,23 @@ fun MultiFloatingButton(
                             1 -> {
                                 navController.navigate(Screen.RunActivityScreen.route)
                             }
+
                             2 -> {
                                 navController.navigate(Screen.WalkActivityScreen.route)
                             }
+
                             3 -> {
                                 navController.navigate(Screen.HikingActivityScreen.route)
                             }
+
                             4 -> {
                                 navController.navigate(Screen.CyclingActivityScreen.route)
                             }
+
                             5 -> {
                                 navController.navigate(Screen.CalisthenicsActivityScreen.route)
                             }
+
                             6 -> {
                                 navController.navigate(Screen.TeamActivityScreen.route)
                             }

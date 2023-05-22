@@ -35,7 +35,7 @@ class MainScreenViewModel() : ViewModel() {
         }
     }
 
-    fun GoToUserPage(nav: NavController){
+    fun GoToUserPage(nav: NavController) {
         nav.navigate(route = Screen.UserSreen.route)
     }
 

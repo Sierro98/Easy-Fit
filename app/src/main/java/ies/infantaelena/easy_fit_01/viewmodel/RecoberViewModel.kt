@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-class RecoberViewModel: ViewModel() {
+class RecoberViewModel : ViewModel() {
     var email by mutableStateOf("")
 
     fun recupPass(email: String, context: Context, nav: Any) {
@@ -17,7 +17,7 @@ class RecoberViewModel: ViewModel() {
             //TODO: Hay que hcaer los string de los toast
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(context, "Fomato email incorrecto", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(context, "Correo enviado con exito", Toast.LENGTH_SHORT).show()

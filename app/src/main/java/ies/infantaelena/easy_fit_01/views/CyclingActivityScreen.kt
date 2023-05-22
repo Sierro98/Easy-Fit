@@ -21,19 +21,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
+import ies.infantaelena.easy_fit_01.model.ActivityType
 import ies.infantaelena.easy_fit_01.services.Polyline
-import ies.infantaelena.easy_fit_01.viewmodel.RunActivityScreenViewModel
+import ies.infantaelena.easy_fit_01.viewmodel.ActivityViewModel
 
 @Composable
 fun CyclingActivityScreen(
-    runViewModel: RunActivityScreenViewModel = viewModel()
+    mainActivity: MainActivity,
+    activityViewModel: ActivityViewModel = viewModel()
 ) {
     val context: Context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current
-    val pathPoints: List<Polyline> = runViewModel.pathPoints
+    val pathPoints: List<Polyline> = activityViewModel.pathPoints
 
-    runViewModel.subscribe2Observers(lifecycle)
+    activityViewModel.subscribe2Observers(lifecycle)
 
     Column(
         modifier = Modifier
@@ -49,13 +52,14 @@ fun CyclingActivityScreen(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.bicycle_man),
-                contentDescription = stringResource(id = R.string.activityCiclism),
+                //TODO: Crear las descripciones
+                contentDescription = stringResource(id = R.string.walkingIconDescription),
                 modifier = Modifier.size(50.dp)
             )
             Text(text = stringResource(id = R.string.activityCiclism), fontSize = 30.sp)
         }
 
-        MyGoogleMap(pathPoints = pathPoints, runViewModel = runViewModel)
+        MyGoogleMap(pathPoints = pathPoints, activityViewModel = activityViewModel)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -70,17 +74,17 @@ fun CyclingActivityScreen(
                     .size(30.dp)
             )
             TimerActivity(
-                runViewModel = runViewModel,
+                activityViewModel = activityViewModel,
                 modifier = Modifier.weight(3f)
             )
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-        }
-        PlayButton(runViewModel = runViewModel, context = context)
+        PlayButton(
+            activityViewModel = activityViewModel,
+            context = context,
+            mainActivity = mainActivity,
+            activityType = ActivityType.CICLING
+        )
     }
+
 }

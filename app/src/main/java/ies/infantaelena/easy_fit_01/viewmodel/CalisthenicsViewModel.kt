@@ -1,4 +1,6 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
-class CalisthenicsViewModel {
+import androidx.lifecycle.ViewModel
+
+class CalisthenicsViewModel() : ViewModel() {
 }

@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
         setupAuth()
     }
+
     var canAuthenticate = false
     lateinit var promptInfo: BiometricPrompt.PromptInfo
     fun setupAuth() {
@@ -57,11 +58,13 @@ class MainActivity : AppCompatActivity() {
             canAuthenticate = true
             promptInfo = BiometricPrompt.PromptInfo.Builder().setTitle("Autenticacion Biométrica")
                 .setSubtitle("Autenticacion con sensor biometrico")
-                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL).build()
+                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .build()
         }
     }
-    fun authenticate (auth: (auth: Boolean)-> Unit){
-        if (canAuthenticate){
+
+    fun authenticate(auth: (auth: Boolean) -> Unit) {
+        if (canAuthenticate) {
             BiometricPrompt(this, ContextCompat.getMainExecutor(this),
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             ).authenticate(promptInfo)
-        }else{
+        } else {
             auth(false)
         }
     }

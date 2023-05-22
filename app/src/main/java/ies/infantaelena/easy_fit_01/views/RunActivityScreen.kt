@@ -16,19 +16,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -36,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.imageResource
@@ -47,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.CameraPosition
@@ -57,27 +48,26 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
+import ies.infantaelena.easy_fit_01.model.ActivityType
 import ies.infantaelena.easy_fit_01.other.Constants
-import ies.infantaelena.easy_fit_01.other.TrackingUtility
 import ies.infantaelena.easy_fit_01.services.Polyline
-import ies.infantaelena.easy_fit_01.services.TrackingService
-import ies.infantaelena.easy_fit_01.state.ActivityState
-import ies.infantaelena.easy_fit_01.viewmodel.RunActivityScreenViewModel
+import ies.infantaelena.easy_fit_01.viewmodel.ActivityViewModel
 
 // TODO: Mirar funcionalidad del botón
 // TODO: internacionalizar textos
 @Composable
 fun RunActivityScreen(
     navController: NavController,
-    runViewModel: RunActivityScreenViewModel = viewModel(),
+    activityViewModel: ActivityViewModel = viewModel(),
     mainActivity: MainActivity
 ) {
     val context: Context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current
-    val pathPoints: List<Polyline> = runViewModel.pathPoints
+    val pathPoints: List<Polyline> = activityViewModel.pathPoints
 
-    runViewModel.subscribe2Observers(lifecycle)
+    activityViewModel.subscribe2Observers(lifecycle)
 
     Column(
         modifier = Modifier
@@ -99,7 +89,7 @@ fun RunActivityScreen(
             Text(text = stringResource(id = R.string.activityRun), fontSize = 30.sp)
         }
 
-        MyGoogleMap(pathPoints = pathPoints, runViewModel = runViewModel)
+        MyGoogleMap(pathPoints = pathPoints, activityViewModel = activityViewModel)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -114,7 +104,7 @@ fun RunActivityScreen(
                     .size(30.dp)
             )
             TimerActivity(
-                runViewModel = runViewModel,
+                activityViewModel = activityViewModel,
                 modifier = Modifier.weight(3f)
             )
         }
@@ -132,18 +122,23 @@ fun RunActivityScreen(
                     .size(30.dp)
             )
             StepCounter(
-                runViewModel = runViewModel,
+                activityViewModel = activityViewModel,
                 modifier = Modifier.weight(3f)
             )
         }
-        PlayButton(runViewModel = runViewModel, context = context, mainActivity = mainActivity)
+        PlayButton(
+            activityViewModel = activityViewModel,
+            context = context,
+            mainActivity = mainActivity,
+            ActivityType.RUN
+        )
     }
 }
 
 @Composable
-fun TimerActivity(runViewModel: RunActivityScreenViewModel, modifier: Modifier) {
-    val timerText: String = if (runViewModel._isTracking) {
-        runViewModel._formattedTime
+fun TimerActivity(activityViewModel: ActivityViewModel, modifier: Modifier) {
+    val timerText: String = if (activityViewModel._isTracking) {
+        activityViewModel._formattedTime
     } else {
         "00:00:00"
     }
@@ -159,9 +154,9 @@ fun TimerActivity(runViewModel: RunActivityScreenViewModel, modifier: Modifier) 
 }
 
 @Composable
-fun StepCounter(runViewModel: RunActivityScreenViewModel, modifier: Modifier) {
-    val stepsText: String = if (runViewModel._isTracking) {
-        "${runViewModel.currentSteps}"
+fun StepCounter(activityViewModel: ActivityViewModel, modifier: Modifier) {
+    val stepsText: String = if (activityViewModel._isTracking) {
+        "${activityViewModel.currentSteps}"
     } else {
         "0"
     }
@@ -177,7 +172,7 @@ fun StepCounter(runViewModel: RunActivityScreenViewModel, modifier: Modifier) {
 }
 
 @Composable
-fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewModel) {
+fun MyGoogleMap(pathPoints: List<Polyline>, activityViewModel: ActivityViewModel) {
     val cameraPositionState: CameraPositionState
     if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
         cameraPositionState = rememberCameraPositionState {
@@ -215,7 +210,7 @@ fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewM
         ),
     ) {
         if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
-            runViewModel.updatePosition(
+            activityViewModel.updatePosition(
                 cameraPositionState = cameraPositionState,
                 pathPoints = pathPoints
             )
@@ -231,7 +226,12 @@ fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewM
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainActivity: MainActivity) {
+fun PlayButton(
+    activityViewModel: ActivityViewModel,
+    context: Context,
+    mainActivity: MainActivity,
+    activityType: ActivityType
+) {
     //var actionState by remember { mutableStateOf(ActivityState.PLAY) }
     val buttonColorPlay = MaterialTheme.colors.primary
     val buttonColorStop = MaterialTheme.colors.secondaryVariant
@@ -256,11 +256,11 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainAc
                         .show()
                 },
                 onLongClick = {
-                    if (!runViewModel._isTracking) {
+                    if (!activityViewModel._isTracking) {
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
                         //actionState = ActivityState.STOP
-                        runViewModel.startStopActivity(
+                        activityViewModel.startStopActivity(
                             context = context,
                             Constants.ACTION_START_SERVICE
                         )
@@ -269,11 +269,14 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainAc
                         vibrator.cancel()
                         vibrator.vibrate(vibrationEffect1)
                         //actionState = ActivityState.PLAY
-                        runViewModel.startStopActivity(
+                        activityViewModel.startStopActivity(
                             context = context,
                             Constants.ACTION_STOP_SERVICE
                         )
-                        runViewModel.saveActivity(mainActivity = mainActivity)
+                        activityViewModel.saveActivity(
+                            mainActivity = mainActivity,
+                            activityType = activityType
+                        )
                     }
                 },
                 indication = rememberRipple(
@@ -291,7 +294,7 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainAc
                 center.y + 2f
             )
         )
-        if (runViewModel._isTracking) {
+        if (activityViewModel._isTracking) {
             drawCircle(
                 color = buttonColorStop,
                 radius = 100f
@@ -302,7 +305,7 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainAc
                 radius = 100f
             )
         }
-        if (runViewModel._isTracking) {
+        if (activityViewModel._isTracking) {
             scale(scale = 2.5f) {
                 drawImage(
                     image = stopIcon,

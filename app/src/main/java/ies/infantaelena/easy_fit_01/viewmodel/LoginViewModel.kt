@@ -1,12 +1,9 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.biometric.BiometricViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -20,6 +17,7 @@ import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import ies.infantaelena.easy_fit_01.services.Polyline
 
 
 /**
@@ -73,7 +71,9 @@ class LoginViewModel() : ViewModel() {
                                                 aux.get("time").toString(),
                                                 aux.get("distance").toString(),
                                                 aux.get("date").toString(),
-                                                aux.get("experience").toString()
+                                                aux.get("experience").toString(),
+                                                aux.get("pathPoints") as List<Polyline>
+
                                             )
                                             listActiv = listActiv?.plus(activity)
                                         }

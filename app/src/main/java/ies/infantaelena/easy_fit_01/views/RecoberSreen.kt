@@ -83,6 +83,7 @@ fun RecoberSreen(navController: NavController, recoberViewModel: RecoberViewMode
     }
 
 }
+
 @Composable
 fun LoginEmail(email: String, onInputChanged: (String) -> Unit) {
     // funcion usada para envolver al textfield y darle el color que queramos al los text selectors

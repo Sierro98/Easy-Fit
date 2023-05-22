@@ -30,7 +30,7 @@ import java.time.LocalDate
 /**
  * Clase con la funcionalidad de RunActivityScreen
  */
-class RunActivityScreenViewModel() : ViewModel() {
+class ActivityViewModel() : ViewModel() {
     var _formattedTime: String by mutableStateOf("00:00:00")
 
     var _isTracking: Boolean by mutableStateOf(false)
@@ -91,49 +91,46 @@ class RunActivityScreenViewModel() : ViewModel() {
         }
     }
 
-    fun uploadActivity() {
-        // TODO: Subir los siguientes datos
-//        _formattedTime
-//        pathPoints
-//        currentSteps
-    }
-
-    fun saveActivity(mainActivity: MainActivity) {
-        if (mainActivity.user.actividades == null){
-            mainActivity.user.actividades = mutableStateListOf(Activity(
-                    activityType = ActivityType.RUN.toString(),
+    fun saveActivity(mainActivity: MainActivity, activityType: ActivityType) {
+        if (mainActivity.user.actividades == null) {
+            mainActivity.user.actividades = mutableStateListOf(
+                Activity(
+                    activityType = activityType.toString(),
                     date = LocalDate.now().toString(),
                     distance = currentSteps.toString(),
                     experience = "1000",
-                    time = _formattedTime
+                    time = _formattedTime,
+                    pathPoints = pathPoints
                 )
             )
 
-        }else{
-            mainActivity.user.actividades!!.add(Activity(
-                activityType = ActivityType.RUN.toString(),
-                date = LocalDate.now().toString(),
-                distance = currentSteps.toString(),
-                experience = "1000",
-                time = _formattedTime
-            ))
+        } else {
+            mainActivity.user.actividades!!.add(
+                Activity(
+                    activityType = activityType.toString(),
+                    date = LocalDate.now().toString(),
+                    distance = currentSteps.toString(),
+                    experience = "1000",
+                    time = _formattedTime,
+                    pathPoints = pathPoints
+                )
+            )
 
 
         }
 
-        var database: DatabaseReference =
+        val database: DatabaseReference =
             FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference().child("users")
-        //Creacion del Usuario en Firebase Autentication
-                    var useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-                    //Guardado de datos en la Raltime Database
-                    database.child(useruid?.uid.toString()).setValue(
-                        Usuario(
-                            actividades = mainActivity.user.actividades,
-                            email = mainActivity.user.email,
-                            level = mainActivity.user.level,
-                            username = mainActivity.user.username
-                        )
-                    )
+        var useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+        //Guardado de datos en la Raltime Database
+        database.child(useruid?.uid.toString()).setValue(
+            Usuario(
+                actividades = mainActivity.user.actividades,
+                email = mainActivity.user.email,
+                level = mainActivity.user.level,
+                username = mainActivity.user.username
+            )
+        )
     }
 }

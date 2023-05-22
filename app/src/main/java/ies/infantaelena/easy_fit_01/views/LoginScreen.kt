@@ -41,7 +41,11 @@ import androidx.compose.runtime.getValue
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel(), activity: MainActivity) {
+fun LoginScreen(
+    navController: NavController,
+    loginViewModel: LoginViewModel = viewModel(),
+    activity: MainActivity
+) {
 
 //    var emailValue: String by rememberSaveable { mutableStateOf("") }
 //    var passwordValue: String by rememberSaveable { mutableStateOf("") }
@@ -71,7 +75,9 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
         LoginName(usuario = loginViewModel.user, onInputChanged = { loginViewModel.user = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
-        LoginPassword(contra = loginViewModel.password, onInputChanged = { loginViewModel.password = it })
+        LoginPassword(
+            contra = loginViewModel.password,
+            onInputChanged = { loginViewModel.password = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         /*
         Componente Button que maneja el intento de entrada a la aplicacion llamando a la funcion

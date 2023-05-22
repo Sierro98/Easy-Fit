@@ -38,7 +38,10 @@ import ies.infantaelena.easy_fit_01.viewmodel.RegisterViewModel
 //    RegisterScreen()
 //}
 @Composable
-fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewModel= viewModel()) {
+fun RegisterScreen(
+    navController: NavController,
+    registerViewModel: RegisterViewModel = viewModel()
+) {
     val context: Context = LocalContext.current
 
     Column(
@@ -58,16 +61,20 @@ fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewM
                 .width(300.dp)
         )
         // Llamada al metodo que contiene el Textfield del Email de usuario
-        RegisterEmail(email = registerViewModel.emailValue, onInputChanged = { registerViewModel.emailValue = it })
+        RegisterEmail(
+            email = registerViewModel.emailValue,
+            onInputChanged = { registerViewModel.emailValue = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield del nombre de usuario
-        RegisterName(user = registerViewModel.userValue, onInputChanged = {if(it.matches(registerViewModel.regex)){
+        RegisterName(user = registerViewModel.userValue, onInputChanged = {
+            if (it.matches(registerViewModel.regex)) {
                 registerViewModel.userValue = it
-            }})
+            }
+        })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
         RegisterPassword(password = registerViewModel.passwordValue, onInputChanged = {
-            if(!it.equals(" ")) {
+            if (!it.equals(" ")) {
                 registerViewModel.passwordValue = it
             }
         })
@@ -76,7 +83,7 @@ fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewM
         RegisterRepPassword(
             reppassword = registerViewModel.reppasswordValue,
             onInputChanged = {
-                if(!it.equals(" ")) {
+                if (!it.equals(" ")) {
                     registerViewModel.reppasswordValue = it
                 }
             })
@@ -88,13 +95,13 @@ fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewM
         Button(
             onClick = {
                 registerViewModel.makeRegister(
-                   email = registerViewModel.emailValue,
-                   user = registerViewModel.userValue,
-                   password = registerViewModel.passwordValue,
-                   reppassword = registerViewModel.reppasswordValue,
-                   context = context,
-                   nav = navController
-             )
+                    email = registerViewModel.emailValue,
+                    user = registerViewModel.userValue,
+                    password = registerViewModel.passwordValue,
+                    reppassword = registerViewModel.reppasswordValue,
+                    context = context,
+                    nav = navController
+                )
             },
             modifier = Modifier
                 .height(50.dp)

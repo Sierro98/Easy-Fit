@@ -18,4 +18,8 @@ class UserScreenViewModel() : ViewModel() {
         }
     }
 
+    fun GoToUserPage(navController: NavController) {
+
+    }
+
 }

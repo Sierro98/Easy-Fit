@@ -1,7 +1,6 @@
 package ies.infantaelena.easy_fit_01.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -9,10 +8,15 @@ import ies.infantaelena.easy_fit_01.LoginScreen
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.MainScreen
 import ies.infantaelena.easy_fit_01.SplashScreen
+import ies.infantaelena.easy_fit_01.views.CalisthenicsActivityScreen
+import ies.infantaelena.easy_fit_01.views.CyclingActivityScreen
+import ies.infantaelena.easy_fit_01.views.HikingActivityScreen
 import ies.infantaelena.easy_fit_01.views.RecoberSreen
 import ies.infantaelena.easy_fit_01.views.RegisterScreen
 import ies.infantaelena.easy_fit_01.views.RunActivityScreen
+import ies.infantaelena.easy_fit_01.views.TeamActivityScreen
 import ies.infantaelena.easy_fit_01.views.UserScreen
+import ies.infantaelena.easy_fit_01.views.WalkActivityScreen
 
 @Composable
 fun AppNavigation(activity: MainActivity) {
@@ -37,19 +41,19 @@ fun AppNavigation(activity: MainActivity) {
             RunActivityScreen(navController = navController, mainActivity = activity)
         }
         composable(route = Screen.WalkActivityScreen.route) {
-            WalkActivityScreen()
+            WalkActivityScreen( mainActivity = activity)
         }
         composable(route = Screen.HikingActivityScreen.route) {
-            HikingActivityScreen()
+            HikingActivityScreen( mainActivity = activity)
         }
         composable(route = Screen.CyclingActivityScreen.route) {
-            CyclingActivityScreen()
+            CyclingActivityScreen( mainActivity = activity)
         }
         composable(route = Screen.CalisthenicsActivityScreen.route) {
-            CalisthenicsActivityScreen()
+            CalisthenicsActivityScreen( mainActivity = activity)
         }
         composable(route = Screen.TeamActivityScreen.route) {
-            TeamActivityScreen()
+            TeamActivityScreen( mainActivity = activity)
         }
         composable(route = Screen.UserSreen.route) {
             UserScreen(navController = navController,mainActivity = activity)

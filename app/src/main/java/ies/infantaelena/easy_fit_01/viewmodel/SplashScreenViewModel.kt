@@ -11,6 +11,7 @@ import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import ies.infantaelena.easy_fit_01.services.Polyline
 
 class SplashScreenViewModel() : ViewModel() {
     val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -24,21 +25,22 @@ class SplashScreenViewModel() : ViewModel() {
                 db.child(it.uid).get().addOnSuccessListener {
                     val userContains: HashMap<String, Any> = it.value as HashMap<String, Any>
                     var listActiv: List<Activity>? = null
-                   if (userContains.get("actividades") != null) {
-                       val listAux = userContains.get("actividades") as List<Any>
+                    if (userContains.get("actividades") != null) {
+                        val listAux = userContains.get("actividades") as List<Any>
                         listActiv = emptyList()
-                       for (i in listAux.indices) {
-                           var aux = listAux[i] as HashMap<String, String>
-                           var activity = Activity(
-                               aux.get("activityType").toString(),
-                               aux.get("time").toString(),
-                               aux.get("distance").toString(),
-                               aux.get("date").toString(),
-                               aux.get("experience").toString()
-                           )
-                           listActiv = listActiv?.plus(activity)
-                       }
-                   }
+                        for (i in listAux.indices) {
+                            var aux = listAux[i] as HashMap<String, String>
+                            var activity = Activity(
+                                aux.get("activityType").toString(),
+                                aux.get("time").toString(),
+                                aux.get("distance").toString(),
+                                aux.get("date").toString(),
+                                aux.get("experience").toString(),
+                                aux.get("pathPoints") as List<Polyline>
+                            )
+                            listActiv = listActiv?.plus(activity)
+                        }
+                    }
 
 
                     mainActivity.user = Usuario(
