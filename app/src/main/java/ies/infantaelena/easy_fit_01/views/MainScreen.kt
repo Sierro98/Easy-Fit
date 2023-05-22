@@ -78,6 +78,7 @@ fun MainScreen(
             //Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.FOREGROUND_SERVICE,
+            Manifest.permission.ACTIVITY_RECOGNITION,
             //Manifest.permission.ACCESS_BACKGROUND_LOCATION,
         )
     )
