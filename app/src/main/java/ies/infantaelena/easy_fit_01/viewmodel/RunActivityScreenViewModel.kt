@@ -14,13 +14,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.maps.android.compose.CameraPositionState
+import ies.infantaelena.easy_fit_01.MainActivity
+import ies.infantaelena.easy_fit_01.model.Activity
+import ies.infantaelena.easy_fit_01.model.ActivityType
+import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.other.TrackingUtility
 
 import ies.infantaelena.easy_fit_01.services.Polyline
 import ies.infantaelena.easy_fit_01.services.TrackingService
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 
 /**
@@ -89,5 +98,44 @@ class RunActivityScreenViewModel() : ViewModel() {
             currentSteps = it
         })
 
+    }
+
+    fun saveActivity(mainActivity: MainActivity) {
+        if (mainActivity.user.actividades == null){
+            mainActivity.user.actividades = mutableStateListOf(Activity(
+                    activityType = ActivityType.RUN.toString(),
+                    date = LocalDate.now().toString(),
+                    distance = currentSteps.toString(),
+                    experience = "1000",
+                    time = _formattedTime
+                )
+            )
+
+        }else{
+            mainActivity.user.actividades!!.add(Activity(
+                activityType = ActivityType.RUN.toString(),
+                date = LocalDate.now().toString(),
+                distance = currentSteps.toString(),
+                experience = "1000",
+                time = _formattedTime
+            ))
+
+
+        }
+
+        var database: DatabaseReference =
+            FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference().child("users")
+        //Creacion del Usuario en Firebase Autentication
+                    var useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                    //Guardado de datos en la Raltime Database
+                    database.child(useruid?.uid.toString()).setValue(
+                        Usuario(
+                            actividades = mainActivity.user.actividades,
+                            email = mainActivity.user.email,
+                            level = mainActivity.user.level,
+                            username = mainActivity.user.username
+                        )
+                    )
     }
 }

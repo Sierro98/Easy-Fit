@@ -34,7 +34,7 @@ fun AppNavigation(activity: MainActivity) {
             RecoberSreen(navController = navController)
         }
         composable(route = Screen.RunActivityScreen.route) {
-            RunActivityScreen(navController = navController)
+            RunActivityScreen(navController = navController, mainActivity = activity)
         }
         composable(route = Screen.UserSreen.route) {
             UserScreen(navController = navController,mainActivity = activity)

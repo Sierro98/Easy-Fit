@@ -87,7 +87,7 @@ class LoginViewModel() : ViewModel() {
                                                 "level"
                                             ).toString()
                                         ),
-                                        actividades = listActiv
+                                        actividades = listActiv as MutableList<Activity>?
                                     )
                                     authenticate(context = context, activity = activity, nav = nav)
                                 }

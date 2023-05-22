@@ -36,6 +36,7 @@ import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
 import ies.infantaelena.easy_fit_01.model.MenuItem
+import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.viewmodel.UserScreenViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -46,6 +47,7 @@ fun UserScreen(
     mainActivity: MainActivity,
     userScreenViewModel: UserScreenViewModel = viewModel()
 ) {
+    val user: Usuario = mainActivity.user
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()

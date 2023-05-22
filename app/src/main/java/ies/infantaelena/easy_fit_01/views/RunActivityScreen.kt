@@ -57,6 +57,7 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.other.TrackingUtility
@@ -70,7 +71,8 @@ import ies.infantaelena.easy_fit_01.viewmodel.RunActivityScreenViewModel
 @Composable
 fun RunActivityScreen(
     navController: NavController,
-    runViewModel: RunActivityScreenViewModel = viewModel()
+    runViewModel: RunActivityScreenViewModel = viewModel(),
+    mainActivity: MainActivity
 ) {
     val context: Context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current
@@ -135,7 +137,7 @@ fun RunActivityScreen(
                 modifier = Modifier.weight(3f)
             )
         }
-        PlayButton(runViewModel = runViewModel, context = context)
+        PlayButton(runViewModel = runViewModel, context = context, mainActivity = mainActivity)
     }
 }
 
@@ -230,7 +232,7 @@ fun MyGoogleMap(pathPoints: List<Polyline>, runViewModel: RunActivityScreenViewM
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
+fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainActivity: MainActivity) {
     //var actionState by remember { mutableStateOf(ActivityState.PLAY) }
     val buttonColorPlay = MaterialTheme.colors.primary
     val buttonColorStop = MaterialTheme.colors.secondaryVariant
@@ -263,6 +265,13 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                             context = context,
                             Constants.ACTION_START_SERVICE
                         )
+                        Toast
+                            .makeText(
+                                context,
+                                "hola",
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
 
                     } else {
                         vibrator.cancel()
@@ -272,6 +281,7 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context) {
                             context = context,
                             Constants.ACTION_STOP_SERVICE
                         )
+                        runViewModel.saveActivity(mainActivity = mainActivity)
                     }
                 },
                 indication = rememberRipple(

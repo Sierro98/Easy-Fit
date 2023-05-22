@@ -110,50 +110,7 @@ class RegisterViewModel() : ViewModel() {
                                 email = email,
                                 username = user,
                                 level = 0f,
-                                actividades = listOf(
-                                    Activity(
-                                        activityType = "RUN",
-                                        time = "3600",
-                                        distance = "4000",
-                                        date = LocalDate.now().toString(),
-                                        experience = "5"
-                                    ),
-                                    Activity(
-                                        activityType = "HIKING",
-                                        time = "3600",
-                                        distance = "4000",
-                                        date = LocalDate.now().toString(),
-                                        experience = "5"
-                                    ),
-                                    Activity(
-                                        activityType = "CICLING",
-                                        time = "3600",
-                                        distance = "4000",
-                                        date = LocalDate.now().toString(),
-                                        experience = "5"
-                                    ),
-                                    Activity(
-                                        activityType = "CALISTHENICS",
-                                        time = "3600",
-                                        distance = "4000",
-                                        date = LocalDate.now().toString(),
-                                        experience = "5"
-                                    ),
-                                    Activity(
-                                        activityType = "TEAM_SPORTS",
-                                        time = "3600",
-                                        distance = "4000",
-                                        date = LocalDate.now().toString(),
-                                        experience = "5"
-                                    ),
-                                    Activity(
-                                        activityType = "HIKING",
-                                        time = "3600",
-                                        distance = "4000",
-                                        date = LocalDate.now().toString(),
-                                        experience = "5"
-                                    )
-                               )
+                                actividades = mutableListOf()
                             )
                         )
 

@@ -199,7 +199,7 @@ fun MainScreen(
                             Spacer(modifier = Modifier.padding(5.dp))
                             Text(
                                 text = "${stringResource(R.string.activitytime)} ${
-                                    activity.time.toDouble().div(3600)
+                                    activity.time
                                 }h"
                             )
                             Spacer(modifier = Modifier.padding(5.dp))

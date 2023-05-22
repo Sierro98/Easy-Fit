@@ -51,7 +51,7 @@ class SplashScreenViewModel() : ViewModel() {
                                 "level"
                             ).toString()
                         ),
-                        actividades = listActiv
+                        actividades = listActiv as MutableList<Activity>?
                     )
                     nav.navigate(route = Screen.MainScreen.route)
                 }
