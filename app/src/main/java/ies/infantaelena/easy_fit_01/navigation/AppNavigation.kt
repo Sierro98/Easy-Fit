@@ -36,6 +36,21 @@ fun AppNavigation(activity: MainActivity) {
         composable(route = Screen.RunActivityScreen.route) {
             RunActivityScreen(navController = navController, mainActivity = activity)
         }
+        composable(route = Screen.WalkActivityScreen.route) {
+            WalkActivityScreen()
+        }
+        composable(route = Screen.HikingActivityScreen.route) {
+            HikingActivityScreen()
+        }
+        composable(route = Screen.CyclingActivityScreen.route) {
+            CyclingActivityScreen()
+        }
+        composable(route = Screen.CalisthenicsActivityScreen.route) {
+            CalisthenicsActivityScreen()
+        }
+        composable(route = Screen.TeamActivityScreen.route) {
+            TeamActivityScreen()
+        }
         composable(route = Screen.UserSreen.route) {
             UserScreen(navController = navController,mainActivity = activity)
         }

@@ -57,7 +57,6 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
-import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.other.TrackingUtility
@@ -265,13 +264,6 @@ fun PlayButton(runViewModel: RunActivityScreenViewModel, context: Context,mainAc
                             context = context,
                             Constants.ACTION_START_SERVICE
                         )
-                        Toast
-                            .makeText(
-                                context,
-                                "hola",
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
 
                     } else {
                         vibrator.cancel()

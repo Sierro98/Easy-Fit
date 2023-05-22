@@ -39,6 +39,9 @@
     <string name="runningIconDescription">Icono de hombre corriendo</string>
     <string name="longPressAction">Manten presionado</string>
 
+    <!-- WalkActivityScreen view -->
+    <string name="walkingIconDescription">Icono de hombre andando</string>
+
     <!-- Drawer Items -->
     <string name="homeButton">Pantalla principal</string>
     <string name="userProfileButton">Perfil de usuario</string>
