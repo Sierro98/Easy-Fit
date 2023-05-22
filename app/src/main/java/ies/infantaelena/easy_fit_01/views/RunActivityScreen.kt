@@ -65,11 +65,9 @@ import ies.infantaelena.easy_fit_01.services.TrackingService
 import ies.infantaelena.easy_fit_01.state.ActivityState
 import ies.infantaelena.easy_fit_01.viewmodel.RunActivityScreenViewModel
 
-// TODO: Mirar funcionalidad del botón
 // TODO: internacionalizar textos
 @Composable
 fun RunActivityScreen(
-    navController: NavController,
     runViewModel: RunActivityScreenViewModel = viewModel()
 ) {
     val context: Context = LocalContext.current

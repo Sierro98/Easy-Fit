@@ -26,14 +26,16 @@ class MainScreenViewModel() : ViewModel() {
     fun LogOut(nav: NavController) {
         try {
             FirebaseAuth.getInstance().signOut()
-            nav.popBackStack()
-            nav.navigate(route = Screen.LoginScreen.route)
-        } catch (ex: java.lang.Exception) {
+            nav.navigate(route = Screen.LoginScreen.route) {
+                popUpTo(route = Screen.MainScreen.route) {
+                    inclusive = true
+                }
+            }
+        } catch (_: java.lang.Exception) {
         }
     }
 
     fun GoToUserPage(nav: NavController){
-        nav.popBackStack()
         nav.navigate(route = Screen.UserSreen.route)
     }
 

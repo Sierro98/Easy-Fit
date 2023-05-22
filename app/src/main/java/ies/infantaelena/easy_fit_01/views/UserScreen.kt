@@ -36,6 +36,7 @@ import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
 import ies.infantaelena.easy_fit_01.model.MenuItem
+import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.viewmodel.UserScreenViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -75,12 +76,11 @@ fun UserScreen(
                 // TODO: hacer todas las redirecciones
                 onItemClick = {
                     when (it.id) {
+                        "home" -> {
+                            navController.navigate(Screen.MainScreen.route)
+                        }
                         "logout" -> {
                             userScreenViewModel.LogOut(navController)
-                        }
-
-                        "user" -> {
-                            userScreenViewModel.GoToUserPage(navController)
                         }
                     }
                 }

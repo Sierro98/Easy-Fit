@@ -1,8 +1,6 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
-import android.app.AlertDialog
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
@@ -53,13 +51,21 @@ class SplashScreenViewModel() : ViewModel() {
                         ),
                         actividades = listActiv
                     )
-                    nav.navigate(route = Screen.MainScreen.route)
+                    nav.navigate(route = Screen.MainScreen.route) {
+                        popUpTo(route = Screen.SplashScreen.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
 
         } else {
             Thread.sleep(1000)
-            nav.navigate(route = Screen.LoginScreen.route)
+            nav.navigate(route = Screen.LoginScreen.route) {
+                popUpTo(route = Screen.SplashScreen.route) {
+                    inclusive = true
+                }
+            }
         }
     }
 }

@@ -125,14 +125,22 @@ class LoginViewModel() : ViewModel() {
                         super.onAuthenticationSucceeded(result)
                         Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
                         nav.popBackStack()
-                        nav.navigate(route = Screen.MainScreen.route)
+                        nav.navigate(route = Screen.MainScreen.route) {
+                            popUpTo(route = Screen.LoginScreen.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 }
             ).authenticate(promptInfo)
         } else {
             Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
             nav.popBackStack()
-            nav.navigate(route = Screen.MainScreen.route)
+            nav.navigate(route = Screen.MainScreen.route) {
+                popUpTo(route = Screen.LoginScreen.route) {
+                    inclusive = true
+                }
+            }
         }
     }
 }
