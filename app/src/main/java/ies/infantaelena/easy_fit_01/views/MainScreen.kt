@@ -2,6 +2,8 @@ package ies.infantaelena.easy_fit_01
 
 import android.Manifest
 import android.content.Context
+import android.location.Location
+import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -42,6 +44,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.SphericalUtil
 import ies.infantaelena.easy_fit_01.model.*
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.state.FloatingButtonState
@@ -52,6 +56,7 @@ import ies.infantaelena.easy_fit_01.views.DrawerHeader
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Locale
+import kotlin.math.roundToInt
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -138,6 +143,7 @@ fun MainScreen(
         ) {
             mainActivity.user.actividades?.let {
                 items(it) { activity ->
+                    val totalDistanceInKm = mainScreenViewModel.calculateTotalDistance(activity)
                     Card(
                         elevation = 0.dp,
                         modifier = Modifier.fillMaxWidth(),
@@ -206,7 +212,7 @@ fun MainScreen(
                             Spacer(modifier = Modifier.padding(5.dp))
                             Text(
                                 text = "${stringResource(R.string.activityDistance)} ${
-                                    activity.distance?.toDouble()?.div(1000)
+                                    totalDistanceInKm
                                 }km"
                             )
                             Spacer(modifier = Modifier.padding(5.dp))

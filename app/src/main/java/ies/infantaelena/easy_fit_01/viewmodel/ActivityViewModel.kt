@@ -100,7 +100,7 @@ class ActivityViewModel() : ViewModel() {
                     distance = currentSteps.toString(),
                     experience = "1000",
                     time = _formattedTime,
-                    pathPoints = pathPoints
+                    pathPoints = pathPoints.last().toList()
                 )
             )
 
@@ -112,7 +112,7 @@ class ActivityViewModel() : ViewModel() {
                     distance = currentSteps.toString(),
                     experience = "1000",
                     time = _formattedTime,
-                    pathPoints = pathPoints
+                    pathPoints = pathPoints.last().toList()
                 )
             )
 

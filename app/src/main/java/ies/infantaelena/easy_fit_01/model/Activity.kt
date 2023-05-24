@@ -1,6 +1,6 @@
 package ies.infantaelena.easy_fit_01.model
 
-import ies.infantaelena.easy_fit_01.services.Polyline
+import com.google.android.gms.maps.model.LatLng
 
 data class Activity(
     val activityType: String,
@@ -8,5 +8,5 @@ data class Activity(
     val distance: String? = "0",
     val date: String,
     val experience: String,
-    var pathPoints: List<Polyline>?
+    var pathPoints: List<LatLng>
 )

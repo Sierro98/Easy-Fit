@@ -3,6 +3,7 @@ package ies.infantaelena.easy_fit_01.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -30,13 +31,23 @@ class SplashScreenViewModel() : ViewModel() {
                         listActiv = emptyList()
                         for (i in listAux.indices) {
                             var aux = listAux[i] as HashMap<String, String>
+                            var listLatLngAux = aux.get("pathPoints") as List<Any>
+                            var listLatLng: List<LatLng> = listOf()
+                            for (i in listLatLngAux.indices) {
+                                var aux = listLatLngAux[i] as HashMap<String, Double>
+                                val point = LatLng(
+                                    aux.get("latitude")!!,
+                                    aux.get("longitude")!!
+                                )
+                                listLatLng = listLatLng.plus(point)
+                            }
                             var activity = Activity(
                                 aux.get("activityType").toString(),
                                 aux.get("time").toString(),
                                 aux.get("distance").toString(),
                                 aux.get("date").toString(),
                                 aux.get("experience").toString(),
-                                aux.get("pathPoints") as List<Polyline>
+                                listLatLng
                             )
                             listActiv = listActiv?.plus(activity)
                         }
