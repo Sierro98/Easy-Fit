@@ -2,6 +2,7 @@ package ies.infantaelena.easy_fit_01.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +25,7 @@ import ies.infantaelena.easy_fit_01.other.TrackingUtility
 import ies.infantaelena.easy_fit_01.services.Polyline
 import ies.infantaelena.easy_fit_01.services.TrackingService
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import java.time.LocalDate
 
 
@@ -92,13 +94,16 @@ class ActivityViewModel() : ViewModel() {
     }
 
     fun saveActivity(mainActivity: MainActivity, activityType: ActivityType) {
+        var aux: Double = currentSteps.toDouble().div(500)
+        Log.d("actividad",(currentSteps.toDouble().div(500)).toString())
+        Log.d("actividad", aux.toString())
         if (mainActivity.user.actividades == null) {
             mainActivity.user.actividades = mutableStateListOf(
                 Activity(
                     activityType = activityType.toString(),
                     date = LocalDate.now().toString(),
                     distance = currentSteps.toString(),
-                    experience = (currentSteps).toString(),
+                    experience = aux.toString(),
                     time = _formattedTime,
                     pathPoints = pathPoints.last().toList()
                 )
@@ -110,7 +115,7 @@ class ActivityViewModel() : ViewModel() {
                     activityType = activityType.toString(),
                     date = LocalDate.now().toString(),
                     distance = currentSteps.toString(),
-                    experience = (currentSteps).toString(),
+                    experience = aux.toString(),
                     time = _formattedTime,
                     pathPoints = pathPoints.last().toList()
                 )
@@ -124,12 +129,12 @@ class ActivityViewModel() : ViewModel() {
                 .getReference().child("users")
         var useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         //Guardado de datos en la Raltime Database
-        var aux: Double? = mainActivity.user.level?.toDouble()?.plus((currentSteps))
+        var auxUse: Double? = mainActivity.user.level?.toDouble()?.plus(aux)
         database.child(useruid?.uid.toString()).setValue(
             Usuario(
                 actividades = mainActivity.user.actividades,
                 email = mainActivity.user.email,
-                level = aux.toString(),
+                level = auxUse.toString(),
                 username = mainActivity.user.username
             )
         )
