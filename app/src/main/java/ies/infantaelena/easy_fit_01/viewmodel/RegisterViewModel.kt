@@ -109,7 +109,7 @@ class RegisterViewModel() : ViewModel() {
                             Usuario(
                                 email = email,
                                 username = user,
-                                level = 0f,
+                                level = "0",
                                 actividades = mutableListOf()
                             )
                         )

@@ -98,7 +98,7 @@ class ActivityViewModel() : ViewModel() {
                     activityType = activityType.toString(),
                     date = LocalDate.now().toString(),
                     distance = currentSteps.toString(),
-                    experience = "1000",
+                    experience = (currentSteps).toString(),
                     time = _formattedTime,
                     pathPoints = pathPoints.last().toList()
                 )
@@ -110,7 +110,7 @@ class ActivityViewModel() : ViewModel() {
                     activityType = activityType.toString(),
                     date = LocalDate.now().toString(),
                     distance = currentSteps.toString(),
-                    experience = "1000",
+                    experience = (currentSteps).toString(),
                     time = _formattedTime,
                     pathPoints = pathPoints.last().toList()
                 )
@@ -124,11 +124,12 @@ class ActivityViewModel() : ViewModel() {
                 .getReference().child("users")
         var useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         //Guardado de datos en la Raltime Database
+        var aux: Double? = mainActivity.user.level?.toDouble()?.plus((currentSteps))
         database.child(useruid?.uid.toString()).setValue(
             Usuario(
                 actividades = mainActivity.user.actividades,
                 email = mainActivity.user.email,
-                level = mainActivity.user.level,
+                level = aux.toString(),
                 username = mainActivity.user.username
             )
         )

@@ -1,6 +1,7 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -68,8 +69,10 @@ class LoginViewModel() : ViewModel() {
                                         for (i in listAux.indices) {
                                             var aux = listAux[i] as HashMap<String, String>
                                             var listLatLngAux = aux.get("pathPoints") as List<Any>
+
                                             var listLatLng: List<LatLng> = listOf()
                                             for (i in listLatLngAux.indices) {
+
                                                 var aux =
                                                     listLatLngAux[i] as HashMap<String, Double>
                                                 val point = LatLng(
@@ -86,6 +89,7 @@ class LoginViewModel() : ViewModel() {
                                                 aux.get("experience").toString(),
                                                 listLatLng
                                             )
+
                                             listActiv = listActiv?.plus(activity)
                                         }
                                     }
@@ -93,11 +97,7 @@ class LoginViewModel() : ViewModel() {
                                     activity.user = Usuario(
                                         email = userContains.get("email").toString(),
                                         username = userContains.get("username").toString(),
-                                        level = Integer.parseInt(
-                                            userContains.get(
-                                                "level"
-                                            ).toString()
-                                        ),
+                                        level = userContains.get("level").toString(),
                                         actividades = listActiv as MutableList<Activity>?
                                     )
                                     authenticate(context = context, activity = activity, nav = nav)

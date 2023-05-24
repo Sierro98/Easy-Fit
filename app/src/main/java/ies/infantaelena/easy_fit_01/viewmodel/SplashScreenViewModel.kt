@@ -1,6 +1,7 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.LatLng
@@ -57,11 +58,7 @@ class SplashScreenViewModel() : ViewModel() {
                     mainActivity.user = Usuario(
                         email = userContains.get("email").toString(),
                         username = userContains.get("username").toString(),
-                        level = Integer.parseInt(
-                            userContains.get(
-                                "level"
-                            ).toString()
-                        ),
+                        level = userContains.get( "level" ).toString(),
                         actividades = listActiv as MutableList<Activity>?
                     )
                     nav.navigate(route = Screen.MainScreen.route) {
