@@ -49,6 +49,7 @@ import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
 import ies.infantaelena.easy_fit_01.model.MenuItem
+import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.viewmodel.UserScreenViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -92,8 +93,8 @@ fun UserScreen(
                             userScreenViewModel.LogOut(navController)
                         }
 
-                        "user" -> {
-                            userScreenViewModel.GoToUserPage(navController)
+                        "home" -> {
+                            navController.navigate(Screen.MainScreen.route)
                         }
                     }
                 }
@@ -126,7 +127,7 @@ fun UserScreen(
                     statContent = "101010", // TODO: añadir pasos totales
                     modifier = Modifier
                         .weight(0.5f)
-                        .padding(start = 15.dp, end = 8.dp),
+                        .padding(start = 8.dp, end = 2.dp),
                     icon = R.drawable.step_icon
                 )
                 StatsCard(
@@ -134,7 +135,7 @@ fun UserScreen(
                     statContent = "101010", // TODO: añadir pasos medios
                     modifier = Modifier
                         .weight(0.5f)
-                        .padding(start = 8.dp, end = 15.dp),
+                        .padding(start = 2.dp, end = 8.dp),
                     icon = R.drawable.step_icon
                 )
             }
@@ -144,7 +145,7 @@ fun UserScreen(
                     statContent = "101010", // TODO: añadir distancia total
                     modifier = Modifier
                         .weight(0.5f)
-                        .padding(start = 15.dp, end = 8.dp),
+                        .padding(start = 8.dp, end = 2.dp),
                     icon = R.drawable.map_icon
                 )
                 StatsCard(
@@ -152,7 +153,7 @@ fun UserScreen(
                     statContent = "101010", // TODO: añadir distancia media
                     modifier = Modifier
                         .weight(0.5f)
-                        .padding(start = 8.dp, end = 15.dp),
+                        .padding(start = 2.dp, end = 8.dp),
                     icon = R.drawable.map_icon
                 )
             }
@@ -162,7 +163,7 @@ fun UserScreen(
                     statContent = "101010", // TODO: añadir tiempo toal
                     modifier = Modifier
                         .weight(0.5f)
-                        .padding(start = 15.dp, end = 8.dp),
+                        .padding(start = 8.dp, end = 2.dp),
                     icon = R.drawable.timer_icon
                 )
                 StatsCard(
@@ -170,7 +171,7 @@ fun UserScreen(
                     statContent = "101010", // TODO: añadir tiempo medio
                     modifier = Modifier
                         .weight(0.5f)
-                        .padding(start = 8.dp, end = 15.dp),
+                        .padding(start = 2.dp, end = 8.dp),
                     icon = R.drawable.timer_icon
                 )
             }

@@ -4,9 +4,11 @@ import android.Manifest
 import android.content.Context
 import android.location.Location
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -44,10 +46,25 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.SphericalUtil
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.Polyline
+import com.google.maps.android.compose.currentCameraPositionState
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
 import ies.infantaelena.easy_fit_01.model.*
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.state.FloatingButtonState
 import ies.infantaelena.easy_fit_01.viewmodel.MainScreenViewModel
 import ies.infantaelena.easy_fit_01.views.AppBar
@@ -143,81 +160,11 @@ fun MainScreen(
         ) {
             mainActivity.user.actividades?.let {
                 items(it) { activity ->
-                    val totalDistanceInKm = mainScreenViewModel.calculateTotalDistance(activity)
-                    Card(
-                        elevation = 0.dp,
-                        modifier = Modifier.fillMaxWidth(),
-                        backgroundColor = MaterialTheme.colors.secondary.copy(alpha = 0.6f),
-                        shape = RoundedCornerShape(20.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(
-                                start = 40.dp,
-                                end = 40.dp,
-                                top = 20.dp,
-                                bottom = 20.dp
-                            )
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                iconoActividad = when (activity.activityType) {
-                                    "RUN" -> R.drawable.running_man
-                                    "WALK" -> R.drawable.walk_man
-                                    "HIKING" -> R.drawable.hikin_man
-                                    "CICLING" -> R.drawable.bicycle_man
-                                    "CALISTHENICS" -> R.drawable.calisthenics
-                                    "TEAM_SPORTS" -> R.drawable.team_sports
-                                    else -> R.drawable.running_man
-                                }
-                                Icon(
-                                    painter = painterResource(id = iconoActividad),
-                                    contentDescription = stringResource(R.string.activityIconDescription),
-                                    Modifier.size(40.dp)
-                                )
-                                Spacer(modifier = Modifier.padding(20.dp))
-                                when (activity.activityType) {
-                                    "RUN" -> mainScreenViewModel.tipoActividad =
-                                        context.getString(R.string.activityRun)
-
-                                    "WALK" -> mainScreenViewModel.tipoActividad =
-                                        context.getString(R.string.activityWalk)
-
-                                    "HIKING" -> mainScreenViewModel.tipoActividad =
-                                        context.getString(R.string.activityHiking)
-
-                                    "CICLING" -> mainScreenViewModel.tipoActividad =
-                                        context.getString(R.string.activityCiclism)
-
-                                    "CALISTHENICS" -> mainScreenViewModel.tipoActividad =
-                                        context.getString(R.string.activityCalisthenics)
-
-                                    "TEAM_SPORTS" -> mainScreenViewModel.tipoActividad =
-                                        context.getString(R.string.activityTeamSport)
-                                }
-                                Text(
-                                    text = mainScreenViewModel.tipoActividad,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                            //TODO: Aqui van la fecha el tiempo y la distancia de las actividades
-                            Spacer(modifier = Modifier.padding(3.dp))
-                            Divider(color = Color.Black, thickness = 1.dp)
-                            Spacer(modifier = Modifier.padding(3.dp))
-                            Text(text = "${stringResource(R.string.activityDate)} ${activity.date.toString()}")
-                            Spacer(modifier = Modifier.padding(5.dp))
-                            Text(
-                                text = "${stringResource(R.string.activitytime)} ${
-                                    activity.time
-                                }h"
-                            )
-                            Spacer(modifier = Modifier.padding(5.dp))
-                            Text(
-                                text = "${stringResource(R.string.activityDistance)} ${
-                                    totalDistanceInKm
-                                }km"
-                            )
-                            Spacer(modifier = Modifier.padding(5.dp))
-                        }
-                    }
+                    ActivityCards(
+                        activity = activity,
+                        mainScreenViewModel = mainScreenViewModel,
+                        context = context
+                    )
                 }
             }
         }
@@ -434,6 +381,167 @@ fun almacenActividades(): List<MiniFloatingActionItem> {
     )
     return ActivityItems
 }
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, context: Context) {
+    var iconoActividad: Int;
+    val totalDistanceInKm = mainScreenViewModel.calculateTotalDistance(activity)
+    var expandableState by remember { mutableStateOf(false) }
+    val rotationState by animateFloatAsState(targetValue = if (expandableState) 180f else 0f)
+    Card(
+        elevation = 0.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSize(
+                animationSpec = tween(
+                    durationMillis = 500,
+                    easing = Ease
+                )
+            ),
+        backgroundColor = MaterialTheme.colors.secondary.copy(alpha = 0.6f),
+        shape = RoundedCornerShape(20.dp),
+        onClick = {
+            expandableState = !expandableState
+        }
+    ) {
+        Column(
+            modifier = Modifier.padding(
+                start = 40.dp,
+                end = 40.dp,
+                top = 20.dp,
+                bottom = 20.dp
+            )
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                iconoActividad = when (activity.activityType) {
+                    "RUN" -> R.drawable.running_man
+                    "WALK" -> R.drawable.walk_man
+                    "HIKING" -> R.drawable.hikin_man
+                    "CICLING" -> R.drawable.bicycle_man
+                    "CALISTHENICS" -> R.drawable.calisthenics
+                    "TEAM_SPORTS" -> R.drawable.team_sports
+                    else -> R.drawable.running_man
+                }
+                when (activity.activityType) {
+                    "RUN" -> mainScreenViewModel.tipoActividad =
+                        context.getString(R.string.activityRun)
+
+                    "WALK" -> mainScreenViewModel.tipoActividad =
+                        context.getString(R.string.activityWalk)
+
+                    "HIKING" -> mainScreenViewModel.tipoActividad =
+                        context.getString(R.string.activityHiking)
+
+                    "CICLING" -> mainScreenViewModel.tipoActividad =
+                        context.getString(R.string.activityCiclism)
+
+                    "CALISTHENICS" -> mainScreenViewModel.tipoActividad =
+                        context.getString(R.string.activityCalisthenics)
+
+                    "TEAM_SPORTS" -> mainScreenViewModel.tipoActividad =
+                        context.getString(R.string.activityTeamSport)
+                }
+                Row(verticalAlignment = CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = iconoActividad),
+                        contentDescription = stringResource(R.string.activityIconDescription),
+                        Modifier.size(40.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(15.dp))
+                    Text(
+                        text = mainScreenViewModel.tipoActividad,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                }
+                Icon(
+                    painter = painterResource(id = R.drawable.expand_more),
+                    contentDescription = null,
+                    Modifier
+                        .size(25.dp)
+                        .alpha(.5f)
+                        .rotate(rotationState),
+                )
+            }
+            Spacer(modifier = Modifier.padding(3.dp))
+            Divider(color = Color.Black, thickness = 1.dp)
+            Spacer(modifier = Modifier.padding(3.dp))
+            Text(text = "${stringResource(R.string.activityDate)} ${activity.date.toString()}")
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(
+                text = "${stringResource(R.string.activitytime)} ${
+                    activity.time
+                }"
+            )
+            Spacer(modifier = Modifier.padding(7.dp))
+            Text(
+                text = "${stringResource(R.string.activityDistance)} ${
+                    totalDistanceInKm
+                }km"
+            )
+            Spacer(modifier = Modifier.padding(5.dp))
+            if (expandableState) {
+                val middlePoint: LatLng =
+                    LatLngBounds.builder().include(activity.pathPoints.first())
+                        .include(activity.pathPoints.last()).build().center
+                val cameraPositionState: CameraPositionState = rememberCameraPositionState {
+                    position = CameraPosition.fromLatLngZoom(
+                        middlePoint,
+                        Constants.MAP_ZOOM
+                    )
+                }
+                GoogleMap(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .border(
+                            width = 0.dp,
+                            color = MaterialTheme.colors.primaryVariant,
+                            shape = MaterialTheme.shapes.large
+                        ),
+                    cameraPositionState = cameraPositionState,
+                    uiSettings = MapUiSettings(
+                        zoomControlsEnabled = false,
+                        mapToolbarEnabled = false,
+                        myLocationButtonEnabled = false,
+                        compassEnabled = false,
+                        indoorLevelPickerEnabled = false,
+                    ),
+                ) {
+                    Marker(
+                        state = rememberMarkerState(position = activity.pathPoints.first()),
+                        title = "Comienzo",
+                        snippet = "Comienzo de actividad",
+                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+                    )
+                    Marker(
+                        state = rememberMarkerState(position = activity.pathPoints.last()),
+                        title = "Final",
+                        snippet = "Final de la actividad",
+                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
+                    )
+                    Polyline(
+                        points = activity.pathPoints,
+                        color = MaterialTheme.colors.primaryVariant,
+                        width = Constants.POLYLINE_WIDTH
+                    )
+                    val middlePointBound: LatLngBounds.Builder = LatLngBounds.builder()
+                    for (i in activity.pathPoints) middlePointBound.include(i)
+                    val bounds = middlePointBound.build()
+                    val zoomLevel = CameraUpdateFactory.newLatLngBounds(bounds, 100)
+                    currentCameraPositionState.move(zoomLevel)
+                }
+            }
+        }
+    }
+}
+
 
 
 
