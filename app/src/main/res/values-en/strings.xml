@@ -49,4 +49,7 @@
     <string name="informationButton">Information</string>
     <string name="logoutButton">Logout</string>
 
+    <!-- User Screen -->
+    <string name="userscreen_estadisticas_global">Global Statistics</string>
+
 </resources>

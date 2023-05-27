@@ -188,7 +188,7 @@ fun MyGoogleMap(pathPoints: List<Polyline>, activityViewModel: ActivityViewModel
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .height(550.dp)
+            .height(500.dp)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colors.primaryVariant,
