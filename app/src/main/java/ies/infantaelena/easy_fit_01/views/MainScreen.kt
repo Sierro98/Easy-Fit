@@ -46,6 +46,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -83,7 +85,8 @@ fun MainScreen(
     mainScreenViewModel: MainScreenViewModel = viewModel(),
     mainActivity: MainActivity
 ) {
-
+    val isloading by mainScreenViewModel.isloading.collectAsState()
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isloading)
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -152,19 +155,20 @@ fun MainScreen(
             AddActionMultipleButton(context = context, navController = navController)
         }
     ) { _ ->
-        // TODO: Fragmentar las funciones para poder reutilizar y facilidad de lectura y mejorar codigo
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp),
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            mainActivity.user.actividades?.let {
-                items(it) { activity ->
-                    ActivityCards(
-                        activity = activity,
-                        mainScreenViewModel = mainScreenViewModel,
-                        context = context
-                    )
+        SwipeRefresh(state = swipeRefreshState, onRefresh = mainScreenViewModel::loadActivities) {
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                mainActivity.user.actividades?.let {
+                    items(it) { activity ->
+                        ActivityCards(
+                            activity = activity,
+                            mainScreenViewModel = mainScreenViewModel,
+                            context = context
+                        )
+                    }
                 }
             }
         }
@@ -225,7 +229,6 @@ fun MultiFloatingButton(
             items.forEach { item ->
                 MiniFloatingActionButtons(
                     item = item,
-                    // TODO: Acciones de los FAB
                     onMinFloatingItemClick = { miniFloatingActionItem ->
                         when (miniFloatingActionItem.id) {
                             1 -> {

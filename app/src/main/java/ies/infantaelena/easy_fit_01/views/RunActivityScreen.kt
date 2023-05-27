@@ -55,8 +55,6 @@ import ies.infantaelena.easy_fit_01.other.Constants
 import ies.infantaelena.easy_fit_01.services.Polyline
 import ies.infantaelena.easy_fit_01.viewmodel.ActivityViewModel
 
-// TODO: Mirar funcionalidad del botón
-// TODO: internacionalizar textos
 @Composable
 fun RunActivityScreen(
     navController: NavController,

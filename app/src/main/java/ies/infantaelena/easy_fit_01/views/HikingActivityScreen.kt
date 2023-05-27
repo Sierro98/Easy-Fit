@@ -53,7 +53,6 @@ fun HikingActivityScreen(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.hikin_man),
-                //TODO: Crear las descripciones
                 contentDescription = stringResource(id = R.string.walkingIconDescription),
                 modifier = Modifier.size(50.dp)
             )

@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
@@ -14,12 +15,18 @@ import com.google.maps.android.SphericalUtil
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 /**
  * Clase con la funcionalidad de MainScreen
  */
 class MainScreenViewModel() : ViewModel() {
+    private val _isloading = MutableStateFlow(false)
+    val isloading = _isloading.asStateFlow()
 
     var tipoActividad: String by mutableStateOf("");
     private var totalDistance: Double = 0.0;
@@ -58,6 +65,18 @@ class MainScreenViewModel() : ViewModel() {
             i++
         }
         return (totalDistance / 10).roundToInt() / 100.0
+    }
+
+    init {
+        loadActivities()
+    }
+
+    fun loadActivities() {
+        viewModelScope.launch {
+            _isloading.value = true
+            delay(1000L) // TODO: cargar aqui los datos/actividades del usuario
+            _isloading.value = false
+        }
     }
 
 }

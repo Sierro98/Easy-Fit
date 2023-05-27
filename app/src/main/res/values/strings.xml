@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--TODO: dividir los textos de internacionalizacion por pantallas -->
     <string name="app_name">easy_fit_01</string>
 
     <!-- AppBar View -->

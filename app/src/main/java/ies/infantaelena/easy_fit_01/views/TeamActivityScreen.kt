@@ -52,7 +52,6 @@ fun TeamActivityScreen(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.team_sports),
-                //TODO: Crear las descripciones
                 contentDescription = stringResource(id = R.string.walkingIconDescription),
                 modifier = Modifier.size(50.dp)
             )
