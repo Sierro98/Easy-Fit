@@ -36,17 +36,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import ies.infantaelena.easy_fit_01.AddActionMultipleButton
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
@@ -109,7 +106,7 @@ fun UserScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircularProgressBar(
-                percentage = 0.8f,
+                percentage = 0.8f, // TODO: añadir progreso del nivel actual
                 number = 100,
                 radius = 70.dp,
                 strokeWidth = 11.dp
@@ -126,7 +123,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = "Pasos Totales",
-                    statContent = "101010",
+                    statContent = "101010", // TODO: añadir pasos totales
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 15.dp, end = 8.dp),
@@ -134,7 +131,7 @@ fun UserScreen(
                 )
                 StatsCard(
                     stat = "Pasos Medios",
-                    statContent = "101010",
+                    statContent = "101010", // TODO: añadir pasos medios
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 15.dp),
@@ -144,7 +141,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = "Distancia Total",
-                    statContent = "101010",
+                    statContent = "101010", // TODO: añadir distancia total
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 15.dp, end = 8.dp),
@@ -152,7 +149,7 @@ fun UserScreen(
                 )
                 StatsCard(
                     stat = "Distancia Media",
-                    statContent = "101010",
+                    statContent = "101010", // TODO: añadir distancia media
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 15.dp),
@@ -162,7 +159,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = "Tiempo Total",
-                    statContent = "101010",
+                    statContent = "101010", // TODO: añadir tiempo toal
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 15.dp, end = 8.dp),
@@ -170,7 +167,7 @@ fun UserScreen(
                 )
                 StatsCard(
                     stat = "Tiempo Medio",
-                    statContent = "101010",
+                    statContent = "101010", // TODO: añadir tiempo medio
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 15.dp),
