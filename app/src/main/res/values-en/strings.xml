@@ -51,5 +51,11 @@
 
     <!-- User Screen -->
     <string name="userscreen_estadisticas_global">Global Statistics</string>
+    <string name="pasos_totales">Total Steps</string>
+    <string name="pasos_medios">Average Steps</string>
+    <string name="distancia_total">Total Distance</string>
+    <string name="distancia_media">Average Distance</string>
+    <string name="tiempo_total">Total Time</string>
+    <string name="tiempo_medio">Average Time</string>
 
 </resources>

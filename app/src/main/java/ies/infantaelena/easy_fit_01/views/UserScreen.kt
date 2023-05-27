@@ -122,7 +122,7 @@ fun UserScreen(
             )
             Row() {
                 StatsCard(
-                    stat = "Pasos Totales",
+                    stat = stringResource(R.string.pasos_totales),
                     statContent = "101010", // TODO: añadir pasos totales
                     modifier = Modifier
                         .weight(0.5f)
@@ -130,7 +130,7 @@ fun UserScreen(
                     icon = R.drawable.step_icon
                 )
                 StatsCard(
-                    stat = "Pasos Medios",
+                    stat = stringResource(R.string.pasos_medios),
                     statContent = "101010", // TODO: añadir pasos medios
                     modifier = Modifier
                         .weight(0.5f)
@@ -140,7 +140,7 @@ fun UserScreen(
             }
             Row() {
                 StatsCard(
-                    stat = "Distancia Total",
+                    stat = stringResource(R.string.distancia_total),
                     statContent = "101010", // TODO: añadir distancia total
                     modifier = Modifier
                         .weight(0.5f)
@@ -148,7 +148,7 @@ fun UserScreen(
                     icon = R.drawable.map_icon
                 )
                 StatsCard(
-                    stat = "Distancia Media",
+                    stat = stringResource(R.string.distancia_media),
                     statContent = "101010", // TODO: añadir distancia media
                     modifier = Modifier
                         .weight(0.5f)
@@ -158,7 +158,7 @@ fun UserScreen(
             }
             Row() {
                 StatsCard(
-                    stat = "Tiempo Total",
+                    stat = stringResource(R.string.tiempo_total),
                     statContent = "101010", // TODO: añadir tiempo toal
                     modifier = Modifier
                         .weight(0.5f)
@@ -166,7 +166,7 @@ fun UserScreen(
                     icon = R.drawable.timer_icon
                 )
                 StatsCard(
-                    stat = "Tiempo Medio",
+                    stat = stringResource(R.string.tiempo_medio),
                     statContent = "101010", // TODO: añadir tiempo medio
                     modifier = Modifier
                         .weight(0.5f)
