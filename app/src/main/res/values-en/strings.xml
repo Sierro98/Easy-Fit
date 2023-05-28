@@ -31,6 +31,7 @@
     <string name="activitytime">Time:</string>
     <string name="activityDistance">Distance:</string>
     <string name="addActivityDescription">Add Activity</string>
+    v<string name="averageSpeed">Average speed:</string>
 
     <!-- NavigationDrawer View -->
     <string name="userImageDescription">User Image</string>

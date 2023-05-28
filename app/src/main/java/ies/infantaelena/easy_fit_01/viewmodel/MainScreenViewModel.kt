@@ -19,6 +19,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 /**
@@ -65,6 +67,17 @@ class MainScreenViewModel() : ViewModel() {
             i++
         }
         return (totalDistance / 10).roundToInt() / 100.0
+    }
+
+    fun calculateTimeInHours(activity: Activity): Double {
+        val tiempo: LocalTime =
+            LocalTime.parse(activity.time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"))
+        return tiempo.toSecondOfDay() / 3600.00
+    }
+
+    fun calculateAvgSpeed(distance: Double, time: Double): Double {
+        val avgSpeed = distance / time
+        return (avgSpeed * 10.0).roundToInt() / 10.0
     }
 
     init {

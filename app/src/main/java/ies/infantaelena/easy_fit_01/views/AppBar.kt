@@ -1,7 +1,9 @@
 package ies.infantaelena.easy_fit_01.views
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
@@ -22,20 +24,23 @@ import ies.infantaelena.easy_fit_01.R
 
 @Composable
 fun AppBar(
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    showProgress: Boolean = true
 ) {
     TopAppBar(
         title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 //TODO: añadir tanto en el texto como en la barra de progreso los valores reales del usuario
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .height(8.dp),
-                    progress = 0.6f,
-                    backgroundColor = Color.White,
-                    color = MaterialTheme.colors.primaryVariant,
-                    strokeCap = StrokeCap.Round,
-                )
+                if (showProgress) {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .height(8.dp),
+                        progress = 0.6f,
+                        backgroundColor = Color.White,
+                        color = MaterialTheme.colors.primaryVariant,
+                        strokeCap = StrokeCap.Round,
+                    )
+                }
                 Text(text = "Nivel de usuario")
             }
         },
@@ -43,7 +48,10 @@ fun AppBar(
         contentColor = MaterialTheme.colors.onPrimary,
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = stringResource(R.string.appBarDrawerDescription))
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = stringResource(R.string.appBarDrawerDescription)
+                )
             }
         }
     )

@@ -73,7 +73,10 @@ import ies.infantaelena.easy_fit_01.views.AppBar
 import ies.infantaelena.easy_fit_01.views.DrawerBody
 import ies.infantaelena.easy_fit_01.views.DrawerHeader
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -391,6 +394,7 @@ fun almacenActividades(): List<MiniFloatingActionItem> {
 fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, context: Context) {
     var iconoActividad: Int;
     val totalDistanceInKm = mainScreenViewModel.calculateTotalDistance(activity)
+    val tiempoTotalHoras = mainScreenViewModel.calculateTimeInHours(activity)
     var expandableState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(targetValue = if (expandableState) 180f else 0f)
     Card(
@@ -400,7 +404,7 @@ fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, 
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 500,
-                    easing = Ease
+                    easing = LinearEasing
                 )
             ),
         backgroundColor = MaterialTheme.colors.secondary.copy(alpha = 0.6f),
@@ -484,9 +488,7 @@ fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, 
             )
             Spacer(modifier = Modifier.padding(7.dp))
             Text(
-                text = "${stringResource(R.string.activityDistance)} ${
-                    totalDistanceInKm
-                }km"
+                text = "${stringResource(R.string.activityDistance)} $totalDistanceInKm km"
             )
             Spacer(modifier = Modifier.padding(5.dp))
             if (expandableState) {
@@ -499,6 +501,13 @@ fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, 
                         Constants.MAP_ZOOM
                     )
                 }
+                Spacer(modifier = Modifier.padding(3.dp))
+                Text(
+                    text = "${stringResource(R.string.averageSpeed)} ${
+                        mainScreenViewModel.calculateAvgSpeed(totalDistanceInKm, tiempoTotalHoras)
+                    } km/h"
+                )
+                Spacer(modifier = Modifier.padding(5.dp))
                 GoogleMap(
                     modifier = Modifier
                         .fillMaxWidth()

@@ -77,7 +77,8 @@ fun UserScreen(
                     scope.launch {
                         scaffoldState.drawerState.open()
                     }
-                }
+                },
+                showProgress = false
             )
         },
         drawerContent = {
