@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-class RecoberViewModel : ViewModel() {
+class RecoverViewModel : ViewModel() {
     var email by mutableStateOf("")
 
     fun recupPass(email: String, context: Context, nav: Any) {

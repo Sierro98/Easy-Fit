@@ -3,7 +3,6 @@ package ies.infantaelena.easy_fit_01.views
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,10 +31,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
-import ies.infantaelena.easy_fit_01.viewmodel.RecoberViewModel
+import ies.infantaelena.easy_fit_01.viewmodel.RecoverViewModel
 
 @Composable
-fun RecoberSreen(navController: NavController, recoberViewModel: RecoberViewModel = viewModel()) {
+fun RecoberSreen(navController: NavController, recoberViewModel: RecoverViewModel = viewModel()) {
     val context: Context = LocalContext.current
     Column(
         modifier = Modifier
