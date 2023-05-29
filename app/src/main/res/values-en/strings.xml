@@ -9,7 +9,7 @@
     <string name="user">Username</string>
     <string name="login">Login</string>
     <string name="register">Create user</string>
-    <string name="recupass">Recup password</string>
+    <string name="recupass">Recover password</string>
 
     <string name="password">Password</string>
     <string name="showPasswordDescription">Show password</string>
