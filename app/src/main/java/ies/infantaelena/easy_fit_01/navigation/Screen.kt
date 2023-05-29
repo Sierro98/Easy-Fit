@@ -13,4 +13,5 @@ sealed class Screen(val route: String) {
     object TeamActivityScreen: Screen("team_screen")
     object  RecoberScreen: Screen("recober_screen")
     object  UserSreen: Screen("user_screen")
+    object ChallengeScreen: Screen("challenge_screen")
 }

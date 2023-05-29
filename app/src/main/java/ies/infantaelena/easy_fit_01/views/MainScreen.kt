@@ -4,8 +4,11 @@ import android.Manifest
 import android.content.Context
 import android.location.Location
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +17,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -93,6 +97,9 @@ fun MainScreen(
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+
+    val listState = rememberLazyListState()
+    val showFAB = listState.firstVisibleItemIndex == 0
     var iconoActividad: Int;
     val language = Locale.getDefault().language
     val drawerMenuItems: List<MenuItem> = if (language == "es") {
@@ -150,16 +157,23 @@ fun MainScreen(
                         "user" -> {
                             mainScreenViewModel.GoToUserPage(navController)
                         }
+
+                        "challenges" -> {
+                            navController.navigate(Screen.ChallengeScreen.route)
+                        }
                     }
                 }
             )
         },
         floatingActionButton = {
-            AddActionMultipleButton(context = context, navController = navController)
+            AnimatedVisibility(visible = showFAB, enter = fadeIn(), exit = fadeOut()) {
+                AddActionMultipleButton(context = context, navController = navController)
+            }
         }
     ) { _ ->
         SwipeRefresh(state = swipeRefreshState, onRefresh = mainScreenViewModel::loadActivities) {
             LazyColumn(
+                state = listState,
                 contentPadding = PaddingValues(16.dp),
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -486,7 +500,7 @@ fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, 
                     activity.time
                 }"
             )
-            Spacer(modifier = Modifier.padding(7.dp))
+            Spacer(modifier = Modifier.padding(5.dp))
             Text(
                 text = "${stringResource(R.string.activityDistance)} $totalDistanceInKm km"
             )
@@ -501,7 +515,6 @@ fun ActivityCards(activity: Activity, mainScreenViewModel: MainScreenViewModel, 
                         Constants.MAP_ZOOM
                     )
                 }
-                Spacer(modifier = Modifier.padding(3.dp))
                 Text(
                     text = "${stringResource(R.string.averageSpeed)} ${
                         mainScreenViewModel.calculateAvgSpeed(totalDistanceInKm, tiempoTotalHoras)
