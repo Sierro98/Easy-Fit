@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -28,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
@@ -100,7 +102,7 @@ fun MainScreen(
 
     val listState = rememberLazyListState()
     val showFAB = listState.firstVisibleItemIndex == 0
-    var iconoActividad: Int;
+    val showFAB2Top = listState.firstVisibleItemIndex > 0
     val language = Locale.getDefault().language
     val drawerMenuItems: List<MenuItem> = if (language == "es") {
         MenuDrawerItemsSpanish
@@ -110,11 +112,9 @@ fun MainScreen(
     // PERMISOS
     val permissionsState = rememberMultiplePermissionsState(
         permissions = listOf(
-            //Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.FOREGROUND_SERVICE,
             Manifest.permission.ACTIVITY_RECOGNITION,
-            //Manifest.permission.ACCESS_BACKGROUND_LOCATION,
         )
     )
     val lifeCycleOwner = LocalLifecycleOwner.current
@@ -188,6 +188,36 @@ fun MainScreen(
                     }
                 }
             }
+        }
+        val scope = rememberCoroutineScope()
+        AnimatedVisibility(visible = showFAB2Top, enter = fadeIn(), exit = fadeOut()) {
+            ScrollToTopButton {
+                scope.launch {
+                    listState.scrollToItem(0)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ScrollToTopButton(onClick: () -> Unit) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = 18.dp, end = 17.dp), Alignment.BottomEnd
+    ) {
+        Button(
+            onClick = { onClick() }, modifier = Modifier
+                .shadow(10.dp, shape = CircleShape)
+                .clip(shape = CircleShape)
+                .size(55.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.primary,
+                contentColor = MaterialTheme.colors.onPrimary
+            )
+        ) {
+            Icon(Icons.Filled.KeyboardArrowUp, "arrow up")
         }
     }
 }
