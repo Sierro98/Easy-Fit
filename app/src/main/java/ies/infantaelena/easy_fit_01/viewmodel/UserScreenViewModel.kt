@@ -109,7 +109,7 @@ class UserScreenViewModel() : ViewModel() {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {
             for (i in mainActivity.user.actividades!!) {
                 tiempo += LocalTime.parse(i.time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"))
-                    .toSecondOfDay() / 3600.00
+                    .toSecondOfDay()
 
             }
             var res = tiempo.div(60)

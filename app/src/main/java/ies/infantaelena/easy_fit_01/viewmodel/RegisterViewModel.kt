@@ -111,7 +111,7 @@ class RegisterViewModel() : ViewModel() {
                                 email = email,
                                 username = user,
                                 level = "0",
-                                actividades = null,
+                                actividades = mutableListOf(),
                                 challenges =   mutableListOf(
                                     Challenge("RUN", "Run 20km", "Correr 20km", false),
                                     Challenge("HIKING", "Walk through the mountain 20km", "Andar por la montaña", false),

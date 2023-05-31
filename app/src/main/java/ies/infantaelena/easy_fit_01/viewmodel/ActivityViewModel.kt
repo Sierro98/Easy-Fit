@@ -99,7 +99,7 @@ class ActivityViewModel() : ViewModel() {
         val aux: Double = currentSteps.toDouble().div(500)
         Log.d("actividad", (currentSteps.toDouble().div(500)).toString())
         Log.d("actividad", aux.toString())
-        if (mainActivity.user.actividades == null && calculateTimeInHours(_formattedTime) > 3000) {
+        if (mainActivity.user.actividades.isNullOrEmpty() && calculateTimeInHours(_formattedTime) > 3) {
             mainActivity.user.actividades = mutableStateListOf(
                 Activity(
                     activityType = activityType.toString(),
@@ -110,7 +110,7 @@ class ActivityViewModel() : ViewModel() {
                     pathPoints = pathPoints.last().toList()
                 )
             )
-        } else if (calculateTimeInHours(_formattedTime) > 3000) {
+        } else if (calculateTimeInHours(_formattedTime) > 3) {
             mainActivity.user.actividades!!.add(
                 Activity(
                     activityType = activityType.toString(),
@@ -134,7 +134,9 @@ class ActivityViewModel() : ViewModel() {
                 actividades = mainActivity.user.actividades,
                 email = mainActivity.user.email,
                 level = auxUse.toString(),
-                username = mainActivity.user.username
+                username = mainActivity.user.username,
+                challenges = mainActivity.user.challenges
+
             )
         )
     }

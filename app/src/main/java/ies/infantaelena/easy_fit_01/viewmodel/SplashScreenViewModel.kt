@@ -17,77 +17,95 @@ import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.services.Polyline
 
 class SplashScreenViewModel() : ViewModel() {
-    val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     val db: DatabaseReference =
         FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference().child("users")
 
     fun checkIfLogin(nav: NavController, mainActivity: MainActivity, current: Context) {
-        if (user != null) {
-            user.let {
-                db.child(it.uid).get().addOnSuccessListener {
-                    val userContains: HashMap<String, Any> = it.value as HashMap<String, Any>
-                    var listActiv: List<Activity>? = null
-                    if (userContains.get("actividades") != null) {
-                        val listAux = userContains.get("actividades") as List<Any>
-                        listActiv = emptyList()
-                        for (i in listAux.indices) {
-                            var aux = listAux[i] as HashMap<String, String>
-                            var listLatLngAux = aux.get("pathPoints") as List<Any>
-                            var listLatLng: List<LatLng> = listOf()
-                            for (i in listLatLngAux.indices) {
-                                var aux = listLatLngAux[i] as HashMap<String, Double>
-                                val point = LatLng(
-                                    aux.get("latitude")!!,
-                                    aux.get("longitude")!!
-                                )
-                                listLatLng = listLatLng.plus(point)
+        try {
+            val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+            if (!user?.uid.isNullOrBlank()) {
+                user?.let {
+                    db.child(it.uid).get().addOnSuccessListener {
+                        if (it.value==null){
+                            Thread.sleep(1000)
+                            nav.navigate(route = Screen.LoginScreen.route) {
+                                popUpTo(route = Screen.SplashScreen.route) {
+                                    inclusive = true
+                                }
                             }
-                            var activity = Activity(
-                                aux.get("activityType").toString(),
-                                aux.get("time").toString(),
-                                aux.get("distance").toString(),
-                                aux.get("date").toString(),
-                                aux.get("experience").toString(),
-                                listLatLng
-                            )
-                            listActiv = listActiv?.plus(activity)
+                        }else{
+                        val userContains: HashMap<String, Any> = it.value as HashMap<String, Any>
+                        var listActiv: List<Activity>? = null
+                        if (userContains.get("actividades") != null) {
+                            val listAux = userContains.get("actividades") as List<Any>
+                            listActiv = emptyList()
+                            for (i in listAux.indices) {
+                                var aux = listAux[i] as HashMap<String, String>
+                                var listLatLngAux = aux.get("pathPoints") as List<Any>
+                                var listLatLng: List<LatLng> = listOf()
+                                for (i in listLatLngAux.indices) {
+                                    var aux = listLatLngAux[i] as HashMap<String, Double>
+                                    val point = LatLng(
+                                        aux.get("latitude")!!,
+                                        aux.get("longitude")!!
+                                    )
+                                    listLatLng = listLatLng.plus(point)
+                                }
+                                var activity = Activity(
+                                    aux.get("activityType").toString(),
+                                    aux.get("time").toString(),
+                                    aux.get("distance").toString(),
+                                    aux.get("date").toString(),
+                                    aux.get("experience").toString(),
+                                    listLatLng
+                                )
+                                listActiv = listActiv?.plus(activity)
+                            }
+                        }
+                        var listChal: List<Challenge>? = null
+                        if (userContains.get("challenges") != null) {
+                            listChal = emptyList()
+                            val listAux = userContains.get("challenges") as List<Any>
+                            for (i in listAux.indices) {
+                                var aux = listAux[i] as HashMap<String, String>
+                                var challenge = Challenge(
+                                    aux.get("challengeType").toString(),
+                                    aux.get("challengeContent").toString(),
+                                    aux.get("contenidoReto").toString(),
+                                    aux.get("challengeComplete").toString().toBoolean()
+                                )
+                                listChal = listChal?.plus(challenge)
+                            }
+
+
+                        }
+
+                        mainActivity.user = Usuario(
+                            email = userContains.get("email").toString(),
+                            username = userContains.get("username").toString(),
+                            level = userContains.get("level").toString(),
+                            actividades = listActiv as MutableList<Activity>?,
+                            challenges = listChal as MutableList<Challenge>?
+                        )
+                        nav.navigate(route = Screen.MainScreen.route) {
+                            popUpTo(route = Screen.SplashScreen.route) {
+                                inclusive = true
+                            }
                         }
                     }
-                    var listChal: List<Challenge>? = null
-                    if (userContains.get("challenges")!=null){
-                        listChal = emptyList()
-                        val listAux = userContains.get("challenges") as List<Any>
-                        for (i in listAux.indices) {
-                            var aux = listAux[i] as HashMap<String, String>
-                            var challenge = Challenge(
-                                aux.get("challengeType").toString(),
-                                aux.get("challengeContent").toString(),
-                                aux.get("contenidoReto").toString(),
-                                aux.get("challengeComplete").toString().toBoolean()
-                            )
-                            listChal = listChal?.plus(challenge)
-                        }
-
-
                     }
+                }
 
-                    mainActivity.user = Usuario(
-                        email = userContains.get("email").toString(),
-                        username = userContains.get("username").toString(),
-                        level = userContains.get( "level" ).toString(),
-                        actividades = listActiv as MutableList<Activity>?,
-                        challenges = listChal as MutableList<Challenge>?
-                    )
-                    nav.navigate(route = Screen.MainScreen.route) {
-                        popUpTo(route = Screen.SplashScreen.route) {
-                            inclusive = true
-                        }
+            } else {
+                Thread.sleep(1000)
+                nav.navigate(route = Screen.LoginScreen.route) {
+                    popUpTo(route = Screen.SplashScreen.route) {
+                        inclusive = true
                     }
                 }
             }
-
-        } else {
+        }catch (ex:Exception){
             Thread.sleep(1000)
             nav.navigate(route = Screen.LoginScreen.route) {
                 popUpTo(route = Screen.SplashScreen.route) {
