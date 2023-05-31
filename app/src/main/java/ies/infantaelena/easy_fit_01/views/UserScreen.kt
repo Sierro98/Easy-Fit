@@ -69,7 +69,6 @@ fun UserScreen(
     } else {
         MenuDrawerItems
     }
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {

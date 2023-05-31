@@ -12,17 +12,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.ListItem
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cookie
 import androidx.compose.material.icons.twotone.Cookie
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
@@ -38,7 +42,13 @@ import androidx.navigation.NavController
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.Challenge
+import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
+import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
+import ies.infantaelena.easy_fit_01.model.MenuItem
+import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.viewmodel.ChallengesViewModel
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 //@Composable
 //@Preview(showBackground = true, showSystemUi = true)
@@ -53,10 +63,59 @@ fun ChallengeScreen(
     challengesViewModel: ChallengesViewModel = viewModel(),
     mainActivity: MainActivity
 ) {
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    val language = Locale.getDefault().language
+    val drawerMenuItems: List<MenuItem> = if (language == "es") {
+        MenuDrawerItemsSpanish
+    } else {
+        MenuDrawerItems
+    }
     val context = LocalContext.current
-    ChallengeBackground(
-        context = context, challengesViewModel = challengesViewModel, mainActivity = mainActivity
-    )
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            AppBar(
+                onNavigationIconClick = {
+                    scope.launch {
+                        scaffoldState.drawerState.open()
+                    }
+                },
+                showProgress = true,
+                mainActivity = mainActivity
+            )
+        },
+        drawerContent = {
+            DrawerHeader(
+                mainActivity = mainActivity
+            )
+            DrawerBody(
+                items = drawerMenuItems,
+                onItemClick = {
+                    when (it.id) {
+                        "logout" -> {
+                            challengesViewModel.LogOut(navController)
+                        }
+
+                        "home" -> {
+                            navController.navigate(Screen.MainScreen.route)
+                        }
+
+                        "user" -> {
+                            navController.navigate(route = Screen.UserSreen.route)
+                        }
+                    }
+                }
+            )
+        }
+    ) { _ ->
+        ChallengeBackground(
+            context = context,
+            challengesViewModel = challengesViewModel,
+            mainActivity = mainActivity,
+            language = language
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -64,7 +123,8 @@ fun ChallengeScreen(
 fun ChallengeBackground(
     context: Context,
     challengesViewModel: ChallengesViewModel,
-    mainActivity: MainActivity
+    mainActivity: MainActivity,
+    language: String
 ) {
     val list = mainActivity.user.challenges
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -81,11 +141,13 @@ fun ChallengeBackground(
                         fontSize = 17.sp
                     )
                 }
-                items(challenge) { chall ->
+                itemsIndexed(challenge) { index, chall ->
                     ChallengeItems(
+                        index = index,
                         challenge = chall,
                         context = context,
-                        challengesViewModel = challengesViewModel
+                        challengesViewModel = challengesViewModel,
+                        language = language
                     )
                 }
             }
@@ -97,9 +159,11 @@ fun ChallengeBackground(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChallengeItems(
+    index: Int,
     challenge: Challenge,
     context: Context,
-    challengesViewModel: ChallengesViewModel
+    challengesViewModel: ChallengesViewModel,
+    language: String
 ) {
     val iconoChallenge: Int = when (challenge.challengeType) {
         "RUN" -> R.drawable.running_man
@@ -141,7 +205,13 @@ fun ChallengeItems(
                 text = challengesViewModel.tipoActividad
             )
         },
-        secondaryText = { Text(text = challenge.challengeContent) },
+        secondaryText = {
+            if (language == "es") {
+                Text(text = challenge.contenidoReto)
+            } else {
+                Text(text = challenge.challengeContent)
+            }
+        },
         trailing = {
             if (challenge.challengeComplete) {
                 Icon(painter = painterResource(id = R.drawable.checked), contentDescription = null)
@@ -155,7 +225,9 @@ fun ChallengeItems(
         },
         modifier = Modifier.clickable(
             onClick = {
-             challengesViewModel.completeChallenge(context = context)
+                if (!challenge.challengeComplete) {
+                    challengesViewModel.completeChallenge(context = context)
+                }
             }
         )
     )
