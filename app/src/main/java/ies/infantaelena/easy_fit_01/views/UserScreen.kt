@@ -89,7 +89,6 @@ fun UserScreen(
             )
             DrawerBody(
                 items = drawerMenuItems,
-                // TODO: hacer todas las redirecciones
                 onItemClick = {
                     when (it.id) {
                         "logout" -> {
@@ -98,6 +97,10 @@ fun UserScreen(
 
                         "home" -> {
                             navController.navigate(Screen.MainScreen.route)
+                        }
+
+                        "challenges" -> {
+                            navController.navigate(Screen.ChallengeScreen.route)
                         }
                     }
                 }

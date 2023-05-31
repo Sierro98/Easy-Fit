@@ -123,8 +123,13 @@ class UserScreenViewModel() : ViewModel() {
 
     fun getTiempoMedio(mainActivity: MainActivity): String {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            for (i in mainActivity.user.actividades!!) {
+                tiempo += LocalTime.parse(i.time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"))
+                    .toSecondOfDay()
+            }
             var res = tiempo.div(60).div(mainActivity.user.actividades!!.size)
             res = (res * 10.0).roundToInt() / 10.0
+            tiempo = 0.0
             return res.toString()
         } else {
             return "0"

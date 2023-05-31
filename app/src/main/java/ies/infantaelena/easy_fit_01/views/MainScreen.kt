@@ -148,7 +148,6 @@ fun MainScreen(
             )
             DrawerBody(
                 items = drawerMenuItems,
-                // TODO: hacer todas las redirecciones
                 onItemClick = {
                     when (it.id) {
                         "logout" -> {

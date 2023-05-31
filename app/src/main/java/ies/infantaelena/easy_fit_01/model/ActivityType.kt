@@ -5,6 +5,5 @@ enum class ActivityType {
     WALK,
     HIKING,
     CICLING,
-    CALISTHENICS,
     TEAM_SPORTS
 }
