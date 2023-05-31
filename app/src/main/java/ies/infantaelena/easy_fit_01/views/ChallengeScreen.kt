@@ -3,6 +3,7 @@ package ies.infantaelena.easy_fit_01.views
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,13 +54,18 @@ fun ChallengeScreen(
     mainActivity: MainActivity
 ) {
     val context = LocalContext.current
-    ChallengeBackground(context = context, challengesViewModel = challengesViewModel, mainActivity = mainActivity
+    ChallengeBackground(
+        context = context, challengesViewModel = challengesViewModel, mainActivity = mainActivity
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ChallengeBackground(context: Context, challengesViewModel: ChallengesViewModel,mainActivity: MainActivity) {
+fun ChallengeBackground(
+    context: Context,
+    challengesViewModel: ChallengesViewModel,
+    mainActivity: MainActivity
+) {
     val list = mainActivity.user.challenges
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -146,7 +152,12 @@ fun ChallengeItems(
                     modifier = Modifier.size(20.dp)
                 )
             }
-        }
+        },
+        modifier = Modifier.clickable(
+            onClick = {
+             challengesViewModel.completeChallenge(context = context)
+            }
+        )
     )
     Divider()
 }
