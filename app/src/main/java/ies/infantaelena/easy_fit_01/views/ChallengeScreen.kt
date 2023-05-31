@@ -34,33 +34,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.Challenge
 import ies.infantaelena.easy_fit_01.viewmodel.ChallengesViewModel
 
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun ChallengeScreenPreview(challengesViewModel: ChallengesViewModel = viewModel()) {
-    val context = LocalContext.current
-    ChallengeBackground(context = context, challengesViewModel = challengesViewModel)
-}
+//@Composable
+//@Preview(showBackground = true, showSystemUi = true)
+//fun ChallengeScreenPreview(challengesViewModel: ChallengesViewModel = viewModel()) {
+//    val context = LocalContext.current
+//    ChallengeBackground(context = context, challengesViewModel = challengesViewModel, mainActivity = main())
+//}
 
 @Composable
 fun ChallengeScreen(
     navController: NavController,
-    challengesViewModel: ChallengesViewModel = viewModel()
+    challengesViewModel: ChallengesViewModel = viewModel(),
+    mainActivity: MainActivity
 ) {
     val context = LocalContext.current
-    ChallengeBackground(context = context, challengesViewModel = challengesViewModel)
+    ChallengeBackground(context = context, challengesViewModel = challengesViewModel, mainActivity = mainActivity
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ChallengeBackground(context: Context, challengesViewModel: ChallengesViewModel) {
+fun ChallengeBackground(context: Context, challengesViewModel: ChallengesViewModel,mainActivity: MainActivity) {
+    val list = mainActivity.user.challenges
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            val grouped = listaChallenges.groupBy { it.challengeType[0] }
-            grouped.forEach { (initial, challenge) ->
+            val grouped = list?.groupBy { it.challengeType[0] }
+            grouped?.forEach { (initial, challenge) ->
                 stickyHeader {
                     Text(
                         text = "$initial",
@@ -147,9 +151,3 @@ fun ChallengeItems(
     Divider()
 }
 
-val listaChallenges = listOf<Challenge>(
-    Challenge("RUN", "Run 20km", "Correr 20km", false),
-    Challenge("HIKING", "Walk through the mountain 20km", "Andar por la montaña", false),
-    Challenge("WALK", "Walk 20km", "Andar 20km", false),
-    Challenge("CICLING", "Cycle 20km", "Pedalear 20km", false),
-)

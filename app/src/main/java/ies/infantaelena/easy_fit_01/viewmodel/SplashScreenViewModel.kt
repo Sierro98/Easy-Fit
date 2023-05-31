@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.model.Activity
+import ies.infantaelena.easy_fit_01.model.Challenge
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import ies.infantaelena.easy_fit_01.services.Polyline
@@ -53,13 +54,30 @@ class SplashScreenViewModel() : ViewModel() {
                             listActiv = listActiv?.plus(activity)
                         }
                     }
+                    var listChal: List<Challenge>? = null
+                    if (userContains.get("challenges")!=null){
+                        listChal = emptyList()
+                        val listAux = userContains.get("challenges") as List<Any>
+                        for (i in listAux.indices) {
+                            var aux = listAux[i] as HashMap<String, String>
+                            var challenge = Challenge(
+                                aux.get("challengeType").toString(),
+                                aux.get("challengeContent").toString(),
+                                aux.get("contenidoReto").toString(),
+                                aux.get("challengeComplete").toString().toBoolean()
+                            )
+                            listChal = listChal?.plus(challenge)
+                        }
 
+
+                    }
 
                     mainActivity.user = Usuario(
                         email = userContains.get("email").toString(),
                         username = userContains.get("username").toString(),
                         level = userContains.get( "level" ).toString(),
-                        actividades = listActiv as MutableList<Activity>?
+                        actividades = listActiv as MutableList<Activity>?,
+                        challenges = listChal as MutableList<Challenge>?
                     )
                     nav.navigate(route = Screen.MainScreen.route) {
                         popUpTo(route = Screen.SplashScreen.route) {

@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ies.infantaelena.easy_fit_01.model.Activity
+import ies.infantaelena.easy_fit_01.model.Challenge
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
 import java.time.LocalDate
@@ -110,7 +111,13 @@ class RegisterViewModel() : ViewModel() {
                                 email = email,
                                 username = user,
                                 level = "0",
-                                actividades = mutableListOf()
+                                actividades = null,
+                                challenges =   mutableListOf(
+                                    Challenge("RUN", "Run 20km", "Correr 20km", false),
+                                    Challenge("HIKING", "Walk through the mountain 20km", "Andar por la montaña", false),
+                                    Challenge("WALK", "Walk 20km", "Andar 20km", false),
+                                    Challenge("CICLING", "Cycle 20km", "Pedalear 20km", false),
+                                )
                             )
                         )
 

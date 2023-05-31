@@ -13,9 +13,9 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 class UserScreenViewModel() : ViewModel() {
-    var totalDistance:Double = 0.0
-    var pasosTotales:Int = 0
-    var tiempo:Double = 0.0
+    var totalDistance: Double = 0.0
+    var pasosTotales: Int = 0
+    var tiempo: Double = 0.0
     fun LogOut(nav: NavController) {
         try {
             FirebaseAuth.getInstance().signOut()
@@ -31,27 +31,49 @@ class UserScreenViewModel() : ViewModel() {
     fun GoToUserPage(navController: NavController) {
 
     }
+
     fun getPasosTotales(mainActivity: MainActivity): String {
-        for(i in mainActivity.user.actividades!!){
-            pasosTotales+= i.distance?.toInt() ?: 0
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            for (i in mainActivity.user.actividades!!) {
+                pasosTotales += i.distance?.toInt() ?: 0
+            }
+            return pasosTotales.toString()
+        } else {
+            return "0"
         }
-        return pasosTotales.toString()
+
     }
 
     fun getPasosMedios(mainActivity: MainActivity): String {
-        return pasosTotales.div(mainActivity.user.actividades!!.size).toString()
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            return pasosTotales.div(mainActivity.user.actividades!!.size).toString()
+
+        } else {
+            return "0"
+        }
     }
 
     fun getKmTotales(mainActivity: MainActivity): String {
-        for(i in mainActivity.user.actividades!!){
-         totalDistance += calculateTotalDistance(i)
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            for (i in mainActivity.user.actividades!!) {
+                totalDistance += calculateTotalDistance(i)
+            }
+            return totalDistance.toString()
+        } else {
+            return "0"
         }
-        return totalDistance.toString()
+
     }
 
-    fun getKmMedios(mainActivity: MainActivity):String{
-        return totalDistance.div(mainActivity.user.actividades!!.size).toString()
+    fun getKmMedios(mainActivity: MainActivity): String {
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            return totalDistance.div(mainActivity.user.actividades!!.size).toString()
+
+        } else {
+            return "0"
+        }
     }
+
     fun calculateTotalDistance(activity: Activity): Double {
         totalDistance = 0.0
         var i = 0
@@ -64,23 +86,40 @@ class UserScreenViewModel() : ViewModel() {
         }
         return (totalDistance / 10).roundToInt() / 100.0
     }
+
     private fun calculateDistance(pointA: LatLng, pointB: LatLng): Double {
         return SphericalUtil.computeDistanceBetween(pointA, pointB);
     }
 
     fun getLevel(mainActivity: MainActivity): Float {
-        return mainActivity.user.level?.toFloat()!!
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            return mainActivity.user.level?.toFloat()!!
+        } else {
+            return 0.0F
+        }
+
     }
 
     fun getTiempoTotal(mainActivity: MainActivity): String {
-        for(i in mainActivity.user.actividades!!){
-          tiempo +=  LocalTime.parse(i.time, DateTimeFormatter.ofPattern("HH:mm:ss:SS")).toSecondOfDay() / 3600.00
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            for (i in mainActivity.user.actividades!!) {
+                tiempo += LocalTime.parse(i.time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"))
+                    .toSecondOfDay() / 3600.00
 
+            }
+            return tiempo.div(60).toString()
+        } else {
+            return "0"
         }
-        return tiempo.div(60).toString()
+
     }
 
     fun getTiempoMedio(mainActivity: MainActivity): String {
-      return  tiempo.div(60).div(mainActivity.user.actividades!!.size).toString()
+        if (!mainActivity.user.actividades.isNullOrEmpty()) {
+            return tiempo.div(60).div(mainActivity.user.actividades!!.size).toString()
+        } else {
+            return "0"
+        }
+
     }
 }

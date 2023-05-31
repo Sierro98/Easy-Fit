@@ -60,7 +60,7 @@ fun AppNavigation(activity: MainActivity) {
             UserScreen(navController = navController,mainActivity = activity)
         }
         composable(route = Screen.ChallengeScreen.route) {
-            ChallengeScreen(navController = navController)
+            ChallengeScreen(navController = navController, mainActivity = activity)
         }
     }
 }

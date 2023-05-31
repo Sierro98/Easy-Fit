@@ -179,9 +179,9 @@ fun MainScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-               val listActv: List<Activity> = mainActivity.user.actividades?.asReversed()!!
-               listActv.let {
-                    items(it) { activity ->
+               val listActv: MutableList<Activity>? = mainActivity.user.actividades
+                if(!listActv.isNullOrEmpty()) {
+                    items(listActv.reversed()) { activity ->
                         ActivityCards(
                             activity = activity,
                             mainScreenViewModel = mainScreenViewModel,
