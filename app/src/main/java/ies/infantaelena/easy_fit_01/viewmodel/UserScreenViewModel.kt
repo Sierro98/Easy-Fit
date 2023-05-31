@@ -98,7 +98,7 @@ class UserScreenViewModel() : ViewModel() {
 
     fun getLevel(mainActivity: MainActivity): Float {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {
-            return mainActivity.user.level?.toFloat()!!
+            return mainActivity.user.level?.toFloat()?.div(500)!!
         } else {
             return 0.0F
         }

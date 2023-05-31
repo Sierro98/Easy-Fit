@@ -37,7 +37,7 @@ fun AppBar(
                     LinearProgressIndicator(
                         modifier = Modifier
                             .height(8.dp),
-                        progress = mainActivity.user.level?.toFloat()!!,
+                        progress = mainActivity.user.level?.toFloat()?.div(500)!!,
                         backgroundColor = Color.White,
                         color = MaterialTheme.colors.primaryVariant,
                         strokeCap = StrokeCap.Round,
