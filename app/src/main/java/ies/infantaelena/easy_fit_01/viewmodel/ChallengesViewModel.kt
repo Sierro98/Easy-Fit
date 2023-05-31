@@ -10,25 +10,63 @@ import androidx.lifecycle.ViewModel
 import android.util.Log
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import ies.infantaelena.easy_fit_01.MainActivity
+import ies.infantaelena.easy_fit_01.model.Challenge
+import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
 
 
 class ChallengesViewModel : ViewModel() {
     var tipoActividad: String by mutableStateOf("");
 
-    fun completeChallenge(context: Context, index: Int) {
+    fun completeChallenge(context: Context, index: Int, mainActivity: MainActivity) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Reto")
         builder.setMessage("¿Desea completar el reto?")
         builder.setPositiveButton(
             "Completar"
-        ) { _, _ -> updateChallenge(index) }
+        ) { _, _ -> updateChallenge(index, mainActivity = mainActivity) }
         builder.setNegativeButton("Cancelar", null)
         builder.show()
     }
 
-    fun updateChallenge(index: Int) {
-        //TODO: aqui va el cambio del booleano del reto a true y la suma de experiencia al usuario
+    fun updateChallenge(index: Int,mainActivity: MainActivity) {
+       var challenge: Challenge? = mainActivity.user.challenges?.get(index)
+        var exp = 0.0
+        if (challenge!=null){
+            exp = challenge.exp.toDouble()
+            challenge.challengeComplete = true
+        }
+        if (challenge != null) {
+            mainActivity.user.challenges?.set(index, challenge)
+        }
+        val database: DatabaseReference =
+            FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference().child("users")
+        val useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+
+        //Guardado de datos en la Raltime Database
+        var auxUse: Double? = mainActivity.user.exp?.toDouble()?.plus(exp)
+        var auxLv: Int = 0
+        if (auxUse != null) {
+            if (auxUse >= 100.00){
+                auxUse -= 100
+                auxLv = 1
+            }
+        }
+        database.child(useruid?.uid.toString()).setValue(
+            Usuario(
+                actividades = mainActivity.user.actividades,
+                email = mainActivity.user.email,
+                level = mainActivity.user.level?.toInt()?.plus(auxLv).toString(),
+                exp = auxUse.toString(),
+                username = mainActivity.user.username,
+                challenges = mainActivity.user.challenges
+            )
+        )
     }
 
     fun LogOut(nav: NavController) {

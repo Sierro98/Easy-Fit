@@ -147,7 +147,8 @@ fun ChallengeBackground(
                         challenge = chall,
                         context = context,
                         challengesViewModel = challengesViewModel,
-                        language = language
+                        language = language,
+                       mainActivity = mainActivity
                     )
                 }
             }
@@ -163,7 +164,8 @@ fun ChallengeItems(
     challenge: Challenge,
     context: Context,
     challengesViewModel: ChallengesViewModel,
-    language: String
+    language: String,
+    mainActivity: MainActivity
 ) {
     val iconoChallenge: Int = when (challenge.challengeType) {
         "RUN" -> R.drawable.running_man
@@ -226,7 +228,7 @@ fun ChallengeItems(
         modifier = Modifier.clickable(
             onClick = {
                 if (!challenge.challengeComplete) {
-                    challengesViewModel.completeChallenge(context = context)
+                    challengesViewModel.completeChallenge(context = context, index = index, mainActivity = mainActivity)
                 }
             }
         )

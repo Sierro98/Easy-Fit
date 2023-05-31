@@ -73,7 +73,8 @@ class SplashScreenViewModel() : ViewModel() {
                                     aux.get("challengeType").toString(),
                                     aux.get("challengeContent").toString(),
                                     aux.get("contenidoReto").toString(),
-                                    aux.get("challengeComplete").toString().toBoolean()
+                                    aux.get("challengeComplete").toString().toBoolean(),
+                                    aux.get("exp").toString()
                                 )
                                 listChal = listChal?.plus(challenge)
                             }
@@ -86,7 +87,8 @@ class SplashScreenViewModel() : ViewModel() {
                             username = userContains.get("username").toString(),
                             level = userContains.get("level").toString(),
                             actividades = listActiv as MutableList<Activity>?,
-                            challenges = listChal as MutableList<Challenge>?
+                            challenges = listChal as MutableList<Challenge>?,
+                            exp = userContains.get("exp").toString(),
                         )
                         nav.navigate(route = Screen.MainScreen.route) {
                             popUpTo(route = Screen.SplashScreen.route) {

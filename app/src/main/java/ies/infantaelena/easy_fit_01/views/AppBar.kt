@@ -29,6 +29,10 @@ fun AppBar(
     showProgress: Boolean = true,
     mainActivity: MainActivity
 ) {
+    var exp = 0F
+    if(mainActivity.user.exp!="0"){
+        exp = mainActivity.user.exp?.toFloat()?.div(100)!!
+    }
     TopAppBar(
         title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -37,13 +41,13 @@ fun AppBar(
                     LinearProgressIndicator(
                         modifier = Modifier
                             .height(8.dp),
-                        progress = mainActivity.user.level?.toFloat()?.div(500)!!,
+                        progress = mainActivity.user.exp?.toFloat()?.div(100)!!,
                         backgroundColor = Color.White,
                         color = MaterialTheme.colors.primaryVariant,
                         strokeCap = StrokeCap.Round,
                     )
                 }
-                Text(text = "Nivel de usuario")
+                Text(text = "Lvl    "+mainActivity.user.level)
             }
         },
         backgroundColor = MaterialTheme.colors.primary,

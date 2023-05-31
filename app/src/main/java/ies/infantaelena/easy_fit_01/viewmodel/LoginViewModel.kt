@@ -104,7 +104,8 @@ class LoginViewModel() : ViewModel() {
                                                 aux.get("challengeType").toString(),
                                                 aux.get("challengeContent").toString(),
                                                 aux.get("contenidoReto").toString(),
-                                                aux.get("challengeComplete").toString().toBoolean()
+                                                aux.get("challengeComplete").toString().toBoolean(),
+                                                aux.get("exp").toString()
                                             )
                                             listChal = listChal?.plus(challenge)
                                         }
@@ -116,7 +117,8 @@ class LoginViewModel() : ViewModel() {
                                         username = userContains.get("username").toString(),
                                         level = userContains.get( "level" ).toString(),
                                         actividades = listActiv as MutableList<Activity>?,
-                                        challenges = listChal as MutableList<Challenge>?
+                                        challenges = listChal as MutableList<Challenge>?,
+                                        exp = userContains.get("exp").toString(),
                                     )
                                     authenticate(context = context, activity = activity, nav = nav)
                                 }

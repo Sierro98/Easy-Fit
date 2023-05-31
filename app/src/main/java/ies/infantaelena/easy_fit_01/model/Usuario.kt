@@ -8,6 +8,7 @@ data class Usuario(
     val email: String? = null,
     val username: String? = null,
     val level: String? = null,
+    val exp: String? = null,
     var actividades: MutableList<Activity>? = null,
     var challenges: MutableList<Challenge>? = null
 )

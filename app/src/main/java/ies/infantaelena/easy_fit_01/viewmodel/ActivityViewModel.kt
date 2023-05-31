@@ -97,8 +97,6 @@ class ActivityViewModel() : ViewModel() {
 
     fun saveActivity(mainActivity: MainActivity, activityType: ActivityType) {
         val aux: Double = currentSteps.toDouble().div(500)
-        Log.d("actividad", (currentSteps.toDouble().div(500)).toString())
-        Log.d("actividad", aux.toString())
         if (mainActivity.user.actividades.isNullOrEmpty() && calculateTimeInHours(_formattedTime) > 3) {
             mainActivity.user.actividades = mutableStateListOf(
                 Activity(
@@ -128,15 +126,22 @@ class ActivityViewModel() : ViewModel() {
                 .getReference().child("users")
         val useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         //Guardado de datos en la Raltime Database
-        val auxUse: Double? = mainActivity.user.level?.toDouble()?.plus(aux)
+        var auxUse: Double? = mainActivity.user.exp?.toDouble()?.plus(aux)
+        var auxLv: Int = 0
+        if (auxUse != null) {
+            if (auxUse >= 100.00){
+                auxUse -= 100
+                auxLv = 1
+            }
+        }
         database.child(useruid?.uid.toString()).setValue(
             Usuario(
                 actividades = mainActivity.user.actividades,
                 email = mainActivity.user.email,
-                level = auxUse.toString(),
+                level = mainActivity.user.level?.toInt()?.plus(auxLv).toString(),
+                exp = auxUse.toString(),
                 username = mainActivity.user.username,
                 challenges = mainActivity.user.challenges
-
             )
         )
     }

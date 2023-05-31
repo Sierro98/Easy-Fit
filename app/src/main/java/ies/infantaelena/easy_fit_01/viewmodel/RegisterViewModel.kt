@@ -111,6 +111,7 @@ class RegisterViewModel() : ViewModel() {
                                 email = email,
                                 username = user,
                                 level = "0",
+                                exp = "0",
                                 actividades = mutableListOf(),
                                 challenges = mutableListOf(
                                     Challenge("RUN", "Run 20km", "Correr 20km", false, "500"),
@@ -216,7 +217,6 @@ class RegisterViewModel() : ViewModel() {
                                 )
                             )
                         )
-
                         showAlertCorrect()
                     } else {
                         showAlertFail()
