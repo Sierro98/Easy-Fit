@@ -27,6 +27,8 @@ import ies.infantaelena.easy_fit_01.services.TrackingService
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 /**
@@ -94,10 +96,10 @@ class ActivityViewModel() : ViewModel() {
     }
 
     fun saveActivity(mainActivity: MainActivity, activityType: ActivityType) {
-        var aux: Double = currentSteps.toDouble().div(500)
-        Log.d("actividad",(currentSteps.toDouble().div(500)).toString())
+        val aux: Double = currentSteps.toDouble().div(500)
+        Log.d("actividad", (currentSteps.toDouble().div(500)).toString())
         Log.d("actividad", aux.toString())
-        if (mainActivity.user.actividades == null) {
+        if (mainActivity.user.actividades == null && calculateTimeInHours(_formattedTime) > 3000) {
             mainActivity.user.actividades = mutableStateListOf(
                 Activity(
                     activityType = activityType.toString(),
@@ -108,8 +110,7 @@ class ActivityViewModel() : ViewModel() {
                     pathPoints = pathPoints.last().toList()
                 )
             )
-
-        } else {
+        } else if (calculateTimeInHours(_formattedTime) > 3000) {
             mainActivity.user.actividades!!.add(
                 Activity(
                     activityType = activityType.toString(),
@@ -120,16 +121,14 @@ class ActivityViewModel() : ViewModel() {
                     pathPoints = pathPoints.last().toList()
                 )
             )
-
-
         }
 
         val database: DatabaseReference =
             FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference().child("users")
-        var useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+        val useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         //Guardado de datos en la Raltime Database
-        var auxUse: Double? = mainActivity.user.level?.toDouble()?.plus(aux)
+        val auxUse: Double? = mainActivity.user.level?.toDouble()?.plus(aux)
         database.child(useruid?.uid.toString()).setValue(
             Usuario(
                 actividades = mainActivity.user.actividades,
@@ -138,5 +137,11 @@ class ActivityViewModel() : ViewModel() {
                 username = mainActivity.user.username
             )
         )
+    }
+
+    fun calculateTimeInHours(tiempoString: String): Int {
+        val tiempo: LocalTime =
+            LocalTime.parse(tiempoString, DateTimeFormatter.ofPattern("HH:mm:ss:SS"))
+        return tiempo.toSecondOfDay()
     }
 }
