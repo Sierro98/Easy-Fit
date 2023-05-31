@@ -19,13 +19,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
 
 
 @Composable
 fun AppBar(
     onNavigationIconClick: () -> Unit,
-    showProgress: Boolean = true
+    showProgress: Boolean = true,
+    mainActivity: MainActivity
 ) {
     TopAppBar(
         title = {
@@ -35,7 +37,7 @@ fun AppBar(
                     LinearProgressIndicator(
                         modifier = Modifier
                             .height(8.dp),
-                        progress = 0.6f,
+                        progress = mainActivity.user.level?.toFloat()!!,
                         backgroundColor = Color.White,
                         color = MaterialTheme.colors.primaryVariant,
                         strokeCap = StrokeCap.Round,

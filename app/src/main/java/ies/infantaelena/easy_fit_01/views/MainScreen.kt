@@ -138,7 +138,8 @@ fun MainScreen(
                     scope.launch {
                         scaffoldState.drawerState.open()
                     }
-                }
+                },
+                mainActivity = mainActivity
             )
         },
         drawerContent = {
@@ -178,7 +179,8 @@ fun MainScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                mainActivity.user.actividades?.let {
+               val listActv: List<Activity> = mainActivity.user.actividades?.asReversed()!!
+               listActv.let {
                     items(it) { activity ->
                         ActivityCards(
                             activity = activity,

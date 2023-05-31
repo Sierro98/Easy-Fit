@@ -69,6 +69,7 @@ fun UserScreen(
     } else {
         MenuDrawerItems
     }
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -78,7 +79,8 @@ fun UserScreen(
                         scaffoldState.drawerState.open()
                     }
                 },
-                showProgress = false
+                showProgress = false,
+                mainActivity = mainActivity
             )
         },
         drawerContent = {
@@ -108,7 +110,7 @@ fun UserScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircularProgressBar(
-                percentage = 0.8f, // TODO: añadir progreso del nivel actual
+                percentage = userScreenViewModel.getLevel(mainActivity), // TODO: añadir progreso del nivel actual
                 number = 100,
                 radius = 70.dp,
                 strokeWidth = 11.dp
@@ -125,7 +127,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = stringResource(R.string.pasos_totales),
-                    statContent = "101010", // TODO: añadir pasos totales
+                    statContent = userScreenViewModel.getPasosTotales(mainActivity), // TODO: añadir pasos totales
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 2.dp),
@@ -133,7 +135,7 @@ fun UserScreen(
                 )
                 StatsCard(
                     stat = stringResource(R.string.pasos_medios),
-                    statContent = "101010", // TODO: añadir pasos medios
+                    statContent = userScreenViewModel.getPasosMedios(mainActivity),
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 2.dp, end = 8.dp),
@@ -143,7 +145,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = stringResource(R.string.distancia_total),
-                    statContent = "101010", // TODO: añadir distancia total
+                    statContent = userScreenViewModel.getKmTotales(mainActivity),
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 2.dp),
@@ -151,7 +153,7 @@ fun UserScreen(
                 )
                 StatsCard(
                     stat = stringResource(R.string.distancia_media),
-                    statContent = "101010", // TODO: añadir distancia media
+                    statContent = userScreenViewModel.getKmMedios(mainActivity = mainActivity), // TODO: añadir distancia media
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 2.dp, end = 8.dp),
@@ -161,7 +163,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = stringResource(R.string.tiempo_total),
-                    statContent = "101010", // TODO: añadir tiempo toal
+                    statContent = userScreenViewModel.getTiempoTotal(mainActivity), // TODO: añadir tiempo toal
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 2.dp),
@@ -169,7 +171,7 @@ fun UserScreen(
                 )
                 StatsCard(
                     stat = stringResource(R.string.tiempo_medio),
-                    statContent = "101010", // TODO: añadir tiempo medio
+                    statContent = userScreenViewModel.getTiempoMedio(mainActivity), // TODO: añadir tiempo medio
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 2.dp, end = 8.dp),
