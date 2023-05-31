@@ -148,8 +148,8 @@ fun ChallengeItems(
 }
 
 val listaChallenges = listOf<Challenge>(
-    Challenge("RUN", "Correr 20km", false),
-    Challenge("HIKING", "Caminar por la montaña 20km", false),
-    Challenge("WALK", "Andar 20km", false),
-    Challenge("CICLING", "Pedalear 20km", false),
+    Challenge("RUN", "Run 20km", "Correr 20km", false),
+    Challenge("HIKING", "Walk through the mountain 20km", "Andar por la montaña", false),
+    Challenge("WALK", "Walk 20km", "Andar 20km", false),
+    Challenge("CICLING", "Cycle 20km", "Pedalear 20km", false),
 )
