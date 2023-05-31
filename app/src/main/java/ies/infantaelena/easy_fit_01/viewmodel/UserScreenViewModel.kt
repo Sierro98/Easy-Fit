@@ -37,17 +37,19 @@ class UserScreenViewModel() : ViewModel() {
             for (i in mainActivity.user.actividades!!) {
                 pasosTotales += i.distance?.toInt() ?: 0
             }
-            return pasosTotales.toString()
+            var res = pasosTotales
+            res = ((res * 10.0).roundToInt() / 10.0).toInt()
+            return res.toString()
         } else {
             return "0"
         }
-
     }
 
     fun getPasosMedios(mainActivity: MainActivity): String {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {
-            return pasosTotales.div(mainActivity.user.actividades!!.size).toString()
-
+            var res = pasosTotales.div(mainActivity.user.actividades!!.size)
+            res = ((res * 10.0).roundToInt() / 10.0).toInt()
+            return res.toString()
         } else {
             return "0"
         }
@@ -58,7 +60,9 @@ class UserScreenViewModel() : ViewModel() {
             for (i in mainActivity.user.actividades!!) {
                 totalDistance += calculateTotalDistance(i)
             }
-            return totalDistance.toString()
+            var res = totalDistance
+            res = (res * 10.0).roundToInt() / 10.0
+            return res.toString()
         } else {
             return "0"
         }
@@ -67,8 +71,9 @@ class UserScreenViewModel() : ViewModel() {
 
     fun getKmMedios(mainActivity: MainActivity): String {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {
-            return totalDistance.div(mainActivity.user.actividades!!.size).toString()
-
+            var res = totalDistance.div(mainActivity.user.actividades!!.size)
+            res = (res * 10.0).roundToInt() / 10.0
+            return res.toString()
         } else {
             return "0"
         }
@@ -107,7 +112,9 @@ class UserScreenViewModel() : ViewModel() {
                     .toSecondOfDay() / 3600.00
 
             }
-            return tiempo.div(60).toString()
+            var res = tiempo.div(60)
+            res = (res * 10.0).roundToInt() / 10.0
+            return res.toString()
         } else {
             return "0"
         }
@@ -116,7 +123,9 @@ class UserScreenViewModel() : ViewModel() {
 
     fun getTiempoMedio(mainActivity: MainActivity): String {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {
-            return tiempo.div(60).div(mainActivity.user.actividades!!.size).toString()
+            var res = tiempo.div(60).div(mainActivity.user.actividades!!.size)
+            res = (res * 10.0).roundToInt() / 10.0
+            return res.toString()
         } else {
             return "0"
         }

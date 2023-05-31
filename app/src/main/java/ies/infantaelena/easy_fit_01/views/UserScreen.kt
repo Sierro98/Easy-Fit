@@ -127,7 +127,7 @@ fun UserScreen(
             Row() {
                 StatsCard(
                     stat = stringResource(R.string.pasos_totales),
-                    statContent = userScreenViewModel.getPasosTotales(mainActivity), // TODO: añadir pasos totales
+                    statContent = userScreenViewModel.getPasosTotales(mainActivity),
                     modifier = Modifier
                         .weight(0.5f)
                         .padding(start = 8.dp, end = 2.dp),

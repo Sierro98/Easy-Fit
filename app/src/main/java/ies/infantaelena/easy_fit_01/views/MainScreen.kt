@@ -297,10 +297,6 @@ fun MultiFloatingButton(
                             }
 
                             5 -> {
-                                navController.navigate(Screen.CalisthenicsActivityScreen.route)
-                            }
-
-                            6 -> {
                                 navController.navigate(Screen.TeamActivityScreen.route)
                             }
                         }
@@ -422,11 +418,6 @@ fun almacenActividades(): List<MiniFloatingActionItem> {
         ),
         MiniFloatingActionItem(
             id = 5,
-            icon = ImageBitmap.imageResource(id = R.drawable.calisthenics),
-            label = stringResource(id = R.string.activityCalisthenics)
-        ),
-        MiniFloatingActionItem(
-            id = 6,
             icon = ImageBitmap.imageResource(id = R.drawable.team_sports),
             label = stringResource(id = R.string.activityTeamSport)
         )

@@ -52,7 +52,7 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
-        Spacer(modifier = Modifier.padding(top = 50.dp))
+        Spacer(modifier = Modifier.padding(top = 40.dp))
         Image(
             painter = painterResource(id = R.drawable.easy_fit_logo),
             contentDescription = stringResource(id = R.string.logoDescription),
@@ -64,21 +64,21 @@ fun RegisterScreen(
         RegisterEmail(
             email = registerViewModel.emailValue,
             onInputChanged = { registerViewModel.emailValue = it })
-        Spacer(modifier = Modifier.padding(top = 30.dp))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
         // Llamada al metodo que contiene el Textfield del nombre de usuario
         RegisterName(user = registerViewModel.userValue, onInputChanged = {
             if (it.matches(registerViewModel.regex)) {
                 registerViewModel.userValue = it
             }
         })
-        Spacer(modifier = Modifier.padding(top = 30.dp))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
         RegisterPassword(password = registerViewModel.passwordValue, onInputChanged = {
             if (!it.equals(" ")) {
                 registerViewModel.passwordValue = it
             }
         })
-        Spacer(modifier = Modifier.padding(top = 30.dp))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia repetida
         RegisterRepPassword(
             reppassword = registerViewModel.reppasswordValue,
@@ -87,7 +87,7 @@ fun RegisterScreen(
                     registerViewModel.reppasswordValue = it
                 }
             })
-        Spacer(modifier = Modifier.padding(top = 30.dp))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
         /*
         Componente Button que maneja el intento de entrada a la aplicacion llamando a la funcion
         checkLogin()
