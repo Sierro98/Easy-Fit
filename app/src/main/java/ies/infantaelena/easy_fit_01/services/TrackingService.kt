@@ -50,7 +50,6 @@ class TrackingService : LifecycleService(), SensorEventListener {
         val pathPoints = MutableLiveData<Polylines>()
         val curSteps = MutableLiveData<Int>()
     }
-
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())

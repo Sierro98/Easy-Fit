@@ -29,9 +29,6 @@ class UserScreenViewModel() : ViewModel() {
         }
     }
 
-    fun GoToUserPage(navController: NavController) {
-
-    }
 
     fun getPasosTotales(mainActivity: MainActivity): String {
         if (!mainActivity.user.actividades.isNullOrEmpty()) {

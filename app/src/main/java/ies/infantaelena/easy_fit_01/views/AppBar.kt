@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,6 +39,7 @@ fun AppBar(
     mainActivity: MainActivity,
     AppBarViewModel: AppBarViewModel = viewModel()
 ) {
+    AppBarViewModel.getLevelExp(mainActivity)
     TopAppBar(
         title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -45,13 +47,13 @@ fun AppBar(
                     LinearProgressIndicator(
                         modifier = Modifier
                             .height(8.dp),
-                        progress = AppBarViewModel.getExp(mainActivity),
+                        progress = AppBarViewModel.exp.value,
                         backgroundColor = Color.White,
                         color = MaterialTheme.colors.primaryVariant,
                         strokeCap = StrokeCap.Round,
                     )
                 }
-                Text(text = "Level: ${AppBarViewModel.getLevel(mainActivity)}")
+                Text(text = "Level: ${AppBarViewModel.level.value}")
             }
         },
         backgroundColor = MaterialTheme.colors.primary,

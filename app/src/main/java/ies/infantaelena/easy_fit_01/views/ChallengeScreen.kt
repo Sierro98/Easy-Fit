@@ -46,6 +46,7 @@ import ies.infantaelena.easy_fit_01.model.MenuDrawerItems
 import ies.infantaelena.easy_fit_01.model.MenuDrawerItemsSpanish
 import ies.infantaelena.easy_fit_01.model.MenuItem
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import ies.infantaelena.easy_fit_01.viewmodel.AppBarViewModel
 import ies.infantaelena.easy_fit_01.viewmodel.ChallengesViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
