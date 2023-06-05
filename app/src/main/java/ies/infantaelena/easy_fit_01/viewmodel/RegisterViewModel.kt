@@ -114,105 +114,119 @@ class RegisterViewModel() : ViewModel() {
                                 exp = "0",
                                 actividades = mutableListOf(),
                                 challenges = mutableListOf(
-                                    Challenge("RUN", "Run 20km", "Correr 20km", false, "500"),
+                                    Challenge("1", "RUN", "Run 20km", "Correr 20km", false, "50"),
                                     Challenge(
+                                        "2",
                                         "HIKING",
                                         "Walk through the mountain 20km",
                                         "Andar por la montaña",
                                         false,
-                                        "500"
+                                        "50"
                                     ),
-                                    Challenge("WALK", "Walk 20km", "Andar 20km", false, "500"),
+                                    Challenge("3","WALK", "Walk 20km", "Andar 20km", false, "500"),
                                     Challenge(
+                                        "4",
                                         "CICLING",
                                         "Cycle 20km",
                                         "Pedalear 20km",
                                         false,
-                                        "500"
+                                        "50"
                                     ),
                                     Challenge(
+                                        "5",
                                         "RUN",
                                         "Run 5km",
                                         "Corre 5km",
                                         false,
-                                        "100"
+                                        "10"
                                     ),
                                     Challenge(
+                                        "6",
                                         "RUN",
                                         "Run 10km",
                                         "Corre 10km",
                                         false,
-                                        "200"
+                                        "20"
                                     ),
                                     Challenge(
+                                        "7",
                                         "RUN",
                                         "Run 15km",
                                         "Corre 15km",
                                         false,
-                                        "300"
+                                        "30"
                                     ),
                                     Challenge(
+                                        "8",
                                         "WALK",
                                         "Walk 10km",
                                         "Anda 10km",
                                         false,
-                                        "200"
+                                        "20"
                                     ),
                                     Challenge(
+                                        "9",
                                         "WALK",
                                         "Walk 5km",
                                         "Anda 5km",
                                         false,
-                                        "100"
+                                        "10"
                                     ),
                                     Challenge(
+                                        "10",
                                         "WALK",
                                         "Walk 15km",
                                         "Anda 15km",
                                         false,
-                                        "300"
+                                        "30"
                                     ),
                                     Challenge(
+                                        "11",
                                         "HIKING",
                                         "Walk through the mountain 5km",
                                         "Andar por la montaña 5km",
                                         false,
-                                        "100"
+                                        "10"
                                     ),
                                     Challenge(
+                                        "12",
                                         "HIKING",
                                         "Walk through the mountain 10km",
                                         "Andar por la montaña 10km",
                                         false,
-                                        "200"
+                                        "20"
                                     ),
                                     Challenge(
+                                        "13",
                                         "HIKING",
                                         "Walk through the mountain 15km",
                                         "Andar por la montaña 15km",
                                         false,
-                                        "300"
+                                        "30"
                                     ),
                                     Challenge(
+                                        "14",
                                         "CICLING",
                                         "Cycle 30km",
                                         "Pedalear 30km",
                                         false,
-                                        "550"
+                                        "55"
                                     ),
                                     Challenge(
+                                        "15",
                                         "CICLING",
                                         "Cycle 10km",
                                         "Pedalear 10km",
                                         false,
-                                        "100"
+                                        "10"
                                     ),
                                     Challenge(
+                                        "16",
                                         "CICLING",
                                         "Cycle 50km",
                                         "Pedalear 50km",
                                         false,
-                                        "600"
+                                        "60"
                                     ),
                                 )
                             )

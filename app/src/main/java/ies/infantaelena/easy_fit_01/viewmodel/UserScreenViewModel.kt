@@ -1,5 +1,6 @@
 package ies.infantaelena.easy_fit_01.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.LatLng
@@ -97,12 +98,12 @@ class UserScreenViewModel() : ViewModel() {
     }
 
     fun getLevel(mainActivity: MainActivity): Float {
+        Log.d("PRUEBA", "Metodo getLevel UserScreen -> ${mainActivity.user.exp}")
         if (!mainActivity.user.exp.isNullOrEmpty()) {
             return mainActivity.user.exp?.toFloat()?.div(100)!!
         } else {
-            return 0.0F
+            return 0F
         }
-
     }
 
     fun getTiempoTotal(mainActivity: MainActivity): String {
@@ -114,6 +115,7 @@ class UserScreenViewModel() : ViewModel() {
             }
             var res = tiempo.div(60)
             res = (res * 10.0).roundToInt() / 10.0
+            tiempo = 0.0
             return res.toString()
         } else {
             return "0"

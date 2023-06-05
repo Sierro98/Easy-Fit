@@ -70,6 +70,7 @@ class SplashScreenViewModel() : ViewModel() {
                             for (i in listAux.indices) {
                                 var aux = listAux[i] as HashMap<String, String>
                                 var challenge = Challenge(
+                                    aux.get("id").toString(),
                                     aux.get("challengeType").toString(),
                                     aux.get("challengeContent").toString(),
                                     aux.get("contenidoReto").toString(),

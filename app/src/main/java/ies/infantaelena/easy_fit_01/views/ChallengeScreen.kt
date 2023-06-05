@@ -126,9 +126,9 @@ fun ChallengeBackground(
     mainActivity: MainActivity,
     language: String
 ) {
-    val list = mainActivity.user.challenges
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            val list: MutableList<Challenge>? = mainActivity.user.challenges
             val grouped = list?.groupBy { it.challengeType[0] }
             grouped?.forEach { (initial, challenge) ->
                 stickyHeader {
@@ -148,11 +148,10 @@ fun ChallengeBackground(
                         context = context,
                         challengesViewModel = challengesViewModel,
                         language = language,
-                       mainActivity = mainActivity
+                        mainActivity = mainActivity
                     )
                 }
             }
-
         }
     }
 }
@@ -176,24 +175,14 @@ fun ChallengeItems(
         "TEAM_SPORTS" -> R.drawable.team_sports
         else -> R.drawable.running_man
     }
-    when (challenge.challengeType) {
-        "RUN" -> challengesViewModel.tipoActividad =
-            context.getString(R.string.activityRun)
-
-        "WALK" -> challengesViewModel.tipoActividad =
-            context.getString(R.string.activityWalk)
-
-        "HIKING" -> challengesViewModel.tipoActividad =
-            context.getString(R.string.activityHiking)
-
-        "CICLING" -> challengesViewModel.tipoActividad =
-            context.getString(R.string.activityCiclism)
-
-        "CALISTHENICS" -> challengesViewModel.tipoActividad =
-            context.getString(R.string.activityCalisthenics)
-
-        "TEAM_SPORTS" -> challengesViewModel.tipoActividad =
-            context.getString(R.string.activityTeamSport)
+    val tipoActividad: String = when (challenge.challengeType) {
+        "RUN" -> context.getString(R.string.activityRun)
+        "WALK" -> context.getString(R.string.activityWalk)
+        "HIKING" -> context.getString(R.string.activityHiking)
+        "CICLING" -> context.getString(R.string.activityCiclism)
+        "CALISTHENICS" -> context.getString(R.string.activityCalisthenics)
+        "TEAM_SPORTS" -> context.getString(R.string.activityTeamSport)
+        else -> context.getString(R.string.activityRun)
     }
     ListItem(icon = {
         Icon(
@@ -204,7 +193,7 @@ fun ChallengeItems(
     },
         text = {
             Text(
-                text = challengesViewModel.tipoActividad
+                text = tipoActividad
             )
         },
         secondaryText = {
@@ -228,7 +217,11 @@ fun ChallengeItems(
         modifier = Modifier.clickable(
             onClick = {
                 if (!challenge.challengeComplete) {
-                    challengesViewModel.completeChallenge(context = context, index = index, mainActivity = mainActivity)
+                    challengesViewModel.completeChallenge(
+                        context = context,
+                        index = index,
+                        mainActivity = mainActivity
+                    )
                 }
             }
         )

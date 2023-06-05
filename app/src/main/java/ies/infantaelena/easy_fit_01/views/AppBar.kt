@@ -13,41 +13,45 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableFloatState
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ies.infantaelena.easy_fit_01.MainActivity
 import ies.infantaelena.easy_fit_01.R
+import ies.infantaelena.easy_fit_01.viewmodel.AppBarViewModel
 
 
 @Composable
 fun AppBar(
     onNavigationIconClick: () -> Unit,
     showProgress: Boolean = true,
-    mainActivity: MainActivity
+    mainActivity: MainActivity,
+    AppBarViewModel: AppBarViewModel = viewModel()
 ) {
-    var exp = 0F
-    if(mainActivity.user.exp!="0"){
-        exp = mainActivity.user.exp?.toFloat()?.div(100)!!
-    }
     TopAppBar(
         title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                //TODO: añadir tanto en el texto como en la barra de progreso los valores reales del usuario
                 if (showProgress) {
                     LinearProgressIndicator(
                         modifier = Modifier
                             .height(8.dp),
-                        progress = mainActivity.user.exp?.toFloat()?.div(100)!!,
+                        progress = AppBarViewModel.getExp(mainActivity),
                         backgroundColor = Color.White,
                         color = MaterialTheme.colors.primaryVariant,
                         strokeCap = StrokeCap.Round,
                     )
                 }
-                Text(text = "Lvl    "+mainActivity.user.level)
+                Text(text = "Level: ${AppBarViewModel.getLevel(mainActivity)}")
             }
         },
         backgroundColor = MaterialTheme.colors.primary,

@@ -20,7 +20,6 @@ import ies.infantaelena.easy_fit_01.navigation.Screen
 
 
 class ChallengesViewModel : ViewModel() {
-    var tipoActividad: String by mutableStateOf("");
 
     fun completeChallenge(context: Context, index: Int, mainActivity: MainActivity) {
         val builder = AlertDialog.Builder(context)
@@ -57,15 +56,17 @@ class ChallengesViewModel : ViewModel() {
                 auxLv = 1
             }
         }
+        val updatedUser = Usuario(
+            actividades = mainActivity.user.actividades,
+            email = mainActivity.user.email,
+            level = mainActivity.user.level?.toInt()?.plus(auxLv).toString(),
+            exp = auxUse.toString(),
+            username = mainActivity.user.username,
+            challenges = mainActivity.user.challenges
+        )
+        mainActivity.user = updatedUser
         database.child(useruid?.uid.toString()).setValue(
-            Usuario(
-                actividades = mainActivity.user.actividades,
-                email = mainActivity.user.email,
-                level = mainActivity.user.level?.toInt()?.plus(auxLv).toString(),
-                exp = auxUse.toString(),
-                username = mainActivity.user.username,
-                challenges = mainActivity.user.challenges
-            )
+            updatedUser
         )
     }
 

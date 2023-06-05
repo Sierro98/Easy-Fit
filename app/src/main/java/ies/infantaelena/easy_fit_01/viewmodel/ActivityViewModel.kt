@@ -123,26 +123,28 @@ class ActivityViewModel() : ViewModel() {
 
         val database: DatabaseReference =
             FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference().child("users")
+                .reference.child("users")
         val useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         //Guardado de datos en la Raltime Database
         var auxUse: Double? = mainActivity.user.exp?.toDouble()?.plus(aux)
         var auxLv: Int = 0
         if (auxUse != null) {
-            if (auxUse >= 100.00){
+            if (auxUse >= 100.00) {
                 auxUse -= 100
                 auxLv = 1
             }
         }
+        val updatedUser = Usuario(
+            actividades = mainActivity.user.actividades,
+            email = mainActivity.user.email,
+            level = mainActivity.user.level?.toInt()?.plus(auxLv).toString(),
+            exp = auxUse.toString(),
+            username = mainActivity.user.username,
+            challenges = mainActivity.user.challenges
+        )
+        mainActivity.user = updatedUser
         database.child(useruid?.uid.toString()).setValue(
-            Usuario(
-                actividades = mainActivity.user.actividades,
-                email = mainActivity.user.email,
-                level = mainActivity.user.level?.toInt()?.plus(auxLv).toString(),
-                exp = auxUse.toString(),
-                username = mainActivity.user.username,
-                challenges = mainActivity.user.challenges
-            )
+            updatedUser
         )
     }
 
