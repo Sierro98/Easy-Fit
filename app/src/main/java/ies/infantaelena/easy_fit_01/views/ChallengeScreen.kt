@@ -114,7 +114,8 @@ fun ChallengeScreen(
             context = context,
             challengesViewModel = challengesViewModel,
             mainActivity = mainActivity,
-            language = language
+            language = language,
+            navController = navController
         )
     }
 }
@@ -125,7 +126,8 @@ fun ChallengeBackground(
     context: Context,
     challengesViewModel: ChallengesViewModel,
     mainActivity: MainActivity,
-    language: String
+    language: String,
+    navController: NavController
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -144,12 +146,12 @@ fun ChallengeBackground(
                 }
                 itemsIndexed(challenge) { index, chall ->
                     ChallengeItems(
-                        index = index,
                         challenge = chall,
                         context = context,
                         challengesViewModel = challengesViewModel,
                         language = language,
-                        mainActivity = mainActivity
+                        mainActivity = mainActivity,
+                        navController = navController
                     )
                 }
             }
@@ -160,12 +162,12 @@ fun ChallengeBackground(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChallengeItems(
-    index: Int,
     challenge: Challenge,
     context: Context,
     challengesViewModel: ChallengesViewModel,
     language: String,
-    mainActivity: MainActivity
+    mainActivity: MainActivity,
+    navController: NavController
 ) {
     val iconoChallenge: Int = when (challenge.challengeType) {
         "RUN" -> R.drawable.running_man
@@ -220,8 +222,10 @@ fun ChallengeItems(
                 if (!challenge.challengeComplete) {
                     challengesViewModel.completeChallenge(
                         context = context,
-                        index = index,
-                        mainActivity = mainActivity
+                       challenge =  challenge,
+                        mainActivity = mainActivity,
+                        nav = navController
+
                     )
                 }
             }

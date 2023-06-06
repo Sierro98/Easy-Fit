@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import android.util.Log
+import android.widget.Toast
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -21,27 +22,28 @@ import ies.infantaelena.easy_fit_01.navigation.Screen
 
 class ChallengesViewModel : ViewModel() {
 
-    fun completeChallenge(context: Context, index: Int, mainActivity: MainActivity) {
+    fun completeChallenge(context: Context, challenge: Challenge, mainActivity: MainActivity,nav: NavController) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Reto")
         builder.setMessage("¿Desea completar el reto?")
         builder.setPositiveButton(
             "Completar"
-        ) { _, _ -> updateChallenge(index, mainActivity = mainActivity) }
+        ) { _, _ -> updateChallenge(challenge = challenge, mainActivity = mainActivity, nav = nav) }
         builder.setNegativeButton("Cancelar", null)
         builder.show()
     }
 
-    fun updateChallenge(index: Int,mainActivity: MainActivity) {
-       var challenge: Challenge? = mainActivity.user.challenges?.get(index)
+    fun updateChallenge(challenge: Challenge, mainActivity: MainActivity,nav: NavController) {
         var exp = 0.0
-        if (challenge!=null){
-            exp = challenge.exp.toDouble()
-            challenge.challengeComplete = true
+
+        for (i in mainActivity.user.challenges!!) {
+            if (i.id == challenge.id) {
+                exp = i.exp.toDouble()
+                i.challengeComplete = true
+            }
         }
-        if (challenge != null) {
-            mainActivity.user.challenges?.set(index, challenge)
-        }
+
+
         val database: DatabaseReference =
             FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference().child("users")
@@ -51,7 +53,7 @@ class ChallengesViewModel : ViewModel() {
         var auxUse: Double? = mainActivity.user.exp?.toDouble()?.plus(exp)
         var auxLv: Int = 0
         if (auxUse != null) {
-            if (auxUse >= 100.00){
+            if (auxUse >= 100.00) {
                 auxUse -= 100
                 auxLv = 1
             }
@@ -68,6 +70,8 @@ class ChallengesViewModel : ViewModel() {
         database.child(useruid?.uid.toString()).setValue(
             updatedUser
         )
+        nav.popBackStack()
+        nav.navigate(Screen.ChallengeScreen.route)
     }
 
     fun LogOut(nav: NavController) {

@@ -18,15 +18,6 @@ class AppBarViewModel() : ViewModel() {
     private var _exp = mutableStateOf(0F)
     var exp: State<Float> = _exp
 
-    fun getLevel(mainActivity: MainActivity): String {
-        Log.d("PRUEBA", "Metodo getLevel AppBar-> ${mainActivity.user.level.toString()}")
-        return if (mainActivity.user.exp != "0") {
-            mainActivity.user.level.toString()
-        } else {
-            "0"
-        }
-    }
-
     fun getLevelExp(mainActivity: MainActivity) {
         viewModelScope.launch {
             while (true) {
@@ -43,12 +34,4 @@ class AppBarViewModel() : ViewModel() {
         }
     }
 
-    fun getExp(mainActivity: MainActivity): Float {
-        Log.d("PRUEBA", "Metodo getExp AppBar -> ${mainActivity.user.exp?.toFloat()?.div(100)!!}")
-        return if (mainActivity.user.exp != "0") {
-            mainActivity.user.exp?.toFloat()?.div(100)!!
-        } else {
-            0F
-        }
-    }
 }
