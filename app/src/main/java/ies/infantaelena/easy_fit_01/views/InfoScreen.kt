@@ -26,8 +26,8 @@ import ies.infantaelena.easy_fit_01.R
 fun InfoScreen() {
     val bullet = "\u2022"
     val messages = listOf(
-        "Jose Peña",
         "Alejandro Sierro",
+        "Jose Peña",
     )
     val paragraphStyle = ParagraphStyle(textIndent = TextIndent(restLine = 20.sp))
     Surface(modifier = Modifier.fillMaxSize()) {
