@@ -161,6 +161,10 @@ fun MainScreen(
                         "challenges" -> {
                             navController.navigate(Screen.ChallengeScreen.route)
                         }
+
+                        "info" -> {
+                            navController.navigate(Screen.InfoScreen.route)
+                        }
                     }
                 }
             )
@@ -178,8 +182,8 @@ fun MainScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-               val listActv: MutableList<Activity>? = mainActivity.user.actividades
-                if(!listActv.isNullOrEmpty()) {
+                val listActv: MutableList<Activity>? = mainActivity.user.actividades
+                if (!listActv.isNullOrEmpty()) {
                     items(listActv.reversed()) { activity ->
                         ActivityCards(
                             activity = activity,

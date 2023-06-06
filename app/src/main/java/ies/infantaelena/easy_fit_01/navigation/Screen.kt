@@ -14,4 +14,5 @@ sealed class Screen(val route: String) {
     object  RecoberScreen: Screen("recober_screen")
     object  UserSreen: Screen("user_screen")
     object ChallengeScreen: Screen("challenge_screen")
+    object InfoScreen:Screen("info_screen")
 }

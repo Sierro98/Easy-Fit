@@ -101,6 +101,10 @@ fun UserScreen(
                         "challenges" -> {
                             navController.navigate(Screen.ChallengeScreen.route)
                         }
+
+                        "info" -> {
+                            navController.navigate(Screen.InfoScreen.route)
+                        }
                     }
                 }
             )

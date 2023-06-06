@@ -12,6 +12,7 @@ import ies.infantaelena.easy_fit_01.views.CalisthenicsActivityScreen
 import ies.infantaelena.easy_fit_01.views.ChallengeScreen
 import ies.infantaelena.easy_fit_01.views.CyclingActivityScreen
 import ies.infantaelena.easy_fit_01.views.HikingActivityScreen
+import ies.infantaelena.easy_fit_01.views.InfoScreen
 import ies.infantaelena.easy_fit_01.views.RecoberSreen
 import ies.infantaelena.easy_fit_01.views.RegisterScreen
 import ies.infantaelena.easy_fit_01.views.RunActivityScreen
@@ -61,6 +62,9 @@ fun AppNavigation(activity: MainActivity) {
         }
         composable(route = Screen.ChallengeScreen.route) {
             ChallengeScreen(navController = navController, mainActivity = activity)
+        }
+        composable(route = Screen.InfoScreen.route) {
+            InfoScreen()
         }
     }
 }

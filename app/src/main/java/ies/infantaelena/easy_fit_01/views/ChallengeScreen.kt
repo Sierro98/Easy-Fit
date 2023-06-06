@@ -105,6 +105,10 @@ fun ChallengeScreen(
                         "user" -> {
                             navController.navigate(route = Screen.UserSreen.route)
                         }
+
+                        "info" -> {
+                            navController.navigate(Screen.InfoScreen.route)
+                        }
                     }
                 }
             )
@@ -222,7 +226,7 @@ fun ChallengeItems(
                 if (!challenge.challengeComplete) {
                     challengesViewModel.completeChallenge(
                         context = context,
-                       challenge =  challenge,
+                        challenge = challenge,
                         mainActivity = mainActivity,
                         nav = navController
 
