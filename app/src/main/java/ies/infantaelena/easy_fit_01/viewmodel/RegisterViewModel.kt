@@ -123,7 +123,7 @@ class RegisterViewModel() : ViewModel() {
                                         false,
                                         "50"
                                     ),
-                                    Challenge("3","WALK", "Walk 20km", "Andar 20km", false, "500"),
+                                    Challenge("3", "WALK", "Walk 20km", "Andar 20km", false, "50"),
                                     Challenge(
                                         "4",
                                         "CICLING",
