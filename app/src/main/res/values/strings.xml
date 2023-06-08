@@ -58,4 +58,29 @@
     <string name="tiempo_total">Tiempo Total</string>
     <string name="tiempo_medio">Tiempo Medio</string>
 
+    <!-- App Bar -->
+    <string name="appbar_level">Nivel:</string>
+
+    <!-- Alert Dialog -->
+    <string name="alert_dialog_challenge_title">Reto</string>
+    <string name="alert_dialog_challenge_content">¿Desea completar el reto?</string>
+    <string name="alert_dialog_complete">Completar</string>
+    <string name="alert_dialog_cancel">Cancelar</string>
+    <string name="alert_error_register">Se ha producido un error en el registro</string>
+    <string name="alert_accept">Aceptar</string>
+
+    <!-- Toast -->
+    <string name="toast_recover_email">Rellene el email</string>
+    <string name="toast_error_recover">Formato email incorrecto</string>
+    <string name="toast_succes_recover">Correo enviado con exito</string>
+    <string name="toast_login_failed">Login fallido</string>
+    <string name="toast_fill_login">Rellene los campos</string>
+    <string name="toast_login_succesful">Login Correcto</string>
+    <string name="alert_success">Exito</string>
+    <string name="alert_succes_register">Se ha registrado con exito</string>
+    <string name="alert_password_error"><![CDATA[Las contraseñas debe tener al menos 6 caracteres y un caracter especial (#?!@$%^&*_-)]]></string>
+    <string name="toast_error_email_format">Formato email incorrecto</string>
+    <string name="toast_error_user_format">Formato user incorrecto</string>
+    <string name="toast_pwd_not_match">Las contraseñas no coinciden</string>
+
 </resources>

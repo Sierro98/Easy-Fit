@@ -99,15 +99,24 @@ fun ChallengeScreen(
                         }
 
                         "home" -> {
-                            navController.navigate(Screen.MainScreen.route)
+                            scope.launch {
+                                navController.navigate(Screen.MainScreen.route)
+                                scaffoldState.drawerState.close()
+                            }
                         }
 
                         "user" -> {
-                            navController.navigate(route = Screen.UserSreen.route)
+                            scope.launch {
+                                navController.navigate(route = Screen.UserSreen.route)
+                                scaffoldState.drawerState.close()
+                            }
                         }
 
                         "info" -> {
-                            navController.navigate(Screen.InfoScreen.route)
+                            scope.launch {
+                                navController.navigate(Screen.InfoScreen.route)
+                                scaffoldState.drawerState.close()
+                            }
                         }
                     }
                 }

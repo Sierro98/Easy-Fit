@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.Challenge
 import ies.infantaelena.easy_fit_01.model.Usuario
@@ -54,8 +55,8 @@ class RegisterViewModel() : ViewModel() {
         fun showAlertFail() {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Error")
-            builder.setMessage("Se ha producido un error en el registro")
-            builder.setPositiveButton("Aceptar", null)
+            builder.setMessage(context.getString(R.string.alert_error_register))
+            builder.setPositiveButton(context.getString(R.string.alert_accept), null)
             val dialog: AlertDialog = builder.create()
             dialog.show()
             //TODO: hacer el string de los alerts
@@ -66,9 +67,9 @@ class RegisterViewModel() : ViewModel() {
          */
         fun showAlertCorrect() {
             val builder = AlertDialog.Builder(context)
-            builder.setTitle("Exito")
-            builder.setMessage("Se ha registrado con exito")
-            builder.setPositiveButton("Aceptar", DialogInterface.OnClickListener { dialog, which ->
+            builder.setTitle(context.getString(R.string.alert_success))
+            builder.setMessage(context.getString(R.string.alert_succes_register))
+            builder.setPositiveButton(context.getString(R.string.alert_accept), DialogInterface.OnClickListener { dialog, which ->
                 nav.popBackStack()
                 nav.navigate(route = Screen.LoginScreen.route)
             })
@@ -83,8 +84,8 @@ class RegisterViewModel() : ViewModel() {
         fun showAlertWrongPassword() {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Error")
-            builder.setMessage("Las contraseñas debe tener al menos 6 caracteres y un caracter especial (#?!@$%^&*_-)")
-            builder.setPositiveButton("Aceptar", DialogInterface.OnClickListener { dialog, which ->
+            builder.setMessage(context.getString(R.string.alert_password_error))
+            builder.setPositiveButton(context.getString(R.string.alert_accept), DialogInterface.OnClickListener { dialog, which ->
 
             })
             val dialog: AlertDialog = builder.create()
@@ -241,16 +242,16 @@ class RegisterViewModel() : ViewModel() {
 
         //Comprobaciones para guardar en la BBDD
         if (email.isBlank() || user.isBlank() || password.isBlank() || reppassword.isBlank()) {
-            Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_fill_login), Toast.LENGTH_SHORT).show()
             //TODO: Hay que hcaer los string de los toast
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(context, "Fomato email incorrecto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_error_email_format), Toast.LENGTH_SHORT).show()
         } else if (!regex.containsMatchIn(user)) {
-            Toast.makeText(context, "Fomato user incorrecto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_error_user_format), Toast.LENGTH_SHORT).show()
         } else if (!regexContra.containsMatchIn(password)) {
             showAlertWrongPassword()
         } else if (!password.equals(reppassword)) {
-            Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_pwd_not_match), Toast.LENGTH_SHORT).show()
         } else {
             saveInDatabase()
         }

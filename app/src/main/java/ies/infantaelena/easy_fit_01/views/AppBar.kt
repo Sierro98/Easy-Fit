@@ -53,7 +53,7 @@ fun AppBar(
                         strokeCap = StrokeCap.Round,
                     )
                 }
-                Text(text = "Level: ${AppBarViewModel.level.value}")
+                Text(text = stringResource(R.string.appbar_level) + AppBarViewModel.level.value)
             }
         },
         backgroundColor = MaterialTheme.colors.primary,

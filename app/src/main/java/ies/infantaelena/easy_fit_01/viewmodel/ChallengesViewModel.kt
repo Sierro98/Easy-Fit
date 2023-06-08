@@ -15,40 +15,45 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ies.infantaelena.easy_fit_01.MainActivity
+import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.Challenge
 import ies.infantaelena.easy_fit_01.model.Usuario
 import ies.infantaelena.easy_fit_01.navigation.Screen
 
 
 class ChallengesViewModel : ViewModel() {
-
-    fun completeChallenge(context: Context, challenge: Challenge, mainActivity: MainActivity,nav: NavController) {
+    fun completeChallenge(
+        context: Context,
+        challenge: Challenge,
+        mainActivity: MainActivity,
+        nav: NavController
+    ) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Reto")
-        builder.setMessage("¿Desea completar el reto?")
+        builder.setTitle(context.getString(R.string.alert_dialog_challenge_title))
+        builder.setMessage(context.getString(R.string.alert_dialog_challenge_content))
         builder.setPositiveButton(
-            "Completar"
+            context.getString(R.string.alert_dialog_complete)
         ) { _, _ -> updateChallenge(challenge = challenge, mainActivity = mainActivity, nav = nav) }
-        builder.setNegativeButton("Cancelar", null)
+        builder.setNegativeButton(context.getString(R.string.alert_dialog_cancel), null)
         builder.show()
     }
 
-    fun updateChallenge(challenge: Challenge, mainActivity: MainActivity,nav: NavController) {
+    private fun updateChallenge(
+        challenge: Challenge,
+        mainActivity: MainActivity,
+        nav: NavController
+    ) {
         var exp = 0.0
-
         for (i in mainActivity.user.challenges!!) {
             if (i.id == challenge.id) {
                 exp = i.exp.toDouble()
                 i.challengeComplete = true
             }
         }
-
-
         val database: DatabaseReference =
             FirebaseDatabase.getInstance("https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference().child("users")
         val useruid: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
         //Guardado de datos en la Raltime Database
         var auxUse: Double? = mainActivity.user.exp?.toDouble()?.plus(exp)
         var auxLv: Int = 0

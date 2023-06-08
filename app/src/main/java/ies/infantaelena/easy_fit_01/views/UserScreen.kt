@@ -95,15 +95,24 @@ fun UserScreen(
                         }
 
                         "home" -> {
-                            navController.navigate(Screen.MainScreen.route)
+                            scope.launch {
+                                navController.navigate(Screen.MainScreen.route)
+                                scaffoldState.drawerState.close()
+                            }
                         }
 
                         "challenges" -> {
-                            navController.navigate(Screen.ChallengeScreen.route)
+                            scope.launch {
+                                navController.navigate(Screen.ChallengeScreen.route)
+                                scaffoldState.drawerState.close()
+                            }
                         }
 
                         "info" -> {
-                            navController.navigate(Screen.InfoScreen.route)
+                            scope.launch {
+                                navController.navigate(Screen.InfoScreen.route)
+                                scaffoldState.drawerState.close()
+                            }
                         }
                     }
                 }

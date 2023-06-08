@@ -59,4 +59,29 @@
     <string name="tiempo_total">Total Time</string>
     <string name="tiempo_medio">Average Time</string>
 
+    <!-- App Bar -->
+    <string name="appbar_level">Level:</string>
+
+    <!-- Alert Dialog -->
+    <string name="alert_dialog_challenge_title">Challenge</string>
+    <string name="alert_dialog_challenge_content">Do you wan\'t to complete the challenge</string>
+    <string name="alert_dialog_complete">Complete</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="alert_error_register">An error occurred while signing up</string>
+    <string name="alert_accept">Accept</string>
+
+    <!-- Toast -->
+    <string name="toast_recover_email">Fill the email</string>
+    <string name="toast_error_recover">Incorrect email format</string>
+    <string name="toast_succes_recover">Email sent successfully</string>
+    <string name="toast_login_failed">Login failed</string>
+    <string name="toast_fill_login">Fill the fields</string>
+    <string name="toast_login_succesful">Login Successful</string>
+    <string name="alert_success">Success</string>
+    <string name="alert_succes_register">Sign up successful</string>
+    <string name="alert_password_error"><![CDATA[The passwords require 6 characters and a special character (#?!@$%^&*_-)]]></string>
+    <string name="toast_error_email_format">Invalid email address</string>
+    <string name="toast_error_user_format">Invalid user format</string>
+    <string name="toast_pwd_not_match">Passwords do not match</string>
+
 </resources>

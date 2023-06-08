@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ies.infantaelena.easy_fit_01.MainActivity
+import ies.infantaelena.easy_fit_01.R
 import ies.infantaelena.easy_fit_01.model.Activity
 import ies.infantaelena.easy_fit_01.model.Challenge
 import ies.infantaelena.easy_fit_01.model.Usuario
@@ -52,7 +53,7 @@ class LoginViewModel() : ViewModel() {
     ) {
 
         if (email.isBlank() || contra.isBlank()) {
-            Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_fill_login), Toast.LENGTH_SHORT).show()
         } else {
             //Intenta logearse en FirebaseAuth con el email y contraseña
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, contra)
@@ -126,7 +127,7 @@ class LoginViewModel() : ViewModel() {
                             }
                         }
                     } else {
-                        Toast.makeText(context, "Login fallido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show()
                     }
                 }
         }
@@ -155,7 +156,7 @@ class LoginViewModel() : ViewModel() {
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                         super.onAuthenticationSucceeded(result)
-                        Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.toast_login_succesful), Toast.LENGTH_SHORT).show()
                         nav.popBackStack()
                         nav.navigate(route = Screen.MainScreen.route) {
                             popUpTo(route = Screen.LoginScreen.route) {
@@ -166,7 +167,7 @@ class LoginViewModel() : ViewModel() {
                 }
             ).authenticate(promptInfo)
         } else {
-            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.toast_login_succesful), Toast.LENGTH_SHORT).show()
             nav.popBackStack()
             nav.navigate(route = Screen.MainScreen.route) {
                 popUpTo(route = Screen.LoginScreen.route) {
