@@ -82,5 +82,7 @@
     <string name="toast_error_email_format">Formato email incorrecto</string>
     <string name="toast_error_user_format">Formato user incorrecto</string>
     <string name="toast_pwd_not_match">Las contraseñas no coinciden</string>
+    <string name="biometric_login">Autenticacion Biométrica</string>
+    <string name="biometric_login_msg">Necesaria para el login</string>
 
 </resources>

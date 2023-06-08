@@ -83,5 +83,7 @@
     <string name="toast_error_email_format">Invalid email address</string>
     <string name="toast_error_user_format">Invalid user format</string>
     <string name="toast_pwd_not_match">Passwords do not match</string>
+    <string name="biometric_login">Biometric Authentication</string>
+    <string name="biometric_login_msg">Needed for login in</string>
 
 </resources>

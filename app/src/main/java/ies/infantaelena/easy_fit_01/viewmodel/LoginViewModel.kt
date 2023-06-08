@@ -142,8 +142,8 @@ class LoginViewModel() : ViewModel() {
         ) {
 
             canAuthenticate = true
-            promptInfo = BiometricPrompt.PromptInfo.Builder().setTitle("Autenticacion Biométrica")
-                .setSubtitle("Necesaria para el login")
+            promptInfo = BiometricPrompt.PromptInfo.Builder().setTitle(context.getString(R.string.biometric_login))
+                .setSubtitle(context.getString(R.string.biometric_login_msg))
                 .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .build()
         }
