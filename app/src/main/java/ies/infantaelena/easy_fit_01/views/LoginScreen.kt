@@ -1,9 +1,9 @@
 package ies.infantaelena.easy_fit_01
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,20 +25,33 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+
 import ies.infantaelena.easy_fit_01.model.customTextSelectionColors
 import ies.infantaelena.easy_fit_01.navigation.Screen
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ies.infantaelena.easy_fit_01.viewmodel.LoginViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+
 
 /**
  * Funcion Principal de la interfaz de Login en la cual llamamos a los diferentes composables.
  * Posee las variables del nombre de usuario, de la contrasenia y del context actual.
  */
-
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(
+    navController: NavController,
+    loginViewModel: LoginViewModel = viewModel(),
+    activity: MainActivity
+) {
 
-    var userValue: String by rememberSaveable { mutableStateOf("") }
-    var passwordValue: String by rememberSaveable { mutableStateOf("") }
+//    var emailValue: String by rememberSaveable { mutableStateOf("") }
+//    var passwordValue: String by rememberSaveable { mutableStateOf("") }
     val context: Context = LocalContext.current
+    loginViewModel.setupAuth(context)
+
     /*
     Componente column que ocupa toda la pantalla del dispositivo, en este elemento iran
     anidados el resto de componentes.
@@ -59,10 +72,12 @@ fun LoginScreen(navController: NavController) {
                 .width(300.dp)
         )
         // Llamada al metodo que contiene el Textfield del nombre de usuario
-        LoginName(usuario = userValue, onInputChanged = { userValue = it })
+        LoginName(usuario = loginViewModel.user, onInputChanged = { loginViewModel.user = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         // Llamada al metodo que contiene el Textfield de la contrasenia
-        LoginPassword(contra = passwordValue, onInputChanged = { passwordValue = it })
+        LoginPassword(
+            contra = loginViewModel.password,
+            onInputChanged = { loginViewModel.password = it })
         Spacer(modifier = Modifier.padding(top = 30.dp))
         /*
         Componente Button que maneja el intento de entrada a la aplicacion llamando a la funcion
@@ -70,14 +85,14 @@ fun LoginScreen(navController: NavController) {
          */
         Button(
             onClick = {
-                if (checkLogin(
-                        usuario = userValue,
-                        contra = passwordValue,
-                        context = context
-                    )
-                ) {
-                    navController.navigate(route = Screen.MainScreen.route)
-                }
+                loginViewModel.checkLogin(
+                    email = loginViewModel.user,
+                    contra = loginViewModel.password,
+                    context = context,
+                    nav = navController,
+                    activity = activity
+                )
+
             },
             modifier = Modifier
                 .height(50.dp)
@@ -90,7 +105,24 @@ fun LoginScreen(navController: NavController) {
                 style = MaterialTheme.typography.button
             )
         }
+        Spacer(modifier = Modifier.padding(top = 30.dp))
+        Text(text = stringResource(R.string.register),
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(end = 80.dp)
+                .clickable {
+                    navController.navigate(Screen.RegisterScreen.route)
+                })
+        Spacer(modifier = Modifier.padding(top = 10.dp))
+        Text(text = stringResource(R.string.recupass),
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(end = 80.dp)
+                .clickable {
+                    navController.navigate(Screen.RecoberScreen.route)
+                })
     }
+
 }
 
 /**
@@ -105,7 +137,7 @@ fun LoginName(usuario: String, onInputChanged: (String) -> Unit) {
             onValueChange = onInputChanged,
             label = {
                 Text(
-                    text = stringResource(id = R.string.user),
+                    text = stringResource(id = R.string.email),
                     color = MaterialTheme.colors.onPrimary
                 )
             },
@@ -169,18 +201,4 @@ fun LoginPassword(contra: String, onInputChanged: (String) -> Unit) {
     }
 }
 
-fun checkLogin(usuario: String, contra: String, context: Context): Boolean {
-    if (usuario.isBlank() || contra.isBlank()) {
-        Toast.makeText(context, "Rellene los campos", Toast.LENGTH_SHORT).show()
-        return false
-    } else {
-        if (usuario == "pruba" && contra == "pruba") {
-            Toast.makeText(context, "Login Correcto", Toast.LENGTH_SHORT).show()
-            return true
-        } else {
-            Toast.makeText(context, "Login Fallido", Toast.LENGTH_SHORT).show()
-            return false
-        }
-    }
-}
 

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "609827206999",
+    "firebase_url": "https://entornopruebas-c7005-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "entornopruebas-c7005",
+    "storage_bucket": "entornopruebas-c7005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609827206999:android:f901fb17e3c59cae6c7012",
+        "android_client_info": {
+          "package_name": "ies.infantaelena.easy_fit_01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609827206999-g7vuq7kdd2dj9gl215p2f5eca4d8nror.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbhaFjZnIwAZPEnF8bax5l9kaJ0RhCs1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609827206999-g7vuq7kdd2dj9gl215p2f5eca4d8nror.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

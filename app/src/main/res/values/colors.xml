@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_back_color">#b8e6f1</color>
+    <color name="stop_button">#b04031</color>
 </resources>

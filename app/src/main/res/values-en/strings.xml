@@ -1,10 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">easy_fit_01</string>
+
+    <!-- AppBar View -->
+    <string name="appBarDrawerDescription">Drawer Menu</string>
+
+    <!-- LoginScreen View -->
+    <string name="user">Username</string>
     <string name="login">Login</string>
-    <string name="user">User</string>
+    <string name="register">Create user</string>
+    <string name="recupass">Recover password</string>
+
     <string name="password">Password</string>
     <string name="showPasswordDescription">Show password</string>
     <string name="hidePasswordDescription">Hide password</string>
+    <string name="email">Email</string>
+    <string name="reppassword">Repeat password</string>
     <string name="logoDescription">Running racoon logo</string>
+    <string name="send">Send</string>
+
+    <!-- MainScreen View -->
+    <string name="activityIconDescription">Activity Icon</string>
+    <string name="activityRun">Running</string>
+    <string name="activityWalk">Walking</string>
+    <string name="activityHiking">Hiking</string>
+    <string name="activityCiclism">Cycling</string>
+    <string name="activityCalisthenics">Calisthenics</string>
+    <string name="activityTeamSport">Team Sports</string>
+    <string name="activityDate">Date:</string>
+    <string name="activitytime">Time:</string>
+    <string name="activityDistance">Distance:</string>
+    <string name="addActivityDescription">Add Activity</string>
+    v<string name="averageSpeed">Average speed:</string>
+
+    <!-- NavigationDrawer View -->
+    <string name="userImageDescription">User Image</string>
+
+    <!-- RunActivityScreen View -->
+    <string name="runningIconDescription">Running man icon</string>
+    <string name="longPressAction">Keep pressing</string>
+
+    <!-- WalkActivityScreen view -->
+    <string name="walkingIconDescription">Walking man icon</string>
+
+    <!-- Drawer Items -->
+    <string name="homeButton">Home</string>
+    <string name="userProfileButton">User profile</string>
+    <string name="challengesButton">Challenges</string>
+    <string name="informationButton">Information</string>
+    <string name="logoutButton">Logout</string>
+
+    <!-- User Screen -->
+    <string name="userscreen_estadisticas_global">Global Statistics</string>
+    <string name="pasos_totales">Total Steps</string>
+    <string name="pasos_medios">Average Steps</string>
+    <string name="distancia_total">Total Distance</string>
+    <string name="distancia_media">Average Distance</string>
+    <string name="tiempo_total">Total Time</string>
+    <string name="tiempo_medio">Average Time</string>
+
+    <!-- App Bar -->
+    <string name="appbar_level">Level:</string>
+
+    <!-- Alert Dialog -->
+    <string name="alert_dialog_challenge_title">Challenge</string>
+    <string name="alert_dialog_challenge_content">Do you wan\'t to complete the challenge</string>
+    <string name="alert_dialog_complete">Complete</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="alert_error_register">An error occurred while signing up</string>
+    <string name="alert_accept">Accept</string>
+
+    <!-- Toast -->
+    <string name="toast_recover_email">Fill the email</string>
+    <string name="toast_error_recover">Incorrect email format</string>
+    <string name="toast_succes_recover">Email sent successfully</string>
+    <string name="toast_login_failed">Login failed</string>
+    <string name="toast_fill_login">Fill the fields</string>
+    <string name="toast_login_succesful">Login Successful</string>
+    <string name="alert_success">Success</string>
+    <string name="alert_succes_register">Sign up successful</string>
+    <string name="alert_password_error"><![CDATA[The passwords require 6 characters and a special character (#?!@$%^&*_-)]]></string>
+    <string name="toast_error_email_format">Invalid email address</string>
+    <string name="toast_error_user_format">Invalid user format</string>
+    <string name="toast_pwd_not_match">Passwords do not match</string>
+    <string name="biometric_login">Biometric Authentication</string>
+    <string name="biometric_login_msg">Needed for login in</string>
+
 </resources>
