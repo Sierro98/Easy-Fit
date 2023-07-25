@@ -1,4 +1,4 @@
-# easy_fit_01
+# Easy Fit
 
 This is the final programming project of Alejandro Sierro and Jose Peña
 
